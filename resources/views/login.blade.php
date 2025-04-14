@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - E-Learning Platform</title>
+    <title>Login - E-Learning Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
-    <script src="../assets/scripts/register.js" defer></script>
+    <script src="../assets/scripts/login.js" defer></script>
     <link rel="icon" type="image/x-icon" href="../assets/images/favicon.svg">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
@@ -25,12 +25,6 @@
             backdrop-filter: blur(10px);
             border-radius: 16px;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        .role-option.selected {
-            border-color: #6366F1;
-            color: #6366F1;
-            background-color: rgba(99, 102, 241, 0.1);
         }
 
         .wave-shape {
@@ -160,79 +154,47 @@
             <div class="flex flex-col md:flex-row items-center justify-between gap-12">
                 <!-- Left Content Area -->
                 <div class="w-full md:w-1/2 mb-10 md:mb-0">
-                    <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">Join Our <span class="text-indigo-600">E-Learning</span> Community</h1>
-                    <p class="text-lg text-gray-600 mb-8">Unlock access to thousands of courses, expert instructors, and a supportive learning environment. Your journey to knowledge and skills begins here.</p>
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">Welcome Back to <span class="text-indigo-600">E-Learning</span></h1>
+                    <p class="text-lg text-gray-600 mb-8">Continue your learning journey with access to your courses, materials, and community. We're excited to see you again!</p>
                     
-                    <div class="grid grid-cols-2 gap-6 mb-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                         <div class="flex items-center gap-3 p-4 bg-white rounded-lg shadow-sm border border-gray-100">
                             <div class="bg-indigo-100 p-3 rounded-full">
-                                <i class="ri-video-line text-xl text-indigo-600"></i>
+                                <i class="ri-time-line text-xl text-indigo-600"></i>
                             </div>
                             <div>
-                                <h3 class="font-medium text-gray-800">5,000+ Courses</h3>
-                                <p class="text-sm text-gray-500">On any subject</p>
+                                <h3 class="font-medium text-gray-800">Learn at Your Pace</h3>
+                                <p class="text-sm text-gray-500">24/7 access</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3 p-4 bg-white rounded-lg shadow-sm border border-gray-100">
                             <div class="bg-indigo-100 p-3 rounded-full">
-                                <i class="ri-customer-service-line text-xl text-indigo-600"></i>
+                                <i class="ri-wallet-3-line text-xl text-indigo-600"></i>
                             </div>
                             <div>
-                                <h3 class="font-medium text-gray-800">Expert Support</h3>
-                                <p class="text-sm text-gray-500">24/7 availability</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-3 p-4 bg-white rounded-lg shadow-sm border border-gray-100">
-                            <div class="bg-indigo-100 p-3 rounded-full">
-                                <i class="ri-medal-line text-xl text-indigo-600"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-medium text-gray-800">Certificates</h3>
-                                <p class="text-sm text-gray-500">Recognized globally</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-3 p-4 bg-white rounded-lg shadow-sm border border-gray-100">
-                            <div class="bg-indigo-100 p-3 rounded-full">
-                                <i class="ri-device-line text-xl text-indigo-600"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-medium text-gray-800">Any Device</h3>
-                                <p class="text-sm text-gray-500">Learn anywhere</p>
+                                <h3 class="font-medium text-gray-800">Money-back Guarantee</h3>
+                                <p class="text-sm text-gray-500">30-day refund policy</p>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="flex items-center gap-4">
-                        <img src="/api/placeholder/40/40" alt="User" class="w-10 h-10 rounded-full object-cover">
-                        <div>
-                            <p class="text-sm text-gray-600">Join over <span class="font-semibold text-indigo-600">25,000+</span> students who have already registered</p>
-                        </div>
-                    </div>
+                    <p class="text-gray-600">Don't have an account yet? <a href="./register.php" class="text-indigo-600 font-medium hover:underline">Sign up for free</a> and join our learning community.</p>
                 </div>
                 
-                <!-- Register Form -->
+                <!-- Login Form -->
                 <div class="w-full md:w-5/12">
                     <div class="glass-card p-8 md:p-10 shadow-xl">
                         <div class="flex items-center justify-center mb-8">
-                            <h2 class="text-2xl font-bold text-gray-800">Create Your Account</h2>
+                            <h2 class="text-2xl font-bold text-gray-800">Log In to Your Account</h2>
                         </div>
                         
-                        <form action="{{ route('register') }}" method="POST" id="registerForm" enctype="multipart/form-data">
-                            @csrf
+                        <form action="../Back-end/Actions/Auth/auth.php" method="POST" id="loginForm">
                             <div class="space-y-6">
-                                <div class="relative">
-                                    <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                                        <i class="ri-user-line text-gray-400"></i>
-                                    </div>
-                                    <input type="text" placeholder="Full Name" name="name" required
-                                        class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
-                                </div>
-                                
                                 <div class="relative">
                                     <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
                                         <i class="ri-mail-line text-gray-400"></i>
                                     </div>
-                                    <input type="email" placeholder="Email Address" name="email" required
+                                    <input type="email" placeholder="Email Address" name="emailLogin" required
                                         class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
                                 </div>
                                 
@@ -240,57 +202,64 @@
                                     <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
                                         <i class="ri-lock-line text-gray-400"></i>
                                     </div>
-                                    <input type="password" placeholder="Password" name="password" required
-                                        class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
+                                    <div class="absolute inset-y-0 right-0 flex items-center pr-4">
+                                        <button type="button" id="togglePassword" class="text-gray-400 hover:text-gray-600">
+                                            <i class="ri-eye-line text-lg password-toggle-icon"></i>
+                                        </button>
+                                    </div>
+                                    <input type="password" placeholder="Password" name="passwordLogin" id="passwordField" required
+                                        class="w-full pl-12 pr-12 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
                                 </div>
                                 
-                                <div class="relative">
-                                    <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                                        <i class="ri-lock-line text-gray-400"></i>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="rememberMe" name="rememberMe" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                                        <label for="rememberMe" class="ml-2 block text-sm text-gray-600">
+                                            Remember me
+                                        </label>
                                     </div>
-                                    <input type="password" placeholder="Confirm Password" name="password_confirmation" required
-                                        class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
-                                </div>
-
-                                <div class="relative">
-                                    <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                                        <i class="ri-user-settings-line text-gray-400"></i>
+                                    <div>
+                                        <a href="./forgot-password.php" class="text-sm text-indigo-600 hover:underline">
+                                            Forgot password?
+                                        </a>
                                     </div>
-                                    <select name="role" required
-                                        class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                                        <option value="">Select your role</option>
-                                        <option value="admin">Admin</option>
-                                        <option value="enseignant">Enseignant</option>
-                                        <option value="etudiant">Étudiant</option>
-                                    </select>
-                                </div>
-
-                                <div class="relative">
-                                    <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                                        <i class="ri-image-line text-gray-400"></i>
-                                    </div>
-                                    <input type="file" name="image" accept="image/*"
-                                        class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
-                                </div>
-
-                                
-                                
-                                <div class="flex items-center mb-2">
-                                    <input type="checkbox" id="termsCheckbox" class="mr-2 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" required>
-                                    <label for="termsCheckbox" class="text-sm text-gray-600">
-                                        I agree to the <a href="#" class="text-indigo-600 hover:underline">Terms of Service</a> and <a href="#" class="text-indigo-600 hover:underline">Privacy Policy</a>
-                                    </label>
                                 </div>
                                 
                                 <button type="submit" class="w-full py-3 px-6 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors font-medium">
-                                    Create Account
+                                    Log In
                                 </button>
-                                
-                                <div class="text-center text-sm text-gray-600">
-                                    Already have an account? <a href="./login.php" class="text-indigo-600 hover:underline font-medium">Log in</a>
-                                </div>
                             </div>
                         </form>
+                        
+                        <div class="mt-8">
+                            <div class="relative">
+                                <div class="absolute inset-0 flex items-center">
+                                    <div class="w-full border-t border-gray-300"></div>
+                                </div>
+                                <div class="relative flex justify-center text-sm">
+                                    <span class="px-2 bg-white text-gray-500">Or continue with</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 grid grid-cols-2 gap-3">
+                                <a href="#" class="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                                    <svg class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M20.283 10.356h-8.327v3.451h4.792c-.446 2.193-2.313 3.453-4.792 3.453a5.27 5.27 0 0 1-5.279-5.28 5.27 5.27 0 0 1 5.279-5.279c1.259 0 2.397.447 3.29 1.178l2.6-2.599c-1.584-1.381-3.615-2.233-5.89-2.233a8.908 8.908 0 0 0-8.934 8.934 8.907 8.907 0 0 0 8.934 8.934c4.467 0 8.529-3.249 8.529-8.934 0-.528-.081-1.097-.202-1.625z" fill="#4285F4"/>
+                                        <path d="M12.297 14.558v-4.202h3.957c-.356 1.234-1.449 2.099-2.724 2.099-.777 0-1.487-.294-2.004-.77l-2.366 1.85c1.07 1.058 2.539 1.712 4.2 1.712 3.04 0 5.576-2.456 5.576-5.498 0-.76-.151-1.485-.421-2.146H7.932v2.142h4.365z" fill="#EA4335"/>
+                                        <path d="M12.297 14.558c-1.657 0-3.126-.651-4.197-1.712l-2.366 1.85c1.505 1.501 3.57 2.423 5.83 2.423 4.467 0 8.529-3.249 8.529-8.934 0-.528-.081-1.097-.202-1.625H12.29v4.203l4.372-.001c-.356 1.234-1.449 2.099-2.724 2.099l-1.641.003v1.693z" fill="#34A853"/>
+                                        <path d="M8.1 12.846c-.507-.653-.814-1.456-.814-2.331s.307-1.678.814-2.331l-2.366-1.85a8.142 8.142 0 0 0-1.614 4.181c0 1.56.55 2.988 1.463 4.112l2.517-1.781z" fill="#FBBC05"/>
+                                    </svg>
+                                    Google
+                                </a>
+                                
+                                <a href="#" class="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                                    <svg class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M13.397 20.997v-8.196h2.765l.411-3.209h-3.176V7.548c0-.926.258-1.56 1.587-1.56h1.684V3.127A22.336 22.336 0 0 0 14.201 3c-2.444 0-4.122 1.492-4.122 4.231v2.355H7.332v3.209h2.753v8.202h3.312z" fill="#3B5998"/>
+                                    </svg>
+                                    Facebook
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -385,8 +354,9 @@
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
             const closeSidebarBtn = document.getElementById('close-sidebar');
             const sidebarMenu = document.getElementById('sidebar-menu');
-            const roleOptions = document.querySelectorAll('.role-option');
-            const roleInput = document.getElementById('roleInput');
+            const togglePasswordBtn = document.getElementById('togglePassword');
+            const passwordField = document.getElementById('passwordField');
+            const passwordToggleIcon = document.querySelector('.password-toggle-icon');
             
             mobileMenuBtn.addEventListener('click', function() {
                 sidebarMenu.classList.remove('hidden');
@@ -398,20 +368,20 @@
                 document.body.style.overflow = 'auto';
             });
             
-            roleOptions.forEach(option => {
-                option.addEventListener('click', function() {
-                    // Remove selected class from all options
-                    roleOptions.forEach(opt => opt.classList.remove('selected'));
-                    
-                    // Add selected class to clicked option
-                    this.classList.add('selected');
-                    
-                    // Update hidden input value
-                    roleInput.value = this.dataset.role;
-                });
+            // Password visibility toggle
+            togglePasswordBtn.addEventListener('click', function() {
+                if (passwordField.type === 'password') {
+                    passwordField.type = 'text';
+                    passwordToggleIcon.classList.remove('ri-eye-line');
+                    passwordToggleIcon.classList.add('ri-eye-off-line');
+                } else {
+                    passwordField.type = 'password';
+                    passwordToggleIcon.classList.remove('ri-eye-off-line');
+                    passwordToggleIcon.classList.add('ri-eye-line');
+                }
             });
         });
     </script>
 </body>
 
-</html>
+</html> 

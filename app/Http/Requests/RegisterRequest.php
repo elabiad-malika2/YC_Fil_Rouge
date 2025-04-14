@@ -22,11 +22,36 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8|confirmed',
-            'role'     => 'required|in:admin,enseignant,etudiant',
-            'image'    => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password_confirmation' => ['required', 'string'],
+            'role' => ['required', 'string', 'in:admin,enseignant,etudiant'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Le nom est obligatoire',
+            'name.max' => 'Le nom ne doit pas dépasser 255 caractères',
+            'email.required' => 'L\'email est obligatoire',
+            'email.email' => 'L\'email doit être une adresse email valide',
+            'email.unique' => 'Cette adresse email est déjà utilisée',
+            'password.required' => 'Le mot de passe est obligatoire',
+            'password.min' => 'Le mot de passe doit contenir au moins 8 caractères',
+            'password.confirmed' => 'La confirmation du mot de passe ne correspond pas',
+            'role.required' => 'Le rôle est obligatoire',
+            'role.in' => 'Le rôle sélectionné n\'est pas valide',
+            'image.image' => 'Le fichier doit être une image',
+            'image.mimes' => 'L\'image doit être au format jpeg, png, jpg ou gif',
+            'image.max' => 'L\'image ne doit pas dépasser 2 Mo',
         ];
     }
 }
