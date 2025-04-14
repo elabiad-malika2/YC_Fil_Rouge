@@ -26,8 +26,8 @@ class RegisterRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'password_confirmation' => ['required', 'string'],
-            'role' => ['required', 'string', 'in:admin,enseignant,etudiant'],
-            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+            'role' => ['required', 'string', 'in:enseignant,etudiant'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif'],
         ];
     }
 

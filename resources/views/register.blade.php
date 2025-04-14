@@ -258,10 +258,10 @@
                                     </div>
                                     <select name="role" required
                                         class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                                        <option value="">Select your role</option>
-                                        <option value="admin">Admin</option>
-                                        <option value="enseignant">Enseignant</option>
-                                        <option value="etudiant">Étudiant</option>
+                                        <option value="">Sélectionnez votre rôle</option>
+                                        @foreach($roles as $role)
+                                            <option value="{{ $role->name }}">{{ ucfirst($role->name) }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
 
@@ -269,7 +269,7 @@
                                     <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
                                         <i class="ri-image-line text-gray-400"></i>
                                     </div>
-                                    <input type="file" name="image" accept="image/*"
+                                    <input type="file" name="image" accept="image/* " 
                                         class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
                                 </div>
 
