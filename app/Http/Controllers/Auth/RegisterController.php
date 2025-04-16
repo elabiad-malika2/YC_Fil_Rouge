@@ -40,13 +40,12 @@ class RegisterController extends Controller
 
         Auth::login($user);
 
-        // Redirection en fonction du rôle
         if ($user->role->name === 'enseignant') {
-            return redirect()->route('enseignant.dashboard')->with('success', 'Bienvenue ' . $user->name . ' ! Votre compte a été créé avec succès.');
+            return redirect()->route('enseignant.dashboard');
         } elseif ($user->role->name === 'etudiant') {
-            return redirect()->route('etudiant.dashboard')->with('success', 'Bienvenue ' . $user->name . ' ! Votre compte a été créé avec succès.');
+            return redirect()->route('etudiant.dashboard');
         }
 
-        return redirect()->route('dashboard')->with('success', 'Bienvenue ' . $user->name . ' ! Votre compte a été créé avec succès.');
+        return redirect()->route('dashboard');
     }
 }
