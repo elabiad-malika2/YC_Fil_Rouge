@@ -81,24 +81,6 @@
 
     <!-- Main Content -->
     <div class="ml-64">
-        <!-- Top Info Bar -->
-        <div class="w-full gradient-bg text-white">
-            <div class="container mx-auto px-6 py-2">
-                <div class="flex justify-between items-center text-sm">
-                    <div class="flex items-center space-x-6">
-                        <span class="flex items-center">
-                            <i class="ri-phone-line mr-2"></i> +212 772508881
-                        </span>
-                        <span class="flex items-center">
-                            <i class="ri-mail-line mr-2"></i> contact@e-learning.com
-                        </span>
-                    </div>
-                    <span class="flex items-center">
-                        <i class="ri-map-pin-line mr-2"></i> Massira N641 Safi, Morocco
-                    </span>
-                </div>
-            </div>
-        </div>
 
         <!-- Header -->
         <header class="bg-white shadow-sm sticky top-0 z-40">
@@ -161,7 +143,8 @@
                     <h2 class="text-xl font-bold text-gray-800 mb-6">Catégories</h2>
                     <!-- Add Category Form -->
                     <div class="form-gradient p-4 rounded-lg mb-6 shadow-sm">
-                        <form method="POST" action="">
+                        <form method="POST" action="{{ route('categories.store') }}">
+                            @csrf
                             <div class="mb-4">
                                 <label for="new-category-name" class="block text-sm font-medium text-gray-700 mb-2">Nouvelle catégorie <span class="text-red-600">*</span></label>
                                 <input type="text" id="new-category-name" name="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm" placeholder="Ex: Programmation" required>
@@ -170,42 +153,23 @@
                         </form>
                     </div>
                     <div id="categories-list" class="space-y-4">
-                        <!-- Category 1 -->
+                        @foreach($categories as $category)
                         <div class="category-card flex items-center justify-between p-4 border border-gray-200 rounded-lg bg-white">
-                            <h3 class="font-semibold text-gray-800">Programmation</h3>
+                            <h3 class="font-semibold text-gray-800">{{ $category->name }}</h3>
                             <div class="flex space-x-2">
-                                <button class="edit-category-btn px-3 py-1 bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200 transition-colors" data-id="1" data-name="Programmation">
+                                <button class="edit-category-btn px-3 py-1 bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200 transition-colors" data-id="{{ $category->id }}" data-name="{{ $category->name }}">
                                     <i class="ri-edit-line"></i>
                                 </button>
-                                <button class="delete-category-btn px-3 py-1 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors" data-id="1">
-                                    <i class="ri-delete-bin-line"></i>
-                                </button>
+                                <form action="{{ route('categories.destroy', $category) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="delete-category-btn px-3 py-1 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors">
+                                        <i class="ri-delete-bin-line"></i>
+                                    </button>
+                                </form>
                             </div>
                         </div>
-                        <!-- Category 2 -->
-                        <div class="category-card flex items-center justify-between p-4 border border-gray-200 rounded-lg bg-white">
-                            <h3 class="font-semibold text-gray-800">Design</h3>
-                            <div class="flex space-x-2">
-                                <button class="edit-category-btn px-3 py-1 bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200 transition-colors" data-id="2" data-name="Design">
-                                    <i class="ri-edit-line"></i>
-                                </button>
-                                <button class="delete-category-btn px-3 py-1 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors" data-id="2">
-                                    <i class="ri-delete-bin-line"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <!-- Category 3 -->
-                        <div class="category-card flex items-center justify-between p-4 border border-gray-200 rounded-lg bg-white">
-                            <h3 class="font-semibold text-gray-800">Marketing</h3>
-                            <div class="flex space-x-2">
-                                <button class="edit-category-btn px-3 py-1 bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200 transition-colors" data-id="3" data-name="Marketing">
-                                    <i class="ri-edit-line"></i>
-                                </button>
-                                <button class="delete-category-btn px-3 py-1 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors" data-id="3">
-                                    <i class="ri-delete-bin-line"></i>
-                                </button>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
 
@@ -214,7 +178,8 @@
                     <h2 class="text-xl font-bold text-gray-800 mb-6">Tags</h2>
                     <!-- Add Tag Form -->
                     <div class="form-gradient p-4 rounded-lg mb-6 shadow-sm">
-                        <form method="POST" action="">
+                        <form method="POST" action="{{ route('tags.store') }}">
+                            @csrf
                             <div class="mb-4">
                                 <label for="new-tag-name" class="block text-sm font-medium text-gray-700 mb-2">Nouveau tag <span class="text-red-600">*</span></label>
                                 <input type="text" id="new-tag-name" name="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm" placeholder="Ex: JavaScript" required>
@@ -227,42 +192,23 @@
                         </form>
                     </div>
                     <div id="tags-list" class="space-y-4">
-                        <!-- Tag 1 -->
+                        @foreach($tags as $tag)
                         <div class="tag-card flex items-center justify-between p-4 border border-gray-200 rounded-lg bg-white">
-                            <span class="inline-block px-3 py-1 text-white text-sm font-medium rounded-full" style="background-color: #4F46E5;">#JavaScript</span>
+                            <span class="inline-block px-3 py-1 text-white text-sm font-medium rounded-full" style="background-color: {{ $tag->color }};">#{{ $tag->name }}</span>
                             <div class="flex space-x-2">
-                                <button class="edit-tag-btn px-3 py-1 bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200 transition-colors" data-id="1" data-name="JavaScript" data-color="#4F46E5">
+                                <a href="{{ route('tags.edit', $tag->id) }}" class="px-3 py-1 bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200 transition-colors">
                                     <i class="ri-edit-line"></i>
-                                </button>
-                                <button class="delete-tag-btn px-3 py-1 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors" data-id="1">
-                                    <i class="ri-delete-bin-line"></i>
-                                </button>
+                                </a>
+                                <form action="{{ route('tags.destroy', $tag) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="px-3 py-1 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors">
+                                        <i class="ri-delete-bin-line"></i>
+                                    </button>
+                                </form>
                             </div>
                         </div>
-                        <!-- Tag 2 -->
-                        <div class="tag-card flex items-center justify-between p-4 border border-gray-200 rounded-lg bg-white">
-                            <span class="inline-block px-3 py-1 text-white text-sm font-medium rounded-full" style="background-color: #10B981;">#React</span>
-                            <div class="flex space-x-2">
-                                <button class="edit-tag-btn px-3 py-1 bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200 transition-colors" data-id="2" data-name="React" data-color="#10B981">
-                                    <i class="ri-edit-line"></i>
-                                </button>
-                                <button class="delete-tag-btn px-3 py-1 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors" data-id="2">
-                                    <i class="ri-delete-bin-line"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <!-- Tag 3 -->
-                        <div class="tag-card flex items-center justify-between p-4 border border-gray-200 rounded-lg bg-white">
-                            <span class="inline-block px-3 py-1 text-white text-sm font-medium rounded-full" style="background-color: #3B82F6;">#Node.js</span>
-                            <div class="flex space-x-2">
-                                <button class="edit-tag-btn px-3 py-1 bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200 transition-colors" data-id="3" data-name="Node.js" data-color="#3B82F6">
-                                    <i class="ri-edit-line"></i>
-                                </button>
-                                <button class="delete-tag-btn px-3 py-1 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors" data-id="3">
-                                    <i class="ri-delete-bin-line"></i>
-                                </button>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -274,6 +220,8 @@
         <div class="min-h-screen flex items-center justify-center">
             <div class="modal-gradient rounded-3xl p-8 max-w-md w-full shadow-2xl">
                 <form id="category-form" method="POST" action="">
+                    @csrf
+                    @method('PUT')
                     <div class="flex justify-between items-center mb-6">
                         <h2 id="category-modal-title" class="text-xl font-bold text-gray-800">Modifier la catégorie</h2>
                         <button type="button" id="close-category-modal" class="text-gray-500 hover:text-gray-700">
@@ -299,6 +247,8 @@
         <div class="min-h-screen flex items-center justify-center">
             <div class="modal-gradient rounded-3xl p-8 max-w-md w-full shadow-2xl">
                 <form id="tag-form" method="POST" action="">
+                    @csrf
+                    @method('PUT')
                     <div class="flex justify-between items-center mb-6">
                         <h2 id="tag-modal-title" class="text-xl font-bold text-gray-800">Modifier le tag</h2>
                         <button type="button" id="close-tag-modal" class="text-gray-500 hover:text-gray-700">
@@ -308,12 +258,12 @@
                     <div class="mb-6">
                         <label for="tag-name" class="block text-sm font-medium text-gray-700 mb-2">Nom du tag <span class="text-red-600">*</span></label>
                         <input type="text" id="tag-name" name="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm" required>
-                        <input type="hidden" id="tag-id" name="id">
                     </div>
                     <div class="mb-6">
                         <label for="tag-color" class="block text-sm font-medium text-gray-700 mb-2">Couleur du tag</label>
                         <input type="color" id="tag-color" name="color" class="w-full h-10 border border-gray-300 rounded-lg">
                     </div>
+                    <input type="hidden" id="tag-id" name="id">
                     <div class="flex justify-end space-x-3">
                         <button type="button" id="cancel-tag" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">Annuler</button>
                         <button type="submit" class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-colors">Enregistrer</button>
@@ -323,46 +273,6 @@
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8 mt-12">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div class="md:col-span-2">
-                    <div class="flex items-center space-x-2 mb-4">
-                        <svg class="h-8 w-8 text-indigo-400" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor" />
-                            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                        <span class="text-xl font-bold">E-Learning</span>
-                    </div>
-                    <p class="text-gray-400 mb-4">Espace enseignant dédié pour créer et gérer vos cours en ligne facilement.</p>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Liens rapides</h3>
-                    <ul class="space-y-2">
-                        <li><a href="./dashboard.php" class="text-gray-400 hover:text-indigo-400">Tableau de bord</a></li>
-                        <li><a href="./courses.php" class="text-gray-400 hover:text-indigo-400">Mes cours</a></li>
-                        <li><a href="./students.php" class="text-gray-400 hover:text-indigo-400">Étudiants</a></li>
-                        <li><a href="./earnings.php" class="text-gray-400 hover:text-indigo-400">Revenus</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Support</h3>
-                    <ul class="space-y-2">
-                        <li><a href="./help.php" class="text-gray-400 hover:text-indigo-400">Centre d'aide</a></li>
-                        <li><a href="./contact.php" class="text-gray-400 hover:text-indigo-400">Contactez-nous</a></li>
-                        <li><a href="./community.php" class="text-gray-400 hover:text-indigo-400">Communauté</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="border-t border-gray-700 mt-8 pt-6">
-                <p class="text-center text-gray-400 text-sm">
-                    © 2025 E-Learning Platform. Tous droits réservés.
-                </p>
-            </div>
-        </div>
-    </footer>
 
     <!-- JavaScript for Modal Interactions -->
     <script>
@@ -373,6 +283,8 @@
             const closeTagModal = document.getElementById('close-tag-modal');
             const cancelCategory = document.getElementById('cancel-category');
             const cancelTag = document.getElementById('cancel-tag');
+            const categoryForm = document.getElementById('category-form');
+            const tagForm = document.getElementById('tag-form');
 
             // Function to show modal
             function showModal(modal) {
@@ -394,6 +306,7 @@
                     document.getElementById('category-name').value = name;
                     document.getElementById('category-id').value = id;
                     document.getElementById('category-modal-title').textContent = 'Modifier la catégorie';
+                    categoryForm.action = `/categories/${id}`;
                     showModal(categoryModal);
                 });
             });
@@ -405,9 +318,10 @@
                     const name = btn.dataset.name;
                     const color = btn.dataset.color;
                     document.getElementById('tag-name').value = name;
-                    document.getElementById('tag-id').value = id;
                     document.getElementById('tag-color').value = color;
+                    document.getElementById('tag-id').value = id;
                     document.getElementById('tag-modal-title').textContent = 'Modifier le tag';
+                    tagForm.action = `/tags/${id}`;
                     showModal(tagModal);
                 });
             });
