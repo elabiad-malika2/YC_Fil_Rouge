@@ -519,6 +519,21 @@
                                     <option value="expert">Expert</option>
                                 </select>
                             </div>
+
+                            <!-- Tags -->
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-3">Tags</label>
+                                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                                    @foreach($tags as $tag)
+                                        <label class="relative flex items-center p-3 rounded-lg border border-gray-200 hover:border-indigo-500 transition-colors cursor-pointer">
+                                            <input type="checkbox" name="tags[]" value="{{ $tag->id }}" class="w-5 h-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                                            <span class="ml-3 text-sm font-medium" style="color: {{ $tag->color }};">
+                                                {{ $tag->name }}
+                                            </span>
+                                        </label>
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
@@ -608,6 +623,25 @@
                 sidebarMenu.classList.add('hidden');
             });
         }
+
+        // Tags selection enhancement
+        document.addEventListener('DOMContentLoaded', function() {
+            const tagsSelect = document.getElementById('tags');
+            if (tagsSelect) {
+                // Add custom styling for selected options
+                tagsSelect.addEventListener('change', function() {
+                    Array.from(this.options).forEach(option => {
+                        if (option.selected) {
+                            option.classList.add('bg-indigo-100');
+                        } else {
+                            option.classList.remove('bg-indigo-100');
+                        }
+                    });
+                });
+
+               
+            }
+        });
 
         // Modal and dynamic form handling
         document.addEventListener('DOMContentLoaded', function() {
