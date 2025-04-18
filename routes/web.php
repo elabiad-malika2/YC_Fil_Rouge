@@ -31,10 +31,11 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
+// Routes pour les catégories et tags
 Route::prefix('admin')->group(function () {
-    Route::resource('categories', CategorieController::class);
+    Route::get('categories_tags', [AdminController::class, 'index'])->name('categories_tags.index');
+    Route::post('categories', [CategorieController::class, 'store'])->name('categories.store');
+    Route::put('categories/{id}', [CategorieController::class, 'update'])->name('categories.update');
+    Route::delete('categories/{id}', [CategorieController::class, 'destroy'])->name('categories.destroy');
     Route::resource('tags', TagController::class);
-});
-Route::prefix('admin')->group(function () {
-    Route::resource('categories_tags', AdminController::class);
 });

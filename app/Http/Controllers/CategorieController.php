@@ -20,19 +20,22 @@ class CategorieController extends Controller
         return redirect()->back()->with('success', 'Catégorie ajoutée avec succès');
     }
 
-    public function update(Request $request, Categorie $categorie)
+    public function update(Request $request, $id)
     {
+        $categorie = Categorie::findOrFail($id);
+        
         $request->validate([
-            'name' => 'required|string|max:255|unique:categories,name,' . $categorie->id,
+            'name' => 'required|string|max:255|unique:categories,name,' . $id,
         ]);
 
         $categorie->update($request->all());
 
-        return redirect()->back()->with('success', 'Catégorie mise à jour avec succès');
+        return redirect()->route('categories_tags.index')->with('success', 'Catégorie mise à jour avec succès');
     }
 
-    public function destroy(Categorie $categorie)
+    public function destroy($id)
     {
+        $categorie = Categorie::findOrFail($id);
         $categorie->delete();
         return redirect()->back()->with('success', 'Catégorie supprimée avec succès');
     }

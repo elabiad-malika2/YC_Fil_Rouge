@@ -157,19 +157,35 @@
                         <div class="category-card flex items-center justify-between p-4 border border-gray-200 rounded-lg bg-white">
                             <h3 class="font-semibold text-gray-800">{{ $category->name }}</h3>
                             <div class="flex space-x-2">
-                                <button class="edit-category-btn px-3 py-1 bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200 transition-colors" data-id="{{ $category->id }}" data-name="{{ $category->name }}">
+                                <button type="button" onclick="showEditCategoryForm({{ $category->id }}, '{{ $category->name }}')" class="px-3 py-1 bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200 transition-colors">
                                     <i class="ri-edit-line"></i>
                                 </button>
-                                <form action="{{ route('categories.destroy', $category) }}" method="POST" class="inline">
+                                <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="delete-category-btn px-3 py-1 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors">
+                                    <button type="submit" class="px-3 py-1 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors">
                                         <i class="ri-delete-bin-line"></i>
                                     </button>
                                 </form>
                             </div>
                         </div>
                         @endforeach
+                    </div>
+
+                    <!-- Formulaire d'édition de catégorie -->
+                    <div id="edit-category-form" class="hidden form-gradient p-6 rounded-lg mt-6 shadow-sm">
+                        <form method="POST" action="" id="category-edit-form">
+                            @csrf
+                            @method('PUT')
+                            <div class="mb-4">
+                                <label for="edit-category-name" class="block text-sm font-medium text-gray-700 mb-2">Nom de la catégorie <span class="text-red-600">*</span></label>
+                                <input type="text" id="edit-category-name" name="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm" required>
+                            </div>
+                            <div class="flex justify-end space-x-3">
+                                <button type="button" onclick="hideEditCategoryForm()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">Annuler</button>
+                                <button type="submit" class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-colors">Enregistrer</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -337,6 +353,22 @@
 
         function hideEditForm() {
             document.getElementById('edit-tag-form').classList.add('hidden');
+        }
+
+        function showEditCategoryForm(id, name) {
+            const form = document.getElementById('edit-category-form');
+            const editForm = document.getElementById('category-edit-form');
+            const nameInput = document.getElementById('edit-category-name');
+            
+            nameInput.value = name;
+            editForm.action = `/admin/categories/${id}`;
+            
+            form.classList.remove('hidden');
+            form.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function hideEditCategoryForm() {
+            document.getElementById('edit-category-form').classList.add('hidden');
         }
     </script>
 </body>
