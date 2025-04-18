@@ -502,12 +502,6 @@
                                         <option value="expert">Expert</option>
                                     </select>
                                 </div>
-
-                                <!-- Durée estimée -->
-                                <div>
-                                    <label for="estimated_time" class="block text-sm font-medium text-gray-700 mb-1">Durée estimée (en heures)</label>
-                                    <input type="number" id="estimated_time" name="estimated_time" min="1" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="10">
-                                </div>
                             </div>
                         </div>
                         
@@ -694,16 +688,18 @@
                     </div>
                     <div class="mb-2">
                         <label class="block text-xs font-medium text-gray-700 mb-1">Type de contenu</label>
-                        <select name="chapters[${chapterIndex}][lessons][${lessonIndex}][content_type]" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg">
+                        <select name="chapters[${chapterIndex}][lessons][${lessonIndex}][content_type]" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" onchange="toggleContentType(this, ${chapterIndex}, ${lessonIndex})">
                             <option value="text">Texte</option>
                             <option value="video">Vidéo</option>
-                            <option value="quiz">Quiz</option>
-                            <option value="assignment">Devoir</option>
                         </select>
                     </div>
-                    <div class="mb-2">
-                        <label class="block text-xs font-medium text-gray-700 mb-1">Contenu <span class="text-red-600">*</span></label>
-                        <textarea name="chapters[${chapterIndex}][lessons][${lessonIndex}][content]" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" rows="3" placeholder="Contenu détaillé de la leçon" required></textarea>
+                    <div class="mb-2 content-type-text">
+                        <label class="block text-xs font-medium text-gray-700 mb-1">Contenu texte <span class="text-red-600">*</span></label>
+                        <textarea name="chapters[${chapterIndex}][lessons][${lessonIndex}][content]" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" rows="3" placeholder="Contenu détaillé de la leçon"></textarea>
+                    </div>
+                    <div class="mb-2 content-type-video hidden">
+                        <label class="block text-xs font-medium text-gray-700 mb-1">Vidéo <span class="text-red-600">*</span></label>
+                        <input type="file" name="chapters[${chapterIndex}][lessons][${lessonIndex}][video]" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" accept="video/*">
                     </div>
                     <div class="flex items-center text-xs text-gray-500">
                         <label class="flex items-center">
@@ -745,6 +741,24 @@
             // Gestionnaire pour ajouter un chapitre
             addChapterBtn.addEventListener('click', addChapter);
         });
+
+        function toggleContentType(select, chapterIndex, lessonIndex) {
+            const lessonDiv = select.closest('.bg-white');
+            const textContent = lessonDiv.querySelector('.content-type-text');
+            const videoContent = lessonDiv.querySelector('.content-type-video');
+            
+            if (select.value === 'text') {
+                textContent.classList.remove('hidden');
+                videoContent.classList.add('hidden');
+                textContent.querySelector('textarea').required = true;
+                videoContent.querySelector('input[type="file"]').required = false;
+            } else {
+                textContent.classList.add('hidden');
+                videoContent.classList.remove('hidden');
+                textContent.querySelector('textarea').required = false;
+                videoContent.querySelector('input[type="file"]').required = true;
+            }
+        }
     </script>
 </body>
 </html>
