@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\Enseignant\DashboardController;
 
 // Routes d'authentification
 Route::get('/register', [RegisterController::class, 'create'])->name('register.form');
@@ -18,9 +19,7 @@ Route::post('/logout', function () {
 })->name('logout');
 
 // Routes des dashboards
-Route::get('/enseignant/dashboard', function () {
-    return view('Enseignant.dashboard');
-})->name('enseignant.dashboard');
+Route::get('/enseignant/dashboard', [DashboardController::class, 'index'])->name('enseignant.dashboard');
 
 Route::get('/etudiant/dashboard', function () {
     return view('Etudiant.dashboard');

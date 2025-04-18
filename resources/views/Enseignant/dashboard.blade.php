@@ -200,8 +200,9 @@
                     <p class="text-gray-600">Bienvenue sur votre tableau de bord enseignant. Créez et gérez vos cours en toute simplicité.</p>
                 </div>
                 <div class="mt-4 md:mt-0">
-                    <button id="create-course-btn" class="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium flex items-center">
-                        <i class="ri-add-line mr-2"></i> Créer un nouveau cours
+                    <button id="create-course-btn" class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 flex items-center space-x-2">
+                        <i class="ri-add-line text-lg"></i>
+                        <span class="font-medium">Créer un nouveau cours</span>
                     </button>
                 </div>
             </div>
@@ -438,95 +439,111 @@
     </main>
 
     <!-- Formulaire d'ajout de cours - Version dynamique -->
-    <div id="create-course-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
-        <div class="min-h-screen py-6 flex flex-col justify-center sm:py-12">
-            <div class="relative py-3 sm:max-w-4xl sm:mx-auto">
-                <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-10 max-h-[90vh] overflow-y-auto">
-                    <form method="POST" action="" enctype="multipart/form-data">
-                        @csrf
+    <div id="create-course-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden overflow-y-auto">
+        <div class="min-h-screen flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl shadow-xl w-full max-w-4xl relative">
+                <form method="POST" action="" enctype="multipart/form-data" class="p-6">
+                    @csrf
+                    
+                    <!-- En-tête du formulaire -->
+                    <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-200">
+                        <h2 class="text-2xl font-bold text-gray-800">Créer un nouveau cours</h2>
+                        <button type="button" id="close-modal-btn" class="text-gray-500 hover:text-gray-700 transition-colors">
+                            <i class="ri-close-line text-2xl"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Informations du cours -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-medium text-gray-800 mb-4">Informations générales</h3>
                         
-                        <!-- En-tête du formulaire -->
-                        <div class="flex justify-between items-center mb-8">
-                            <h2 class="text-2xl font-bold text-gray-800">Créer un nouveau cours</h2>
-                            <button type="button" id="close-modal-btn" class="text-gray-500 hover:text-gray-700">
-                                <i class="ri-close-line text-2xl"></i>
-                            </button>
-                        </div>
-                        
-                        <!-- Informations du cours -->
-                        <div class="mb-8">
-                            <h3 class="text-lg font-medium text-gray-800 mb-4 pb-2 border-b">Informations générales</h3>
-                            
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <!-- Titre -->
-                                <div class="md:col-span-2">
-                                    <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Titre du cours <span class="text-red-600">*</span></label>
-                                    <input type="text" id="title" name="title" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Entrez un titre accrocheur" required>
-                                </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Titre -->
+                            <div class="md:col-span-2">
+                                <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Titre du cours <span class="text-red-600">*</span></label>
+                                <input type="text" id="title" name="title" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" placeholder="Entrez un titre accrocheur" required>
+                            </div>
 
-                                <!-- Description -->
-                                <div class="md:col-span-2">
-                                    <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description <span class="text-red-600">*</span></label>
-                                    <textarea id="description" name="description" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Décrivez votre cours en détail" required></textarea>
-                                </div>
+                            <!-- Description -->
+                            <div class="md:col-span-2">
+                                <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description <span class="text-red-600">*</span></label>
+                                <textarea id="description" name="description" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" placeholder="Décrivez votre cours en détail" required></textarea>
+                            </div>
 
-                                <!-- Image -->
-                                <div class="md:col-span-2">
-                                    <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Image du cours <span class="text-red-600">*</span></label>
-                                    <input type="file" id="image" name="image" class="w-full px-4 py-2 border border-gray-300 rounded-lg" accept="image/*" required>
-                                </div>
-
-                                <!-- Catégorie -->
-                                <div>
-                                    <label for="category_id" class="block text-sm font-medium text-gray-700 mb-1">Catégorie <span class="text-red-600">*</span></label>
-                                    <select id="category_id" name="category_id" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required>
-                                        <option value="">Sélectionnez une catégorie</option>
-                                        <option value=""></option>
-                                    </select>
-                                </div>
-
-                                <!-- Prix -->
-                                <div>
-                                    <label for="price" class="block text-sm font-medium text-gray-700 mb-1">Prix (en €) <span class="text-red-600">*</span></label>
-                                    <input type="number" id="price" name="price" min="0" step="0.01" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="19.99" required>
-                                </div>
-
-                                <!-- Niveau -->
-                                <div>
-                                    <label for="level" class="block text-sm font-medium text-gray-700 mb-1">Niveau <span class="text-red-600">*</span></label>
-                                    <select id="level" name="level" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required>
-                                        <option value="">Sélectionnez un niveau</option>
-                                        <option value="debutant">Débutant</option>
-                                        <option value="intermediaire">Intermédiaire</option>
-                                        <option value="avance">Avancé</option>
-                                        <option value="expert">Expert</option>
-                                    </select>
+                            <!-- Image -->
+                            <div class="md:col-span-2">
+                                <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Image du cours <span class="text-red-600">*</span></label>
+                                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-indigo-500 transition-colors">
+                                    <div class="space-y-1 text-center">
+                                        <i class="ri-image-add-line text-3xl text-gray-400"></i>
+                                        <div class="flex text-sm text-gray-600">
+                                            <label for="image" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none">
+                                                <span>Télécharger une image</span>
+                                                <input id="image" name="image" type="file" class="sr-only" accept="image/*" required>
+                                            </label>
+                                            <p class="pl-1">ou glisser-déposer</p>
+                                        </div>
+                                        <p class="text-xs text-gray-500">PNG, JPG, GIF jusqu'à 10MB</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <!-- Chapitres et leçons -->
-                        <div class="mb-8">
-                            <h3 class="text-lg font-medium text-gray-800 mb-4 pb-2 border-b">Chapitres et leçons</h3>
-                            <div id="chapters-container" class="space-y-6">
-                                <!-- Les chapitres seront ajoutés dynamiquement ici -->
+
+                            <!-- Catégorie -->
+                            <div>
+                                <label for="category_id" class="block text-sm font-medium text-gray-700 mb-1">Catégorie <span class="text-red-600">*</span></label>
+                                <select id="category_id" name="category_id" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" required>
+                                    <option value="">Sélectionnez une catégorie</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                            <button type="button" id="add-chapter-btn" class="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex items-center">
-                                <i class="ri-add-line mr-2"></i> Ajouter un chapitre
-                            </button>
+
+                            <!-- Prix -->
+                            <div>
+                                <label for="price" class="block text-sm font-medium text-gray-700 mb-1">Prix (en €) <span class="text-red-600">*</span></label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">€</span>
+                                    <input type="number" id="price" name="price" min="0" step="0.01" class="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" placeholder="19.99" required>
+                                </div>
+                            </div>
+
+                            <!-- Niveau -->
+                            <div>
+                                <label for="level" class="block text-sm font-medium text-gray-700 mb-1">Niveau <span class="text-red-600">*</span></label>
+                                <select id="level" name="level" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" required>
+                                    <option value="">Sélectionnez un niveau</option>
+                                    <option value="debutant">Débutant</option>
+                                    <option value="intermediaire">Intermédiaire</option>
+                                    <option value="avance">Avancé</option>
+                                    <option value="expert">Expert</option>
+                                </select>
+                            </div>
                         </div>
-                        
-                        <!-- Boutons de contrôle -->
-                        <div class="mt-8 flex justify-end space-x-3 border-t border-gray-200 pt-6">
-                            <button type="button" id="cancel-create-course" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
-                                Annuler
-                            </button>
-                            <button type="submit" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
-                                <i class="ri-save-line mr-1"></i> Enregistrer
-                            </button>
+                    </div>
+                    
+                    <!-- Chapitres et leçons -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-medium text-gray-800 mb-4">Chapitres et leçons</h3>
+                        <div id="chapters-container" class="space-y-6">
+                            <!-- Les chapitres seront ajoutés dynamiquement ici -->
                         </div>
-                    </form>
-                </div>
+                        <button type="button" id="add-chapter-btn" class="mt-4 px-4 py-2 bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200 transition-colors flex items-center space-x-2">
+                            <i class="ri-add-line"></i>
+                            <span>Ajouter un chapitre</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Boutons de contrôle -->
+                    <div class="flex justify-end space-x-3 border-t border-gray-200 pt-6">
+                        <button type="button" id="cancel-create-course" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
+                            Annuler
+                        </button>
+                        <button type="submit" class="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1">
+                            <i class="ri-save-line mr-1"></i> Enregistrer
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
