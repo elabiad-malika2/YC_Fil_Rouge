@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->text('description');
+            $table->string('image')->nullable();
+            $table->foreignId('category_id')
+                ->constrained('categories')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->decimal('price', 8, 2)->default(0);
+            $table->enum('level', ['debutant', 'intermediaire', 'avance', 'expert']);
             $table->timestamps();
         });
     }

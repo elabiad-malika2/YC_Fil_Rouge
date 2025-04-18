@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('chapitres', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('course_id')
+                ->constrained('courses')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->string('title');
+            $table->string('description');
             $table->timestamps();
+    
         });
     }
 
