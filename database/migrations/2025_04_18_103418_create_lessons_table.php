@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('lessons', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('chapitres_id')
+                ->constrained('chapitres')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->string('title');
+            $table->enum('type', ['text', 'video']); 
+            $table->text('text_content')->nullable(); 
+            $table->string('video_path')->nullable(); 
             $table->timestamps();
         });
     }
