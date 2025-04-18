@@ -25,12 +25,18 @@ class TagController extends Controller
         return redirect()->back()->with('success', 'Tag ajouté avec succès');
     }
 
-    public function edit(Request $request, Tag $tag)
+    public function edit($id)
     {
+        $tag = Tag::findOrFail($id);
+        return view('Admin.edit_tag', compact('tag'));
+    }
 
-        dd($request);
+    public function update(Request $request, $id)
+    {
+        $tag = Tag::findOrFail($id);
+        
         $request->validate([
-            'name' => 'required|string|max:255|unique:tags,name,' . $tag->id,
+            'name' => 'required|string|max:255|unique:tags,name,' . $id,
             'color' => 'required|string|max:7',
         ]);
 
@@ -39,8 +45,9 @@ class TagController extends Controller
         return redirect()->back()->with('success', 'Tag mis à jour avec succès');
     }
 
-    public function destroy(Tag $tag)
+    public function destroy($id)
     {
+        $tag = Tag::findOrFail($id);
         $tag->delete();
         return redirect()->back()->with('success', 'Tag supprimé avec succès');
     }

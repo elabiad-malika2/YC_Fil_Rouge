@@ -196,10 +196,10 @@
                         <div class="tag-card flex items-center justify-between p-4 border border-gray-200 rounded-lg bg-white">
                             <span class="inline-block px-3 py-1 text-white text-sm font-medium rounded-full" style="background-color: {{ $tag->color }};">#{{ $tag->name }}</span>
                             <div class="flex space-x-2">
-                                <a href="{{ route('tags.edit', $tag->id) }}" class="px-3 py-1 bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200 transition-colors">
+                                <button type="button" onclick="showEditForm({{ $tag->id }} ,'{{ $tag->name }}', '{{ $tag->color }}')" class="px-3 py-1 bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200 transition-colors">
                                     <i class="ri-edit-line"></i>
-                                </a>
-                                <form action="{{ route('tags.destroy', $tag) }}" method="POST" class="inline">
+                                </button>
+                                <form action="{{ route('tags.destroy', $tag->id) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="px-3 py-1 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors">
@@ -209,6 +209,26 @@
                             </div>
                         </div>
                         @endforeach
+                    </div>
+
+                    <!-- Formulaire d'édition de tag -->
+                    <div id="edit-tag-form" class="hidden form-gradient p-6 rounded-lg mt-6 shadow-sm">
+                        <form method="POST" action="" id="tag-edit-form">
+                            @csrf
+                            @method('PUT')
+                            <div class="mb-4">
+                                <label for="edit-tag-name" class="block text-sm font-medium text-gray-700 mb-2">Nom du tag <span class="text-red-600">*</span></label>
+                                <input type="text" id="edit-tag-name" name="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="edit-tag-color" class="block text-sm font-medium text-gray-700 mb-2">Couleur du tag</label>
+                                <input type="color" id="edit-tag-color" name="color" class="w-full h-10 border border-gray-300 rounded-lg">
+                            </div>
+                            <div class="flex justify-end space-x-3">
+                                <button type="button" onclick="hideEditForm()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">Annuler</button>
+                                <button type="submit" class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-colors">Enregistrer</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -241,38 +261,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Modal for Editing Tag -->
-    <div id="tag-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
-        <div class="min-h-screen flex items-center justify-center">
-            <div class="modal-gradient rounded-3xl p-8 max-w-md w-full shadow-2xl">
-                <form id="tag-form" method="POST" action="">
-                    @csrf
-                    @method('PUT')
-                    <div class="flex justify-between items-center mb-6">
-                        <h2 id="tag-modal-title" class="text-xl font-bold text-gray-800">Modifier le tag</h2>
-                        <button type="button" id="close-tag-modal" class="text-gray-500 hover:text-gray-700">
-                            <i class="ri-close-line text-2xl"></i>
-                        </button>
-                    </div>
-                    <div class="mb-6">
-                        <label for="tag-name" class="block text-sm font-medium text-gray-700 mb-2">Nom du tag <span class="text-red-600">*</span></label>
-                        <input type="text" id="tag-name" name="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm" required>
-                    </div>
-                    <div class="mb-6">
-                        <label for="tag-color" class="block text-sm font-medium text-gray-700 mb-2">Couleur du tag</label>
-                        <input type="color" id="tag-color" name="color" class="w-full h-10 border border-gray-300 rounded-lg">
-                    </div>
-                    <input type="hidden" id="tag-id" name="id">
-                    <div class="flex justify-end space-x-3">
-                        <button type="button" id="cancel-tag" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">Annuler</button>
-                        <button type="submit" class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-colors">Enregistrer</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
 
     <!-- JavaScript for Modal Interactions -->
     <script>
@@ -332,6 +320,24 @@
             cancelCategory.addEventListener('click', () => hideModal(categoryModal));
             cancelTag.addEventListener('click', () => hideModal(tagModal));
         });
+
+        function showEditForm(id, name, color) {
+            const form = document.getElementById('edit-tag-form');
+            const editForm = document.getElementById('tag-edit-form');
+            const nameInput = document.getElementById('edit-tag-name');
+            const colorInput = document.getElementById('edit-tag-color');
+            
+            nameInput.value = name;
+            colorInput.value = color;
+            editForm.action = `/admin/tags/${id}`;
+            
+            form.classList.remove('hidden');
+            form.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function hideEditForm() {
+            document.getElementById('edit-tag-form').classList.add('hidden');
+        }
     </script>
 </body>
 </html>
