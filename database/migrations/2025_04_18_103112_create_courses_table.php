@@ -20,6 +20,11 @@ return new class extends Migration
                 ->constrained('categories')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
+            $table->foreignId('user_id')
+                ->nullable() 
+                ->constrained('users')
+                ->onDelete('set null')
+                ->onUpdate('set null');
             $table->decimal('price', 8, 2)->default(0);
             $table->enum('level', ['debutant', 'intermediaire', 'avance', 'expert']);
             $table->timestamps();

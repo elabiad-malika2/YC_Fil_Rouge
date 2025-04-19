@@ -442,7 +442,7 @@
     <div id="create-course-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden overflow-y-auto">
         <div class="min-h-screen flex items-center justify-center p-4">
             <div class="bg-white rounded-2xl shadow-xl w-full max-w-4xl relative">
-                <form method="POST" action="" enctype="multipart/form-data" class="p-6">
+                <form method="POST" action="/enseignant/courses" enctype="multipart/form-data" class="p-6">
                     @csrf
                     
                     <!-- En-tête du formulaire -->
@@ -517,7 +517,18 @@
                                     <option value="intermediaire">Intermédiaire</option>
                                     <option value="avance">Avancé</option>
                                     <option value="expert">Expert</option>
+
                                 </select>
+                                @if ($errors->any())
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <strong>Oups ! Il y a des erreurs :</strong>
+        <ul class="mt-2 list-disc list-inside">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
                             </div>
 
                             <!-- Tags -->
@@ -638,8 +649,6 @@
                         }
                     });
                 });
-
-               
             }
         });
 

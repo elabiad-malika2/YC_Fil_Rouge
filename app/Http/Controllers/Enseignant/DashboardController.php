@@ -13,6 +13,6 @@ class DashboardController extends Controller
     {
         $categories = Categorie::all();
         $tags = Tag::all();
-        return view('Enseignant.dashboard', compact('categories', 'tags'));
+        return view('Enseignant.dashboard', compact('categories','tags'));
     }
 } 

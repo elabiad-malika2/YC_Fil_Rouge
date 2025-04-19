@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\Enseignant\DashboardController;
 
@@ -37,4 +38,12 @@ Route::prefix('admin')->group(function () {
     Route::put('categories/{id}', [CategorieController::class, 'update'])->name('categories.update');
     Route::delete('categories/{id}', [CategorieController::class, 'destroy'])->name('categories.destroy');
     Route::resource('tags', TagController::class);
+});
+Route::prefix('enseignant')->group(function () {
+    Route::post('courses', [CourseController::class, 'store'])->name('courses.store');
+    // Route::post('courses',function(){
+    //     dd("hhhhhhhhhhh");
+    // })->name('courses.store');
+
+    
 });
