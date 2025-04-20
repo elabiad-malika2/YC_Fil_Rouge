@@ -452,6 +452,17 @@
                             <i class="ri-close-line text-2xl"></i>
                         </button>
                     </div>
+
+                    @if ($errors->any())
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                            <strong>Oups ! Il y a des erreurs :</strong>
+                            <ul class="mt-2 list-disc list-inside">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     
                     <!-- Informations du cours -->
                     <div class="mb-8">
@@ -519,16 +530,7 @@
                                     <option value="expert">Expert</option>
 
                                 </select>
-                                @if ($errors->any())
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-        <strong>Oups ! Il y a des erreurs :</strong>
-        <ul class="mt-2 list-disc list-inside">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+                                
                             </div>
 
                             <!-- Tags -->
@@ -695,11 +697,11 @@
                     </div>
                     <div class="mb-3">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Titre du chapitre <span class="text-red-600">*</span></label>
-                        <input type="text" name="chapters[${chapterIndex}][title]" class="w-full px-3 py-2 border border-gray-300 rounded-lg" placeholder="Ex: Introduction à JavaScript" required>
+                        <input type="text" name="chapitres[${chapterIndex}][title]" class="w-full px-3 py-2 border border-gray-300 rounded-lg" placeholder="Ex: Introduction à JavaScript" required>
                     </div>
                     <div class="mb-3">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Description du chapitre</label>
-                        <textarea name="chapters[${chapterIndex}][description]" class="w-full px-3 py-2 border border-gray-300 rounded-lg" rows="2" placeholder="Brève description de ce chapitre"></textarea>
+                        <textarea name="chapitres[${chapterIndex}][description]" class="w-full px-3 py-2 border border-gray-300 rounded-lg" rows="2" placeholder="Brève description de ce chapitre"></textarea>
                     </div>
                     <div class="pl-4 border-l-2 border-indigo-100 mt-4">
                         <h5 class="font-medium text-gray-700 mb-2">Leçons</h5>
@@ -744,26 +746,27 @@
                     </button>
                     <div class="mb-2">
                         <label class="block text-xs font-medium text-gray-700 mb-1">Titre de la leçon <span class="text-red-600">*</span></label>
-                        <input type="text" name="chapters[${chapterIndex}][lessons][${lessonIndex}][title]" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" placeholder="Ex: Variables et types de données" required>
+                        <input type="text" name="chapitres[${chapterIndex}][lessons][${lessonIndex}][title]" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" placeholder="Ex: Variables et types de données" required>
                     </div>
                     <div class="mb-2">
                         <label class="block text-xs font-medium text-gray-700 mb-1">Type de contenu</label>
-                        <select name="chapters[${chapterIndex}][lessons][${lessonIndex}][content_type]" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" onchange="toggleContentType(this, ${chapterIndex}, ${lessonIndex})">
-                            <option value="text">Texte</option>
+                        <select name="chapitres[${chapterIndex}][lessons][${lessonIndex}][type]" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" onchange="toggleContentType(this, ${chapterIndex}, ${lessonIndex})" required>
+                            <option value="">Sélectionner le type</option>
+                            <option value="text" selected>Texte</option>
                             <option value="video">Vidéo</option>
                         </select>
                     </div>
                     <div class="mb-2 content-type-text">
                         <label class="block text-xs font-medium text-gray-700 mb-1">Contenu texte <span class="text-red-600">*</span></label>
-                        <textarea name="chapters[${chapterIndex}][lessons][${lessonIndex}][content]" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" rows="3" placeholder="Contenu détaillé de la leçon"></textarea>
+                        <textarea name="chapitres[${chapterIndex}][lessons][${lessonIndex}][text_content]" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" rows="3" placeholder="Contenu détaillé de la leçon"></textarea>
                     </div>
                     <div class="mb-2 content-type-video hidden">
                         <label class="block text-xs font-medium text-gray-700 mb-1">Vidéo <span class="text-red-600">*</span></label>
-                        <input type="file" name="chapters[${chapterIndex}][lessons][${lessonIndex}][video]" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" accept="video/*">
+                        <input type="file" name="chapitres[${chapterIndex}][lessons][${lessonIndex}][video]" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" accept="video/*">
                     </div>
                     <div class="flex items-center text-xs text-gray-500">
                         <label class="flex items-center">
-                            <input type="checkbox" name="chapters[${chapterIndex}][lessons][${lessonIndex}][is_free]" class="mr-1 rounded text-indigo-600">
+                            <input type="checkbox" name="chapitres[${chapterIndex}][lessons][${lessonIndex}][is_free]" class="mr-1 rounded text-indigo-600">
                             Leçon gratuite (prévisualisation)
                         </label>
                     </div>

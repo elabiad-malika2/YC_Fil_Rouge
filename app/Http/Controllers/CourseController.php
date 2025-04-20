@@ -38,15 +38,15 @@ class CourseController extends Controller
             ]);
 
             foreach ($chapitreData['lessons'] as $lessonData) {
-                $lesson = new Lesson([
+                $lesson = Lesson::create([
                     'title' => $lessonData['title'],
                     'type' => $lessonData['type'],
+                    'chapitres_id' => $chapitre->id,
                     'text_content' => $lessonData['type'] === 'text' ? $lessonData['text_content'] : null,
                     'video_path' => $lessonData['type'] === 'video' ? 
                         $lessonData['video']->store('courses/videos', 'public') : null,
                 ]);
 
-                $chapitre->lessons()->save($lesson);
             }
         }
 
@@ -54,7 +54,6 @@ class CourseController extends Controller
             ->with('success', 'Cours créé avec succès !');
     }
 
-    public function test(){
-        dd('fffffffffff');
-    }
+    
+    
 }
