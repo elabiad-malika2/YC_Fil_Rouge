@@ -187,14 +187,19 @@
                         <div class="flex items-center justify-center mb-8">
                             <h2 class="text-2xl font-bold text-gray-800">Log In to Your Account</h2>
                         </div>
-                        
-                        <form action="../Back-end/Actions/Auth/auth.php" method="POST" id="loginForm">
+                        @if ($errors->any())
+                            <div class="mb-4 text-red-500">
+                                {{ $errors->first() }}
+                            </div>
+                        @endif
+                        <form action="{{ route('login') }}" method="POST" id="loginForm">
+                            @csrf
                             <div class="space-y-6">
                                 <div class="relative">
                                     <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
                                         <i class="ri-mail-line text-gray-400"></i>
                                     </div>
-                                    <input type="email" placeholder="Email Address" name="emailLogin" required
+                                    <input type="email" placeholder="Email Address" name="email" required
                                         class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
                                 </div>
                                 
@@ -207,7 +212,7 @@
                                             <i class="ri-eye-line text-lg password-toggle-icon"></i>
                                         </button>
                                     </div>
-                                    <input type="password" placeholder="Password" name="passwordLogin" id="passwordField" required
+                                    <input type="password" placeholder="Password" name="password" id="passwordField" required
                                         class="w-full pl-12 pr-12 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
                                 </div>
                                 

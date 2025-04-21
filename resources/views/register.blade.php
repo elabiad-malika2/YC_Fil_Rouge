@@ -216,6 +216,16 @@
                         <div class="flex items-center justify-center mb-8">
                             <h2 class="text-2xl font-bold text-gray-800">Create Your Account</h2>
                         </div>
+                        @if ($errors->any())
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                            <strong>Oups ! Il y a des erreurs :</strong>
+                            <ul class="mt-2 list-disc list-inside">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                         
                         <form action="{{ route('register') }}" method="POST" id="registerForm" enctype="multipart/form-data">
                             @csrf

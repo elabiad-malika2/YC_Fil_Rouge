@@ -18,7 +18,7 @@ class DashboardController extends Controller
         $tags = Tag::all();
         $courses = DB::table('courses')
         ->select(
-            'courses.id','courses.title','courses.image','courses.description',
+            'courses.id','courses.title','courses.image','courses.description','courses.level',
             DB::raw('COUNT(DISTINCT chapitres.id) as chapitres_count'),
             DB::raw('COUNT(DISTINCT lessons.id) as lessons_count')
         )
@@ -29,7 +29,8 @@ class DashboardController extends Controller
             'courses.id',
             'courses.title',
             'courses.image',
-            'courses.description'
+            'courses.description',
+            'courses.level'
         )
         ->get();        
 

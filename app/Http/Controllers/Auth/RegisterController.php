@@ -20,6 +20,7 @@ class RegisterController extends Controller
 
     public function store(RegisterRequest $request)
     {
+        // dd($request);
         $role = Role::where('name', $request->role)->firstOrFail();
 
         $imagePath = null;

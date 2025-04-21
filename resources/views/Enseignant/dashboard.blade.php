@@ -1,5 +1,3 @@
-<?= dd($courses) ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -299,64 +297,35 @@
                     
                     <div class="space-y-4">
                         <!-- Course 1 -->
-                        <div class="flex items-center p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
-                            <img src="https://bilis.com/wp-content/uploads/2020/04/elearning.jpg" alt="Course" class="w-16 h-16 object-cover rounded mr-4">
-                            <div class="flex-1">
-                                <h3 class="font-medium text-gray-800">Modern JavaScript from Scratch</h3>
-                                <div class="flex items-center mt-1">
-                                    <span class="text-sm text-gray-500 mr-4">42 heures • 28 leçons</span>
-                                    <div class="flex items-center">
-                                        <i class="ri-user-line text-gray-400 mr-1"></i>
-                                        <span class="text-sm text-gray-500">246 étudiants</span>
+                        <div class="space-y-4">
+                            @forelse ($courses as $course)
+                                <div class="flex items-center p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
+                                    <img src="{{ Storage::url($course->image) }}" alt="{{ $course->title }}" class="w-16 h-16 object-cover rounded mr-4">
+                                    <div class="flex-1">
+                                        <h3 class="font-medium text-gray-800">{{ $course->title }}</h3>
+                                        <div class="flex items-center mt-1">
+                                            <span class="text-sm text-gray-500 mr-4">
+                                                {{ $course->chapitres_count }} chapitre{{ $course->chapitres_count > 1 ? 's' : '' }} • {{ $course->lessons_count }} leçon{{ $course->lessons_count > 1 ? 's' : '' }}
+                                            </span>
+                                            <div class="flex items-center">
+                                                <i class="ri-user-line text-gray-400 mr-1"></i>
+                                                <span class="text-sm text-gray-500">0 étudiants</span> <!-- À remplacer par le vrai nombre d'étudiants si disponible -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <span class="inline-block px-3 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
+                                            {{$course->level}}
+                                        </span>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="ml-4">
-                                <span class="inline-block px-3 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
-                                    Publié
-                                </span>
-                            </div>
+                            @empty
+                                <div class="text-center text-gray-500 py-4">
+                                    Aucun cours récent trouvé.
+                                </div>
+                            @endforelse
                         </div>
                         
-                        <!-- Course 2 -->
-                        <div class="flex items-center p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
-                            <img src="https://bilis.com/wp-content/uploads/2020/04/elearning.jpg" alt="Course" class="w-16 h-16 object-cover rounded mr-4">
-                            <div class="flex-1">
-                                <h3 class="font-medium text-gray-800">React - The Complete Guide 2025</h3>
-                                <div class="flex items-center mt-1">
-                                    <span class="text-sm text-gray-500 mr-4">48 heures • 32 leçons</span>
-                                    <div class="flex items-center">
-                                        <i class="ri-user-line text-gray-400 mr-1"></i>
-                                        <span class="text-sm text-gray-500">184 étudiants</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ml-4">
-                                <span class="inline-block px-3 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
-                                    Publié
-                                </span>
-                            </div>
-                        </div>
-                        
-                        <!-- Course 3 -->
-                        <div class="flex items-center p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
-                            <img src="https://bilis.com/wp-content/uploads/2020/04/elearning.jpg" alt="Course" class="w-16 h-16 object-cover rounded mr-4">
-                            <div class="flex-1">
-                                <h3 class="font-medium text-gray-800">Node.js API Development Masterclass</h3>
-                                <div class="flex items-center mt-1">
-                                    <span class="text-sm text-gray-500 mr-4">36 heures • 24 leçons</span>
-                                    <div class="flex items-center">
-                                        <i class="ri-user-line text-gray-400 mr-1"></i>
-                                        <span class="text-sm text-gray-500">0 étudiants</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ml-4">
-                                <span class="inline-block px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-medium rounded-full">
-                                    Brouillon
-                                </span>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
