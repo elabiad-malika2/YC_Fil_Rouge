@@ -314,9 +314,9 @@
                                     {{ ucfirst($course->level) }}
                                 </span>
                                 <!-- Bouton Modifier -->
-                                <button type="button" class="edit-course-btn text-indigo-600 hover:text-indigo-800" data-course-id="{{ $course->id }}" title="Modifier">
+                                <a href="{{ route('enseignant.courses.edit', $course->id) }}" class="text-indigo-600 hover:text-indigo-800" title="Modifier">
                                     <i class="ri-edit-line text-lg"></i>
-                                </button>
+                                </a>
                                 <!-- Bouton Supprimer -->
                                 <form action="" method="POST" class="inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cours ?');">
                                     @csrf

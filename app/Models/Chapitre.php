@@ -19,6 +19,5 @@ class Chapitre extends Model
 
     public function lessons()
     {
-        return $this->hasMany(Lesson::class);
-    }
+        return $this->hasMany(Lesson::class, 'chapitres_id');    }
 }

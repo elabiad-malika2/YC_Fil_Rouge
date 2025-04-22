@@ -57,7 +57,7 @@ class CourseController extends Controller
     }
     public function edit($id)
     {
-        $course = Course::with(['chapitres.lessons', 'tags'])->findOrFail($id);
+        $course = Course::with(['chapters.lessons', 'tags'])->findOrFail($id);
 
         if ($course->user_id !== Auth::id()) {
             abort(403, 'Vous etes pas autorisé à modifier ce cours.');

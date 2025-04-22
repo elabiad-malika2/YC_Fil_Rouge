@@ -53,3 +53,5 @@ Route::prefix('enseignant')->group(function () {
 
     
 });
+Route::get('/enseignant/courses/{course}/edit', [CourseController::class, 'edit'])->name('enseignant.courses.edit');
+Route::put('/enseignant/courses/{course}', [CourseController::class, 'update'])->name('enseignant.courses.update');
