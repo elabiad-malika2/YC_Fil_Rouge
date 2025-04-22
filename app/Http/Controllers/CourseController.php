@@ -8,13 +8,14 @@ use App\Models\Lesson;
 use App\Http\Requests\CourseRequest;
 use App\Models\Categorie;
 use App\Models\Tag;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
     public function store(CourseRequest $request)
     {
-        // Création du cours
         // dd($request);
         $course = Course::create([
             'title' => $request->title,
@@ -26,12 +27,10 @@ class CourseController extends Controller
             'user_id' => Auth::id(),
         ]);
 
-        // Attacher les tags
         if ($request->has('tags')) {
             $course->tags()->attach($request->tags);
         }
 
-        // Création des chapitres et leçons
         foreach ($request->chapitres as $chapitreData) {
             $chapitre = Chapitre::create([
                 'title' => $chapitreData['title'],
@@ -67,6 +66,30 @@ class CourseController extends Controller
         $tags = Tag::all();
 
         return view('enseignant.editCourse', compact('course', 'categories', 'tags'));
+    }
+    public function update(Request $request, $id)
+    {
+        $course = Course::findOrFail($id);
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+            'price' => 'required|numeric|min:0',
+            'level' => 'required|in:debutant,intermediaire,avance,expert',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            if ($course->image) {
+                Storage::delete($course->image);
+            }
+            $validated['image'] = $request->file('image')->store('courses', 'public');
+        }
+
+        $course->update($validated);
+
+        return redirect()->route('enseignant.courses.index')->with('success', 'Cours mis à jour avec succès.');
     }
 
     
