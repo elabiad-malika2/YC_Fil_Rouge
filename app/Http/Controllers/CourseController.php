@@ -6,6 +6,8 @@ use App\Models\Course;
 use App\Models\Chapitre;
 use App\Models\Lesson;
 use App\Http\Requests\CourseRequest;
+use App\Models\Categorie;
+use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
@@ -52,6 +54,19 @@ class CourseController extends Controller
 
         return redirect()->route('enseignant.dashboard')
             ->with('success', 'Cours créé avec succès !');
+    }
+    public function edit($id)
+    {
+        $course = Course::with(['chapitres.lessons', 'tags'])->findOrFail($id);
+
+        if ($course->user_id !== Auth::id()) {
+            abort(403, 'Vous etes pas autorisé à modifier ce cours.');
+        }
+
+        $categories = Categorie::all();
+        $tags = Tag::all();
+
+        return view('enseignant.editCourse', compact('course', 'categories', 'tags'));
     }
 
     
