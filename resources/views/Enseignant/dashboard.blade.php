@@ -283,127 +283,55 @@
             </div>
         </div>
 
-        <!-- Recent Courses and Activity -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Recent Courses -->
-            <div class="lg:col-span-2">
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                    <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-xl font-bold text-gray-800">Vos cours récents</h2>
-                        <a href="./courses.php" class="text-indigo-600 text-sm font-medium hover:text-indigo-800 transition-colors">
-                            Voir tous les cours
-                        </a>
-                    </div>
-                    
-                    <div class="space-y-4">
-                        <!-- Course 1 -->
-                        <div class="space-y-4">
-                            @forelse ($courses as $course)
-                                <div class="flex items-center p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
-                                    <img src="{{ Storage::url($course->image) }}" alt="{{ $course->title }}" class="w-16 h-16 object-cover rounded mr-4">
-                                    <div class="flex-1">
-                                        <h3 class="font-medium text-gray-800">{{ $course->title }}</h3>
-                                        <div class="flex items-center mt-1">
-                                            <span class="text-sm text-gray-500 mr-4">
-                                                {{ $course->chapitres_count }} chapitre{{ $course->chapitres_count > 1 ? 's' : '' }} • {{ $course->lessons_count }} leçon{{ $course->lessons_count > 1 ? 's' : '' }}
-                                            </span>
-                                            <div class="flex items-center">
-                                                <i class="ri-user-line text-gray-400 mr-1"></i>
-                                                <span class="text-sm text-gray-500">0 étudiants</span> <!-- À remplacer par le vrai nombre d'étudiants si disponible -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="ml-4">
-                                        <span class="inline-block px-3 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
-                                            {{$course->level}}
-                                        </span>
-                                    </div>
-                                </div>
-                            @empty
-                                <div class="text-center text-gray-500 py-4">
-                                    Aucun cours récent trouvé.
-                                </div>
-                            @endforelse
-                        </div>
-                        
-                    </div>
+        <!-- Recent Courses -->
+        <div class="lg:col-span-2">
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-gray-800">Vos cours récents</h2>
+                    <a href="./courses.php" class="text-indigo-600 text-sm font-medium hover:text-indigo-800 transition-colors">
+                        Voir tous les cours
+                    </a>
                 </div>
-            </div>
-            
-            <!-- Recent Activity -->
-            <div class="lg:col-span-1">
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                    <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-xl font-bold text-gray-800">Activité récente</h2>
-                        <a href="#" class="text-indigo-600 text-sm font-medium hover:text-indigo-800 transition-colors">
-                            Voir tout
-                        </a>
-                    </div>
-                    
-                    <div class="space-y-6">
-                        <!-- Activity 1 -->
-                        <div class="flex">
-                            <div class="mr-4 relative">
-                                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
-                                    <i class="ri-message-3-line text-blue-600"></i>
-                                </div>
-                                <div class="absolute top-10 bottom-0 left-1/2 w-0.5 -ml-px bg-gray-200"></div>
-                            </div>
-                            <div>
-                                <p class="text-gray-800">
-                                    <span class="font-medium">Emma Smith</span> a posé une question dans <a href="#" class="text-indigo-600 hover:underline">Modern JavaScript</a>
-                                </p>
-                                <span class="text-sm text-gray-500">Il y a 35 minutes</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Activity 2 -->
-                        <div class="flex">
-                            <div class="mr-4 relative">
-                                <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
-                                    <i class="ri-user-add-line text-green-600"></i>
-                                </div>
-                                <div class="absolute top-10 bottom-0 left-1/2 w-0.5 -ml-px bg-gray-200"></div>
-                            </div>
-                            <div>
-                                <p class="text-gray-800">
-                                    <span class="font-medium">5 nouveaux étudiants</span> se sont inscrits à <a href="#" class="text-indigo-600 hover:underline">React - The Complete Guide</a>
-                                </p>
-                                <span class="text-sm text-gray-500">Il y a 2 heures</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Activity 3 -->
-                        <div class="flex">
-                            <div class="mr-4 relative">
-                                <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center">
-                                    <i class="ri-star-line text-yellow-600"></i>
-                                </div>
-                                <div class="absolute top-10 bottom-0 left-1/2 w-0.5 -ml-px bg-gray-200"></div>
-                            </div>
-                            <div>
-                                <p class="text-gray-800">
-                                    <span class="font-medium">3 nouvelles évaluations</span> sur <a href="#" class="text-indigo-600 hover:underline">Modern JavaScript</a>
-                                </p>
-                                <span class="text-sm text-gray-500">Hier</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Activity 4 -->
-                        <div class="flex">
-                            <div class="mr-4">
-                                <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
-                                    <i class="ri-coin-line text-red-600"></i>
+                
+                <div class="space-y-4">
+                    @forelse ($courses as $course)
+                        <div class="flex items-center p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
+                            <img src="{{ Storage::url($course->image) }}" alt="{{ $course->title }}" class="w-16 h-16 object-cover rounded mr-4">
+                            <div class="flex-1">
+                                <h3 class="font-medium text-gray-800">{{ $course->title }}</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="text-sm text-gray-500 mr-4">
+                                        {{ $course->chapitres_count }} chapitre{{ $course->chapitres_count > 1 ? 's' : '' }} • {{ $course->lessons_count }} leçon{{ $course->lessons_count > 1 ? 's' : '' }}
+                                    </span>
+                                    <div class="flex items-center">
+                                        <i class="ri-user-line text-gray-400 mr-1"></i>
+                                        <span class="text-sm text-gray-500">{{ $course->students_count ?? 0 }} étudiant{{ ($course->students_count ?? 0) > 1 ? 's' : '' }}</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div>
-                                <p class="text-gray-800">
-                                    <span class="font-medium">Paiement reçu</span> de $285.50 pour les cours de ce mois
-                                </p>
-                                <span class="text-sm text-gray-500">Hier</span>
+                            <div class="ml-4 flex items-center space-x-2">
+                                <span class="inline-block px-3 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
+                                    {{ ucfirst($course->level) }}
+                                </span>
+                                <!-- Bouton Modifier -->
+                                <button type="button" class="edit-course-btn text-indigo-600 hover:text-indigo-800" data-course-id="{{ $course->id }}" title="Modifier">
+                                    <i class="ri-edit-line text-lg"></i>
+                                </button>
+                                <!-- Bouton Supprimer -->
+                                <form action="" method="POST" class="inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cours ?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-500 hover:text-red-700" title="Supprimer">
+                                        <i class="ri-delete-bin-line text-lg"></i>
+                                    </button>
+                                </form>
                             </div>
                         </div>
-                    </div>
+                    @empty
+                        <div class="text-center text-gray-500 py-4">
+                            Aucun cours récent trouvé.
+                        </div>
+                    @endforelse
                 </div>
             </div>
         </div>
