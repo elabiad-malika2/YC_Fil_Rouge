@@ -30,5 +30,15 @@ class LessonController extends Controller
 
         return redirect()->back()->with('success', 'Leçon mise à jour avec succès.');
     }
+    public function destroy($id)
+    {
+        $lesson = Lesson::findOrFail($id);
+        if ($lesson->video) {
+            Storage::delete($lesson->video);
+        }
+        $lesson->delete();
+
+        return redirect()->back()->with('success', 'Leçon supprimée avec succès.');
+    }
 
 }
