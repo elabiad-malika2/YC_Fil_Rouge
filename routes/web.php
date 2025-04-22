@@ -10,6 +10,7 @@ use App\Http\Controllers\ChapitreController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\Enseignant\DashboardController;
+use App\Http\Controllers\LessonController;
 
 // Routes d'authentification
 Route::get('/register', [RegisterController::class, 'create'])->name('register.form');
@@ -50,12 +51,17 @@ Route::prefix('admin')->group(function () {
 Route::prefix('enseignant')->group(function () {
     Route::post('courses', [CourseController::class, 'store'])->name('courses.store');
     Route::put('courses/{id}', [CourseController::class, 'update'])->name('courses.update');
-    Route::post('chapters', [ChapitreController::class, 'store']);
-    Route::put('chapters/{id}', [ChapitreController::class, 'update']);
+    Route::post('chapters', [ChapitreController::class, 'store'])->name('chapters.store');
+    Route::put('chapters/{id}', [ChapitreController::class, 'update'])->name('chapters.update');
     Route::delete('chapters/{id}', [ChapitreController::class, 'destroy']);
     // Route::post('courses',function(){
     //     dd("test");
     // })->name('courses.store');
+
+    // Routes pour les leçons
+    Route::post('lessons', [LessonController::class, 'store'])->name('lessons.store');
+    Route::put('lessons/{id}', [LessonController::class, 'update'])->name('lessons.update');
+    Route::delete('lessons/{id}', [LessonController::class, 'destroy'])->name('lessons.destroy');
 
     
 });

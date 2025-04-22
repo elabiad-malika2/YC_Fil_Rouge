@@ -67,7 +67,7 @@
                 </a>
                 
                 <nav class="hidden md:flex items-center space-x-8">
-                    <a href="./dashboard.php" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Tableau de bord</a>
+                    <a href="{{ route('enseignant.dashboard')}}" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Tableau de bord</a>
                     <a href="./courses.php" class="text-indigo-600 hover:text-indigo-800 transition-colors font-medium">Mes cours</a>
                     <a href="./students.php" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Étudiants</a>
                     <a href="./settings.php" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Paramètres</a>
@@ -202,7 +202,7 @@
                                 </div>
                             </div>
                             <div class="chapter-form hidden">
-                                <form action="/enseignant/chapters/{{ $chapter->id }}" method="POST"  enctype="multipart/form-data">
+                                <form action="{{ route('chapters.update', $chapter->id) }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
                                     <div class="mb-3">
@@ -230,7 +230,7 @@
                                                     <button type="button" class="toggle-lesson-btn text-indigo-600 hover:text-indigo-800" data-lesson-id="{{ $lesson->id }}">
                                                         <i class="ri-edit-line"></i> Éditer
                                                     </button>
-                                                    <form action="" method="POST" class="inline" onsubmit="return confirm('Voulez-vous vraiment supprimer cette leçon ?');">
+                                                    <form action="{{ route('lessons.destroy', $lesson->id) }}" method="POST" class="inline" onsubmit="return confirm('Voulez-vous vraiment supprimer cette leçon ?');">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="text-red-500 hover:text-red-700">
@@ -240,7 +240,7 @@
                                                 </div>
                                             </div>
                                             <div class="lesson-form hidden">
-                                                <form method="POST" action="" enctype="multipart/form-data">
+                                                <form action="{{ route('lessons.update', $lesson->id) }}" method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     @method('PUT')
                                                     <div class="mb-2">
@@ -277,26 +277,75 @@
                                         </div>
                                     @endforeach
                                 </div>
-                                <form method="POST" action="" enctype="multipart/form-data" class="mt-2">
-                                    @csrf
-                                    <input type="hidden" name="chapter_id" value="{{ $chapter->id }}">
-                                    <button type="submit" class="add-lesson-btn px-3 py-1 bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200 text-sm flex items-center">
+                                <div class="mt-2">
+                                    <button type="button" class="add-lesson-btn px-3 py-1 bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200 text-sm flex items-center">
                                         <i class="ri-add-line mr-1"></i> Ajouter une leçon
                                     </button>
-                                </form>
+                                    <div class="add-lesson-form hidden">
+                                        <form method="POST" action="{{ route('lessons.store') }}" enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" name="chapter_id" value="{{ $chapter->id }}">
+                                            <div class="mb-2">
+                                                <label class="block text-xs font-medium text-gray-700 mb-1">Titre de la leçon <span class="text-red-600">*</span></label>
+                                                <input type="text" name="title" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" required>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label class="block text-xs font-medium text-gray-700 mb-1">Type de contenu <span class="text-red-600">*</span></label>
+                                                <select name="type" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg content-type-select" required>
+                                                    <option value="text">Texte</option>
+                                                    <option value="video">Vidéo</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-2 content-type-text">
+                                                <label class="block text-xs font-medium text-gray-700 mb-1">Contenu texte <span class="text-red-600">*</span></label>
+                                                <textarea name="text_content" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" rows="3"></textarea>
+                                            </div>
+                                            <div class="mb-2 content-type-video hidden">
+                                                <label class="block text-xs font-medium text-gray-700 mb-1">Vidéo <span class="text-red-600">*</span></label>
+                                                <input type="file" name="video" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" accept="video/*">
+                                            </div>
+                                            <div class="flex items-center text-xs text-gray-500 mb-2">
+                                                <label class="flex items-center">
+                                                    <input type="checkbox" name="is_free" class="mr-1 rounded text-indigo-600">
+                                                    Leçon gratuite (prévisualisation)
+                                                </label>
+                                            </div>
+                                            <div class="flex justify-end space-x-2">
+                                                <button type="button" class="cancel-lesson-btn px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-sm">Annuler</button>
+                                                <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm">Créer</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     @empty
                         <p class="text-gray-500">Aucun chapitre trouvé.</p>
                     @endforelse
                 </div>
-                <form method="POST" action="" enctype="multipart/form-data" class="mt-4">
-                    @csrf
-                    <input type="hidden" name="course_id" value="{{ $course->id }}">
-                    <button type="submit" id="add-chapter-btn" class="px-4 py-2 bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200 flex items-center space-x-2">
+                <div class="mt-4">
+                    <button type="button" id="add-chapter-btn" class="px-4 py-2 bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200 flex items-center space-x-2">
                         <i class="ri-add-line"></i> Ajouter un chapitre
                     </button>
-                </form>
+                    <div id="add-chapter-form" class="hidden mt-2">
+                        <form method="POST" action="{{ route('chapters.store') }}" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="course_id" value="{{ $course->id }}">
+                            <div class="mb-3">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Titre du chapitre <span class="text-red-600">*</span></label>
+                                <input type="text" name="title" class="w-full px-3 py-2 border border-gray-300 rounded-lg" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Description du chapitre</label>
+                                <textarea name="description" class="w-full px-3 py-2 border border-gray-300 rounded-lg" rows="2"></textarea>
+                            </div>
+                            <div class="flex justify-end space-x-2">
+                                <button type="button" id="cancel-add-chapter" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">Annuler</button>
+                                <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">Créer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -304,7 +353,7 @@
     <!-- Footer -->
     <footer class="bg-gray-100 py-8 mt-12">
         <div class="container mx-auto px-6">
-            <div class="border_tolkit border-gray-200 pt-6">
+            <div class="border-t border-gray-200 pt-6">
                 <p class="text-center text-gray-600 text-sm">
                     © 2025 E-Learning Platform. Tous droits réservés.
                 </p>
@@ -343,9 +392,25 @@
                 }
                 if (e.target.closest('.cancel-lesson-btn')) {
                     const btn = e.target.closest('.cancel-lesson-btn');
-                    const lessonCard = btn.closest('.lesson-card');
-                    const form = lessonCard.querySelector('.lesson-form');
+                    const form = btn.closest('.add-lesson-form') || btn.closest('.lesson-form');
                     form.classList.add('hidden');
+                }
+            });
+
+            // Afficher/Masquer le formulaire d'ajout de chapitre
+            document.getElementById('add-chapter-btn').addEventListener('click', function () {
+                document.getElementById('add-chapter-form').classList.toggle('hidden');
+            });
+            document.getElementById('cancel-add-chapter').addEventListener('click', function () {
+                document.getElementById('add-chapter-form').classList.add('hidden');
+            });
+
+            // Afficher/Masquer les formulaires d'ajout de leçons
+            chaptersContainer.addEventListener('click', function (e) {
+                if (e.target.closest('.add-lesson-btn')) {
+                    const btn = e.target.closest('.add-lesson-btn');
+                    const form = btn.nextElementSibling;
+                    form.classList.toggle('hidden');
                 }
             });
 
@@ -353,7 +418,7 @@
             chaptersContainer.addEventListener('change', function (e) {
                 if (e.target.classList.contains('content-type-select')) {
                     const select = e.target;
-                    const lessonCard = select.closest('.lesson-card');
+                    const lessonCard = select.closest('.lesson-card') || select.closest('.add-lesson-form');
                     const textContent = lessonCard.querySelector('.content-type-text');
                     const videoContent = lessonCard.querySelector('.content-type-video');
                     
