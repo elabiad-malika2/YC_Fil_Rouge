@@ -277,10 +277,20 @@
                                     <button type="button" class="add-lesson-btn px-3 py-1 bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200 text-sm flex items-center">
                                         <i class="ri-add-line mr-1"></i> Ajouter une leçon
                                     </button>
+                                    @if ($errors->any())
+                                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                                            <strong>Oups ! Il y a des erreurs :</strong>
+                                            <ul class="mt-2 list-disc list-inside">
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
                                     <div class="add-lesson-form hidden">
                                         <form method="POST" action="{{ route('lessons.store') }}" enctype="multipart/form-data">
                                             @csrf
-                                            <input type="hidden" name="chapter_id" value="{{ $chapter->id }}">
+                                            <input type="hidden" name="chapitres_id" value="{{ $chapter->id }}">
                                             <div class="mb-2">
                                                 <label class="block text-xs font-medium text-gray-700 mb-1">Titre de la leçon <span class="text-red-600">*</span></label>
                                                 <input type="text" name="title" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" required>
