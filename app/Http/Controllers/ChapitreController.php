@@ -7,13 +7,17 @@ use Illuminate\Http\Request;
 
 class ChapitreController extends Controller
 {
-    
-
-    public function destroy($id)
+    public function update(Request $request, $id)
     {
         $chapter = Chapitre::findOrFail($id);
-        $chapter->delete();
 
-        return redirect()->back()->with('success', 'Chapitre supprimé avec succès.');
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        $chapter->update($validated);
+
+        return redirect()->back()->with('success', 'Chapitre mis à jour avec succès.');
     }
 }

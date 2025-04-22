@@ -202,7 +202,7 @@
                                 </div>
                             </div>
                             <div class="chapter-form hidden">
-                                <form method="POST" action="" enctype="multipart/form-data">
+                                <form action="/enseignant/chapters/{{ $chapter->id }}" method="POST"  enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
                                     <div class="mb-3">
