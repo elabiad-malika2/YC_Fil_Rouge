@@ -27,4 +27,9 @@ class Course extends Model
     {
         return $this->belongsToMany(Tag::class, 'course_tags');
     }
+    
+
+    
+
+    
 }

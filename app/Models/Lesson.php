@@ -16,6 +16,6 @@ class Lesson extends Model
 
     public function chapter()
     {
-        return $this->belongsTo(Chapitre::class);
+        return $this->belongsTo(Chapitre::class, 'chapitres_id');
     }
 }

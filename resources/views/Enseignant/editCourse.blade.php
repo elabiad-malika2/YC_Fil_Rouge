@@ -184,7 +184,7 @@
             <div class="mb-8">
                 <h3 class="text-lg font-medium text-gray-800 mb-4">Chapitres et leçons</h3>
                 <div id="chapters-container" class="space-y-4">
-                    @forelse ($course->chapitres as $chapterIndex => $chapter)
+                    @forelse ($course->chapters as $chapterIndex => $chapter)
                         <div class="chapter-card bg-gray-50 rounded-lg border border-gray-200 p-4">
                             <div class="flex justify-between items-center mb-3">
                                 <h4 class="font-medium text-gray-800">Chapitre {{ $chapterIndex + 1 }} : {{ $chapter->title }}</h4>
@@ -300,7 +300,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const chaptersContainer = document.getElementById('chapters-container');
-            let chapterCount = {{ $course->chapitres->count() }};
+            let chapterCount = {{ $course->chapters->count() }};
             let lessonCounts = {};
 
             // Initialiser le compteur de leçons pour chaque chapitre
