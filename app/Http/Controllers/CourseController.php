@@ -89,7 +89,7 @@ class CourseController extends Controller
 
         $course->update($validated);
 
-        return redirect()->route('enseignant.courses.index')->with('success', 'Cours mis à jour avec succès.');
+        return redirect()->route('enseignant.dashboard')->with('success', 'Cours mis à jour avec succès.');
     }
 
     

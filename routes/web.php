@@ -45,10 +45,13 @@ Route::prefix('admin')->group(function () {
     Route::delete('categories/{id}', [CategorieController::class, 'destroy'])->name('categories.destroy');
     Route::resource('tags', TagController::class);
 });
+
 Route::prefix('enseignant')->group(function () {
     Route::post('courses', [CourseController::class, 'store'])->name('courses.store');
+    Route::put('courses/{id}', [CourseController::class, 'update'])->name('courses.update');
+    
     // Route::post('courses',function(){
-    //     dd("hhhhhhhhhhh");
+    //     dd("test");
     // })->name('courses.store');
 
     
