@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chapitre;
+use App\Models\Lesson;
 use Illuminate\Http\Request;
 
 class ChapitreController extends Controller
@@ -19,5 +20,15 @@ class ChapitreController extends Controller
         $chapter->update($validated);
 
         return redirect()->back()->with('success', 'Chapitre mis à jour avec succès.');
+    }
+    public function destroy($id)
+    {
+        $chapter = Chapitre::findOrFail($id);
+
+        Lesson::where('chapitres_id', $chapter->id)->delete();
+
+        $chapter->delete();
+
+        return redirect()->back()->with('success', 'Chapitre et ses leçons supprimés avec succès.');
     }
 }

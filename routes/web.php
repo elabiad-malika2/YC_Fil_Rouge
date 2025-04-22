@@ -53,7 +53,7 @@ Route::prefix('enseignant')->group(function () {
     Route::put('courses/{id}', [CourseController::class, 'update'])->name('courses.update');
     Route::post('chapters', [ChapitreController::class, 'store'])->name('chapters.store');
     Route::put('chapters/{id}', [ChapitreController::class, 'update'])->name('chapters.update');
-    Route::delete('chapters/{id}', [ChapitreController::class, 'destroy']);
+    Route::delete('chapters/{id}', [ChapitreController::class, 'destroy'])->name('chapters.destroy');
     // Route::post('courses',function(){
     //     dd("test");
     // })->name('courses.store');

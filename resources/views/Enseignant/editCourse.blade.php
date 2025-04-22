@@ -192,7 +192,7 @@
                                     <button type="button" class="toggle-chapter-btn text-indigo-600 hover:text-indigo-800" data-chapter-id="{{ $chapter->id }}">
                                         <i class="ri-edit-line"></i> Éditer
                                     </button>
-                                    <form action="" method="POST" class="inline" onsubmit="return confirm('Voulez-vous vraiment supprimer ce chapitre ?');">
+                                    <form action="{{ route('chapters.destroy', $chapter->id) }}" method="POST" class="inline" onsubmit="return confirm('Voulez-vous vraiment supprimer ce chapitre ?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-red-500 hover:text-red-700">
