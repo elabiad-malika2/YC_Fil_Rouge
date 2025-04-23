@@ -100,7 +100,7 @@
     <div class="bg-gray-100 py-3 border-b">
         <div class="container mx-auto px-6">
             <div class="flex items-center space-x-2 text-sm text-gray-600">
-                <a href="./dashboard.php" class="hover:text-indigo-600">Tableau de bord</a>
+                <a href="{{ route('enseignant.dashboard')}}" class="hover:text-indigo-600">Tableau de bord</a>
                 <i class="ri-arrow-right-s-line"></i>
                 <a href="./courses.php" class="hover:text-indigo-600">Mes cours</a>
                 <i class="ri-arrow-right-s-line"></i>
@@ -183,6 +183,17 @@
             <!-- Chapitres -->
             <div class="mb-8">
                 <h3 class="text-lg font-medium text-gray-800 mb-4">Chapitres et leçons</h3>
+                <!-- Affichage des erreurs de validation -->
+                @if ($errors->any())
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                        <strong>Oups ! Il y a des erreurs :</strong>
+                        <ul class="mt-2 list-disc list-inside">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div id="chapters-container" class="space-y-4">
                     @forelse ($course->chapters as $chapterIndex => $chapter)
                         <div class="chapter-card bg-gray-50 rounded-lg border border-gray-200 p-4">
@@ -256,13 +267,11 @@
                                                     </div>
                                                     <div class="mb-2 content-type-text {{ $lesson->type == 'text' ? '' : 'hidden' }}">
                                                         <label class="block text-xs font-medium text-gray-700 mb-1">Contenu texte <span class="text-red-600">*</span></label>
-                                                        <textarea name="text_content" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" rows="3">{{ $lesson->text_content }}</textarea>
+                                                        <textarea name="text_content" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" rows="3" required>{{ $lesson->text_content }}</textarea>
                                                     </div>
                                                     <div class="mb-2 content-type-video {{ $lesson->type == 'video' ? '' : 'hidden' }}">
-                                                        <label class="block text-xs font-medium text-gray-700 mb-1">Vidéo</label>
-                                                        <input type="file" name="video" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" accept="video/*">
-                                                    </div>
-                                                    
+                                                        <label class="block text-xs font-medium text-gray-700 mb-1">Vidéo <span class="text-red-600">*</span></label>
+                                                        <input type="file" name="video" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" accept="video/mp4,video/avi,video/mov">
                                                     </div>
                                                     <div class="flex justify-end space-x-2">
                                                         <button type="button" class="cancel-lesson-btn px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-sm">Annuler</button>
@@ -274,19 +283,9 @@
                                     @endforeach
                                 </div>
                                 <div class="mt-2">
-                                    <button type="button" class="add-lesson-btn px-3 py-1 bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200 text-sm flex items-center">
+                                    <button type="button" class="add-lesson-btn px-3 py-1 bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200 text-sm flex items-center" data-chapter-id="{{ $chapter->id }}">
                                         <i class="ri-add-line mr-1"></i> Ajouter une leçon
                                     </button>
-                                    @if ($errors->any())
-                                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                                            <strong>Oups ! Il y a des erreurs :</strong>
-                                            <ul class="mt-2 list-disc list-inside">
-                                                @foreach ($errors->all() as $error)
-                                                    <li>{{ $error }}</li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                    @endif
                                     <div class="add-lesson-form hidden">
                                         <form method="POST" action="{{ route('lessons.store') }}" enctype="multipart/form-data">
                                             @csrf
@@ -294,6 +293,9 @@
                                             <div class="mb-2">
                                                 <label class="block text-xs font-medium text-gray-700 mb-1">Titre de la leçon <span class="text-red-600">*</span></label>
                                                 <input type="text" name="title" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" required>
+                                                @error('title')
+                                                    <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
+                                                @enderror
                                             </div>
                                             <div class="mb-2">
                                                 <label class="block text-xs font-medium text-gray-700 mb-1">Type de contenu <span class="text-red-600">*</span></label>
@@ -301,16 +303,35 @@
                                                     <option value="text">Texte</option>
                                                     <option value="video">Vidéo</option>
                                                 </select>
+                                                @error('type')
+                                                    <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
+                                                @enderror
                                             </div>
                                             <div class="mb-2 content-type-text">
                                                 <label class="block text-xs font-medium text-gray-700 mb-1">Contenu texte <span class="text-red-600">*</span></label>
-                                                <textarea name="text_content" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" rows="3"></textarea>
+                                                <textarea name="text_content" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" rows="3" required></textarea>
+                                                @error('text_content')
+                                                    <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
+                                                @enderror
                                             </div>
                                             <div class="mb-2 content-type-video hidden">
                                                 <label class="block text-xs font-medium text-gray-700 mb-1">Vidéo <span class="text-red-600">*</span></label>
-                                                <input type="file" name="video" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" accept="video/*">
+                                                <input type="file" name="video" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" accept="video/mp4,video/avi,video/mov">
+                                                @error('video')
+                                                    <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
+                                                @enderror
                                             </div>
-                                            
+                                            <div class="mb-2">
+                                                @error('chapitres_id')
+                                                    <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                            <div class="flex items-center text-xs text-gray-500 mb-2">
+                                                <label class="flex items-center">
+                                                    <input type="checkbox" name="is_free" class="mr-1 rounded text-indigo-600">
+                                                    Leçon gratuite (prévisualisation)
+                                                </label>
+                                            </div>
                                             <div class="flex justify-end space-x-2">
                                                 <button type="button" class="cancel-lesson-btn px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-sm">Annuler</button>
                                                 <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm">Créer</button>
@@ -369,14 +390,17 @@
 
             // Afficher/Masquer les formulaires des chapitres
             chaptersContainer.addEventListener('click', function (e) {
-                if (e.target.closest('.toggle-chapter-btn')) {
-                    const btn = e.target.closest('.toggle-chapter-btn');
+                const btn = e.target.closest('.toggle-chapter-btn');
+                if (btn) {
                     const chapterCard = btn.closest('.chapter-card');
                     const form = chapterCard.querySelector('.chapter-form');
                     form.classList.toggle('hidden');
                 }
-                if (e.target.closest('.cancel-chapter-btn')) {
-                    const btn = e.target.closest('.cancel-chapter-btn');
+            });
+
+            chaptersContainer.addEventListener('click', function (e) {
+                const btn = e.target.closest('.cancel-chapter-btn');
+                if (btn) {
                     const chapterCard = btn.closest('.chapter-card');
                     const form = chapterCard.querySelector('.chapter-form');
                     form.classList.add('hidden');
@@ -385,54 +409,75 @@
 
             // Afficher/Masquer les formulaires des leçons
             chaptersContainer.addEventListener('click', function (e) {
-                if (e.target.closest('.toggle-lesson-btn')) {
-                    const btn = e.target.closest('.toggle-lesson-btn');
+                const btn = e.target.closest('.toggle-lesson-btn');
+                if (btn) {
                     const lessonCard = btn.closest('.lesson-card');
                     const form = lessonCard.querySelector('.lesson-form');
                     form.classList.toggle('hidden');
                 }
-                if (e.target.closest('.cancel-lesson-btn')) {
-                    const btn = e.target.closest('.cancel-lesson-btn');
-                    const form = btn.closest('.add-lesson-form') || btn.closest('.lesson-form');
-                    form.classList.add('hidden');
-                }
             });
 
-            // Afficher/Masquer le formulaire d'ajout de chapitre
-            document.getElementById('add-chapter-btn').addEventListener('click', function () {
-                document.getElementById('add-chapter-form').classList.toggle('hidden');
-            });
-            document.getElementById('cancel-add-chapter').addEventListener('click', function () {
-                document.getElementById('add-chapter-form').classList.add('hidden');
+            chaptersContainer.addEventListener('click', function (e) {
+                const btn = e.target.closest('.cancel-lesson-btn');
+                if (btn) {
+                    const form = btn.closest('.add-lesson-form') || btn.closest('.lesson-form');
+                    if (form) {
+                        form.classList.add('hidden');
+                    }
+                }
             });
 
             // Afficher/Masquer les formulaires d'ajout de leçons
             chaptersContainer.addEventListener('click', function (e) {
-                if (e.target.closest('.add-lesson-btn')) {
-                    const btn = e.target.closest('.add-lesson-btn');
-                    const form = btn.nextElementSibling;
-                    form.classList.toggle('hidden');
+                const btn = e.target.closest('.add-lesson-btn');
+                if (btn) {
+                    const chapterCard = btn.closest('.chapter-card');
+                    const form = chapterCard.querySelector('.add-lesson-form');
+                    if (form) {
+                        form.classList.toggle('hidden');
+                    }
                 }
             });
+
+            // Afficher/Masquer le formulaire d'ajout de chapitre
+            const addChapterBtn = document.getElementById('add-chapter-btn');
+            const addChapterForm = document.getElementById('add-chapter-form');
+            const cancelAddChapterBtn = document.getElementById('cancel-add-chapter');
+
+            if (addChapterBtn && addChapterForm) {
+                addChapterBtn.addEventListener('click', function () {
+                    addChapterForm.classList.toggle('hidden');
+                });
+            }
+
+            if (cancelAddChapterBtn && addChapterForm) {
+                cancelAddChapterBtn.addEventListener('click', function () {
+                    addChapterForm.classList.add('hidden');
+                });
+            }
 
             // Basculer entre texte et vidéo
             chaptersContainer.addEventListener('change', function (e) {
                 if (e.target.classList.contains('content-type-select')) {
                     const select = e.target;
                     const lessonCard = select.closest('.lesson-card') || select.closest('.add-lesson-form');
-                    const textContent = lessonCard.querySelector('.content-type-text');
-                    const videoContent = lessonCard.querySelector('.content-type-video');
-                    
-                    if (select.value === 'text') {
-                        textContent.classList.remove('hidden');
-                        videoContent.classList.add('hidden');
-                        textContent.querySelector('textarea').required = true;
-                        videoContent.querySelector('input[type="file"]').required = false;
-                    } else {
-                        textContent.classList.add('hidden');
-                        videoContent.classList.remove('hidden');
-                        textContent.querySelector('textarea').required = false;
-                        videoContent.querySelector('input[type="file"]').required = true;
+                    if (lessonCard) {
+                        const textContent = lessonCard.querySelector('.content-type-text');
+                        const videoContent = lessonCard.querySelector('.content-type-video');
+                        
+                        if (textContent && videoContent) {
+                            if (select.value === 'text') {
+                                textContent.classList.remove('hidden');
+                                videoContent.classList.add('hidden');
+                                textContent.querySelector('textarea').required = true;
+                                videoContent.querySelector('input[type="file"]').required = false;
+                            } else {
+                                textContent.classList.add('hidden');
+                                videoContent.classList.remove('hidden');
+                                textContent.querySelector('textarea').required = false;
+                                videoContent.querySelector('input[type="file"]').required = true;
+                            }
+                        }
                     }
                 }
             });

@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
+    public function show(){
+        
+    }
     public function store(CourseRequest $request)
     {
         // dd($request);
