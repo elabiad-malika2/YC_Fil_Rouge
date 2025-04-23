@@ -14,11 +14,39 @@ use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
-    public function show()
+    public function apiShow(Request $request)
     {
-        $courses = Course::with(['category', 'tags'])->get();
+        $query = Course::with(['category', 'tags', 'user'])
+            ->select('courses.*'); 
 
-        return view('welcome', compact('courses'));
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhereHas('user', function ($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        $courses = $query->paginate(4);
+
+        $courses->getCollection()->transform(function ($course) {
+            $course->image_url = $course->image ? Storage::url($course->image) : null;
+            $course->teacher_name = $course->user->name;
+            $course->teacher_photo = $course->user->photo ? Storage::url($course->user->photo) : 'https://cdn-icons-png.flaticon.com/512/219/219969.png'; 
+            return $course;
+        });
+
+        return response()->json([
+            'courses' => $courses->items(),
+            'pagination' => [
+                'current_page' => $courses->currentPage(),
+                'last_page' => $courses->lastPage(),
+                'per_page' => $courses->perPage(),
+                'total' => $courses->total(),
+            ],
+        ]);
     }
     public function store(CourseRequest $request)
     {
