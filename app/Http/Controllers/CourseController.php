@@ -14,8 +14,11 @@ use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
-    public function show(){
-        
+    public function show()
+    {
+        $courses = Course::with(['category', 'tags'])->get();
+
+        return view('welcome', compact('courses'));
     }
     public function store(CourseRequest $request)
     {
