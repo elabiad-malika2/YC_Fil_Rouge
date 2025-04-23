@@ -34,6 +34,8 @@ Route::get('/etudiant/dashboard', function () {
     return view('Etudiant.dashboard');
 })->name('etudiant.dashboard');
 
+Route::get('/', [CourseController::class, 'show'])->name('courses.show');
+
 // Route par défaut
 Route::get('/dashboard', function () {
     return view('dashboard');
