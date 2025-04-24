@@ -36,6 +36,7 @@ Route::get('/etudiant/dashboard', function () {
 })->name('etudiant.dashboard');
 
 Route::get('/', [CourseController::class, 'show'])->name('courses.show');
+Route::get('/courses/{id}', [CourseController::class, 'showDetails'])->name('Etudaint.details');
 
 // Route par défaut
 Route::get('/dashboard', function () {

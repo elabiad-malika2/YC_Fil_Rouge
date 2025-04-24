@@ -51,6 +51,13 @@ class CourseController extends Controller
             ],
         ]);
     }
+    public function showDetails($id)
+{
+    $course = Course::with(['category', 'user', 'chapters'])->findOrFail($id);
+    $isEnrolled = Auth::check() && Auth::user()->enrollments()->where('course_id', $id)->where('payment_status', 'completed')->exists();
+    
+    return view('Etudiant.details', compact('course', 'isEnrolled'));
+}
     public function store(CourseRequest $request)
     {
         // dd($request);
