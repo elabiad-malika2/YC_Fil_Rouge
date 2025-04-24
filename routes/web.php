@@ -12,6 +12,7 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\Enseignant\DashboardController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Middleware\Role;
 
 // Routes d'authentification
 Route::get('/register', [RegisterController::class, 'create'])->name('register.form');
@@ -37,7 +38,7 @@ Route::get('/etudiant/dashboard', function () {
 })->name('etudiant.dashboard');
 
 Route::get('/', [CourseController::class, 'show'])->name('courses.show');
-Route::get('/courses/{id}', [CourseController::class, 'showDetails'])->name('Etudaint.details');
+Route::get('/courses/{id}', [CourseController::class, 'showDetails'])->name('courses.details');
 
 // Route par défaut
 Route::get('/dashboard', function () {
@@ -46,10 +47,9 @@ Route::get('/dashboard', function () {
 
 // route payment 
 
-Route::middleware(['auth'])->group(function () {
-    Route::post('/courses/{id}/payment', [PaymentController::class, 'create'])->name('payment.create');
-    Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
-    Route::get('/payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
+Route::middleware(['auth', Role::class . ':etudiant', 'throttle:6,1'])->group(function () {
+    Route::get('/courses/{id}/payment', [PaymentController::class, 'show'])->name('payment.show');
+    Route::post('/courses/{id}/payment', [PaymentController::class, 'process'])->name('payment.process');
 });
 
 // Routes pour les catégories et tags

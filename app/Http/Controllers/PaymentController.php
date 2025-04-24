@@ -6,60 +6,96 @@ use App\Models\Course;
 use App\Models\Enrollment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Stripe\Checkout\Session;
+use Illuminate\Support\Facades\DB;
+use Stripe\PaymentIntent;
 use Stripe\Stripe;
 
 class PaymentController extends Controller
 {
-    public function create(Request $request, $courseId)
+    public function show($courseId)
+    {
+        $course = Course::with(['category', 'chapters'])->findOrFail($courseId);
+
+        if (Auth::user()->enrollments()->where('course_id', $courseId)->where('payment_status', 'completed')->exists()) {
+            return redirect()->route('courses.details', $courseId)->with('info', 'You are already enrolled in this course.');
+        }
+
+        try {
+            Stripe::setApiKey(env('STRIPE_SECRET'));
+            
+            $intent = PaymentIntent::create([
+                'amount' => (int)($course->price * 100),
+                'currency' => 'eur',
+                'metadata' => [
+                    'course_id' => $courseId,
+                    'user_id' => Auth::id(),
+                    'course_title' => $course->title
+                ],
+                'description' => "Enrollment in course: " . $course->title,
+                'automatic_payment_methods' => [
+                    'enabled' => true,
+                    'allow_redirects' => 'always'
+                ]
+            ]);
+            
+            return view('Etudiant.payment', compact('course', 'intent'));
+        } catch (\Exception $e) {
+            return redirect()->route('courses.details', $courseId)->with('error', 'Payment setup failed: ' . $e->getMessage());
+        }
+    }
+
+    public function process(Request $request, $courseId)
     {
         $course = Course::findOrFail($courseId);
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
-            $session = Session::create([
-                'payment_method_types' => ['card'],
-                'line_items' => [[
-                    'price_data' => [
-                        'currency' => 'eur',
-                        'product_data' => [
-                            'name' => $course->title,
-                        ],
-                        'unit_amount' => $course->price * 100, 
-                    ],
-                    'quantity' => 1,
-                ]],
-                'mode' => 'payment',
-                'success_url' => route('payment.success') . '?session_id={CHECKOUT_SESSION_ID}',
-                'cancel_url' => route('payment.cancel'),
+        try {
+            $paymentIntent = PaymentIntent::retrieve($request->input('payment_intent_id'));
+            
+            if ($paymentIntent->metadata->user_id != Auth::id() || 
+                $paymentIntent->metadata->course_id != $courseId) {
+                throw new \Exception('Invalid payment intent');
+            }
+
+            $paymentIntent->confirm([
+                'payment_method' => $request->input('payment_method'),
+                'return_url' => route('courses.details', $courseId)
             ]);
 
-            Enrollment::create([
-                'user_id' => Auth::id(),
-                'course_id' => $courseId,
-                'amount' => $course->price,
-                'payment_status' => 'pending',
-                'payment_id' => $session->id,
-            ]);
+            if ($paymentIntent->status === 'succeeded') {
+                DB::beginTransaction();
+                try {
+                    $enrollment = Enrollment::create([
+                        'user_id' => Auth::id(),
+                        'course_id' => $courseId,
+                        'amount' => $course->price,
+                        'payment_status' => 'completed',
+                        'payment_id' => $paymentIntent->id,
+                    ]);
+                    
+                    DB::commit();
+                    return response()->json([
+                        'success' => true,
+                        'redirect_url' => route('courses.details', $courseId)
+                    ]);
+                } catch (\Exception $e) {
+                    DB::rollBack();
+                    throw $e;
+                }
+            }
 
-            return redirect($session->url);
-        
-    }
-    public function success(Request $request)
-    {
-        $sessionId = $request->query('session_id');
-        Stripe::setApiKey(env('STRIPE_SECRET'));
+            return response()->json([
+                'error' => 'Payment failed. Please try again.'
+            ], 400);
 
-            $session = Session::retrieve($sessionId);
-            $enrollment = Enrollment::where('payment_id', $sessionId)->firstOrFail();
-            $enrollment->update([
-                'payment_status' => 'completed',
-            ]);
-
-            return redirect()->route('courses.details', $enrollment->course_id)->with('success', 'Payment successful! You are now enrolled in the course.');
-        
-    }
-    public function cancel()
-    {
-        return redirect()->route('courses.show')->with('error', 'Payment was cancelled.');
+        } catch (\Stripe\Exception\CardException $e) {
+            return response()->json([
+                'error' => 'Card declined: ' . $e->getMessage()
+            ], 400);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Payment failed: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }
