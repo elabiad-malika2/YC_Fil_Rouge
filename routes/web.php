@@ -11,6 +11,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\Enseignant\DashboardController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\PaymentController;
 
 // Routes d'authentification
 Route::get('/register', [RegisterController::class, 'create'])->name('register.form');
@@ -42,6 +43,14 @@ Route::get('/courses/{id}', [CourseController::class, 'showDetails'])->name('Etu
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+
+// route payment 
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/courses/{id}/payment', [PaymentController::class, 'create'])->name('payment.create');
+    Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
+    Route::get('/payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
+});
 
 // Routes pour les catégories et tags
 Route::prefix('admin')->group(function () {
