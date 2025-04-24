@@ -151,12 +151,9 @@
                             <h3 class="text-xl font-bold text-gray-800 mb-4">Enroll in This Course</h3>
                             <p class="text-gray-600 mb-6">Unlock all chapters and lessons for only €{{ number_format($course->price, 2) }}.</p>
                             @if (Auth::check() && Auth::user()->role->name === 'etudiant')
-                                <form action="" method="POST">
-                                    @csrf
-                                    <button type="submit" class="block w-full py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium">
-                                        Enroll Now (€{{ number_format($course->price, 2) }})
-                                    </button>
-                                </form>
+                                <a href="{{ route('payment.show', $course->id) }}" class="block w-full py-3 bg-indigo-600 text-white rounded-lg text-center hover:bg-indigo-700 transition-colors font-medium">
+                                    Enroll Now (€{{ number_format($course->price, 2) }})
+                                </a>
                             @else
                                 <p class="text-gray-500 mb-4">Please log in as a student to enroll.</p>
                                 <a href="{{ route('login') }}" class="block w-full py-3 bg-gray-200 text-gray-700 rounded-lg text-center hover:bg-gray-300 transition-colors font-medium">
