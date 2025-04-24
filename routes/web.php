@@ -27,8 +27,9 @@ Route::post('/logout', function () {
 })->name('logout');
 
 
-// Routes des dashboards
+// 'Routes des dashboards
 Route::get('/enseignant/dashboard', [DashboardController::class, 'index'])->name('enseignant.dashboard');
+Route::get('/api/courses', [CourseController::class, 'apiShow'])->name('api.courses.show');
 
 Route::get('/etudiant/dashboard', function () {
     return view('Etudiant.dashboard');

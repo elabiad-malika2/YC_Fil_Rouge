@@ -14,10 +14,13 @@ use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
+    public function show(){
+        return view('welcome');
+    }
     public function apiShow(Request $request)
     {
-        $query = Course::with(['category', 'tags', 'user'])
-            ->select('courses.*'); 
+        $query = Course::with(['category', 'tags', 'user', 'chapters', 'chapters.lessons'])
+        ->select('courses.*');
 
         if ($request->has('search') && !empty($request->search)) {
             $search = $request->search;
@@ -34,7 +37,7 @@ class CourseController extends Controller
         $courses->getCollection()->transform(function ($course) {
             $course->image_url = $course->image ? Storage::url($course->image) : null;
             $course->teacher_name = $course->user->name;
-            $course->teacher_photo = $course->user->photo ? Storage::url($course->user->photo) : 'https://cdn-icons-png.flaticon.com/512/219/219969.png'; 
+            $course->teacher_photo = $course->user->photo ? Storage::url($course->user->photo) : null; 
             return $course;
         });
 

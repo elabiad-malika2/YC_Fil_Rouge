@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,8 +7,7 @@
     <title>E-Learning Platform - Home</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
-    <script src="../assets/scripts/home.js" defer></script>
-    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/favicon.svg') }}">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
         
@@ -25,12 +25,6 @@
             border-radius: 16px;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
-        
-        
-
-        
-
-        
 
         .testimonial-card {
             transition: transform 0.3s ease-in-out;
@@ -57,12 +51,11 @@
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
 
-        .counter-box {
-            visibility: hidden;
-        }
-
-        .counter-box.visible {
-            visibility: visible;
+        .teacher-photo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
         }
     </style>
 </head>
@@ -91,7 +84,7 @@
     <header class="bg-white shadow-sm sticky top-0 z-50">
         <div class="container mx-auto px-6">
             <div class="flex items-center justify-between py-4">
-                <a href="./index.php" class="flex items-center space-x-2">
+                <a href="{{ route('courses.show') }}" class="flex items-center space-x-2">
                     <svg class="h-8 w-8 text-indigo-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor" />
                         <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -101,21 +94,30 @@
                 </a>
                 
                 <nav class="hidden md:flex items-center space-x-8">
-                    <a href="./index.php" class="text-indigo-600 hover:text-indigo-800 transition-colors font-medium">Home</a>
-                    <a href="./courses.php" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Courses</a>
-                    <a href="./pricing.php" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Pricing</a>
-                    <a href="./features.php" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Features</a>
-                    <a href="./blog.php" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Blog</a>
-                    <a href="./contact.php" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Help Center</a>
+                    <a href="{{ route('courses.show') }}" class="text-indigo-600 hover:text-indigo-800 transition-colors font-medium">Home</a>
+                    <a href="{{ route('courses.show') }}" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Courses</a>
+                    <a href="#" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Pricing</a>
+                    <a href="#" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Features</a>
+                    <a href="#" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Blog</a>
+                    <a href="#" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Help Center</a>
                 </nav>
                 
                 <div class="flex items-center space-x-4">
-                    <a href="./login.php" class="hidden md:block px-5 py-2 text-gray-700 hover:text-indigo-600 transition-colors font-medium">
-                        Login
-                    </a>
-                    <a href="./register.php" class="hidden md:block px-5 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors font-medium">
-                        Register
-                    </a>
+                    @if (Auth::check())
+                        <div class="relative">
+                            <button class="flex items-center space-x-2 focus:outline-none">
+                                <img src="{{ Auth::user()->photo ? Storage::url(Auth::user()->photo) : 'https://cdn-icons-png.flaticon.com/512/219/219969.png' }}" alt="User" class="w-9 h-9 rounded-full border-2 border-indigo-200">
+                                <span class="hidden md:block text-sm font-medium text-gray-700">{{ Auth::user()->name }}</span>
+                            </button>
+                        </div>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Déconnexion</button>
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}" class="hidden md:block px-5 py-2 text-gray-700 hover:text-indigo-600 transition-colors font-medium">Connexion</a>
+                        <a href="{{ route('register.form') }}" class="hidden md:block px-5 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors font-medium">Inscription</a>
+                    @endif
                     <button id="mobile-menu-btn" class="p-2 rounded-full text-gray-500 hover:bg-gray-100 md:hidden">
                         <i class="ri-menu-line text-2xl"></i>
                     </button>
@@ -140,20 +142,16 @@
                     </button>
                 </div>
                 <nav class="flex flex-col px-5 py-6">
-                    <a href="./index.php" class="py-3 px-4 rounded-lg text-indigo-600 bg-indigo-50 font-medium">Home</a>
-                    <a href="./courses.php" class="py-3 px-4 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition-colors">Courses</a>
-                    <a href="./pricing.php" class="py-3 px-4 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition-colors">Pricing</a>
-                    <a href="./features.php" class="py-3 px-4 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition-colors">Features</a>
-                    <a href="./blog.php" class="py-3 px-4 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition-colors">Blog</a>
-                    <a href="./contact.php" class="py-3 px-4 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition-colors">Help Center</a>
+                    <a href="{{ route('courses.show') }}" class="py-3 px-4 rounded-lg text-indigo-600 bg-indigo-50 font-medium">Home</a>
+                    <a href="{{ route('courses.show') }}" class="py-3 px-4 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition-colors">Courses</a>
+                    <a href="#" class="py-3 px-4 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition-colors">Pricing</a>
+                    <a href="#" class="py-3 px-4 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition-colors">Features</a>
+                    <a href="#" class="py-3 px-4 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition-colors">Blog</a>
+                    <a href="#" class="py-3 px-4 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition-colors">Help Center</a>
                     
                     <div class="mt-6 space-y-4 px-4">
-                        <a href="./login.php" class="block w-full py-3 text-center bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 transition-colors">
-                            Login
-                        </a>
-                        <a href="./register.php" class="block w-full py-3 text-center bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
-                            Register
-                        </a>
+                        <a href="{{ route('login') }}" class="block w-full py-3 text-center bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 transition-colors">Connexion</a>
+                        <a href="{{ route('register.form') }}" class="block w-full py-3 text-center bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">Inscription</a>
                     </div>
                 </nav>
             </div>
@@ -162,7 +160,6 @@
 
     <!-- Hero Section -->
     <section class="relative overflow-hidden bg-gray-50">
-        <!-- Background Patterns -->
         <div class="absolute -top-24 -right-24 w-96 h-96 bg-indigo-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
         <div class="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-indigo-50 to-transparent"></div>
         
@@ -176,19 +173,19 @@
                         Unlock your potential with our expert-led courses. Anytime, anywhere learning for everyone.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 mb-8">
-                        <a href="./courses.php" class="px-8 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium text-center">
+                        <a href="{{ route('courses.show') }}" class="px-8 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium text-center">
                             Explore Courses
                         </a>
-                        <a href="./register.php" class="px-8 py-3 bg-white text-indigo-600 border border-indigo-200 rounded-lg hover:bg-indigo-50 transition-colors font-medium text-center">
+                        <a href="{{ route('register.form') }}" class="px-8 py-3 bg-white text-indigo-600 border border-indigo-200 rounded-lg hover:bg-indigo-50 transition-colors font-medium text-center">
                             Join for Free
                         </a>
                     </div>
                     <div class="flex items-center gap-4">
                         <div class="flex -space-x-2">
-                            <img src="https://media.istockphoto.com/id/1059510610/fr/vectoriel/r%C3%A9seau-internet-communication-e-learning-it-comme-la-base-de-connaissances.jpg?s=612x612&w=0&k=20&c=ekWQ--S1W9xWxgqH-oH0LKFDuvcz5is-AyxgjIAqmzg=" alt="User" class="w-9 h-9 rounded-full border-2 border-white">
-                            <img src="https://media.istockphoto.com/id/1059510610/fr/vectoriel/r%C3%A9seau-internet-communication-e-learning-it-comme-la-base-de-connaissances.jpg?s=612x612&w=0&k=20&c=ekWQ--S1W9xWxgqH-oH0LKFDuvcz5is-AyxgjIAqmzg=" alt="User" class="w-9 h-9 rounded-full border-2 border-white">
-                            <img src="https://media.istockphoto.com/id/1059510610/fr/vectoriel/r%C3%A9seau-internet-communication-e-learning-it-comme-la-base-de-connaissances.jpg?s=612x612&w=0&k=20&c=ekWQ--S1W9xWxgqH-oH0LKFDuvcz5is-AyxgjIAqmzg=" alt="User" class="w-9 h-9 rounded-full border-2 border-white">
-                            <img src="https://media.istockphoto.com/id/1059510610/fr/vectoriel/r%C3%A9seau-internet-communication-e-learning-it-comme-la-base-de-connaissances.jpg?s=612x612&w=0&k=20&c=ekWQ--S1W9xWxgqH-oH0LKFDuvcz5is-AyxgjIAqmzg=" alt="User" class="w-9 h-9 rounded-full border-2 border-white">
+                            <img src="https://cdn-icons-png.flaticon.com/512/219/219969.png" alt="User" class="w-9 h-9 rounded-full border-2 border-white">
+                            <img src="https://cdn-icons-png.flaticon.com/512/219/219969.png" alt="User" class="w-9 h-9 rounded-full border-2 border-white">
+                            <img src="https://cdn-icons-png.flaticon.com/512/219/219969.png" alt="User" class="w-9 h-9 rounded-full border-2 border-white">
+                            <img src="https://cdn-icons-png.flaticon.com/512/219/219969.png" alt="User" class="w-9 h-9 rounded-full border-2 border-white">
                         </div>
                         <div class="text-sm text-gray-600">
                             <span class="font-semibold text-indigo-600">25,000+</span> students already learning
@@ -219,33 +216,7 @@
         </div>
     </section>
 
-    <!-- Stats Section -->
-    <section class=" bg-white">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-12">
-                <div class="counter-box text-center">
-                    <span class="counter text-4xl font-bold text-indigo-600" data-target="5000">0</span>
-                    <span class="text-4xl font-bold text-indigo-600">+</span>
-                    <p class="text-gray-600 mt-2">Online Courses</p>
-                </div>
-                <div class="counter-box text-center">
-                    <span class="counter text-4xl font-bold text-indigo-600" data-target="250">0</span>
-                    <span class="text-4xl font-bold text-indigo-600">+</span>
-                    <p class="text-gray-600 mt-2">Expert Instructors</p>
-                </div>
-                <div class="counter-box text-center">
-                    <span class="counter text-4xl font-bold text-indigo-600" data-target="25000">0</span>
-                    <span class="text-4xl font-bold text-indigo-600">+</span>
-                    <p class="text-gray-600 mt-2">Active Students</p>
-                </div>
-                <div class="counter-box text-center">
-                    <span class="counter text-4xl font-bold text-indigo-600" data-target="99">0</span>
-                    <span class="text-4xl font-bold text-indigo-600">%</span>
-                    <p class="text-gray-600 mt-2">Satisfaction Rate</p>
-                </div>
-            </div>
-        </div>
-    </section>
+   
 
     <!-- Featured Categories -->
     <section class="py-16 bg-gray-50">
@@ -258,42 +229,42 @@
             </div>
             
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-                <a href="./courses.php?category=development" class="category-card bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
+                <a href="{{ route('courses.show') }}?category=development" class="category-card bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
                     <div class="bg-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="ri-code-s-slash-line text-2xl text-indigo-600"></i>
                     </div>
                     <h3 class="font-medium text-gray-800">Development</h3>
                     <p class="text-sm text-gray-500 mt-1">850+ Courses</p>
                 </a>
-                <a href="./courses.php?category=business" class="category-card bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
+                <a href="{{ route('courses.show') }}?category=business" class="category-card bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
                     <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="ri-line-chart-line text-2xl text-blue-600"></i>
                     </div>
                     <h3 class="font-medium text-gray-800">Business</h3>
                     <p class="text-sm text-gray-500 mt-1">720+ Courses</p>
                 </a>
-                <a href="./courses.php?category=design" class="category-card bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
+                <a href="{{ route('courses.show') }}?category=design" class="category-card bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
                     <div class="bg-pink-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="ri-pen-nib-line text-2xl text-pink-600"></i>
                     </div>
                     <h3 class="font-medium text-gray-800">Design</h3>
                     <p class="text-sm text-gray-500 mt-1">540+ Courses</p>
                 </a>
-                <a href="./courses.php?category=marketing" class="category-card bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
+                <a href="{{ route('courses.show') }}?category=marketing" class="category-card bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
                     <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="ri-megaphone-line text-2xl text-green-600"></i>
                     </div>
                     <h3 class="font-medium text-gray-800">Marketing</h3>
                     <p class="text-sm text-gray-500 mt-1">430+ Courses</p>
                 </a>
-                <a href="./courses.php?category=music" class="category-card bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
+                <a href="{{ route('courses.show') }}?category=music" class="category-card bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
                     <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="ri-music-2-line text-2xl text-purple-600"></i>
                     </div>
                     <h3 class="font-medium text-gray-800">Music</h3>
                     <p class="text-sm text-gray-500 mt-1">320+ Courses</p>
                 </a>
-                <a href="./courses.php?category=photography" class="category-card bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
+                <a href="{{ route('courses.show') }}?category=photography" class="category-card bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
                     <div class="bg-yellow-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="ri-camera-line text-2xl text-yellow-600"></i>
                     </div>
@@ -303,7 +274,7 @@
             </div>
             
             <div class="text-center mt-10">
-                <a href="./courses.php" class="inline-flex items-center text-indigo-600 font-medium hover:text-indigo-800 transition-colors">
+                <a href="{{ route('courses.show') }}" class="inline-flex items-center text-indigo-600 font-medium hover:text-indigo-800 transition-colors">
                     View All Categories
                     <i class="ri-arrow-right-line ml-2"></i>
                 </a>
@@ -321,137 +292,30 @@
                         Expand your skills with our most in-demand courses
                     </p>
                 </div>
-                <div class="mt-6 md:mt-0">
-                    <a href="./courses.php" class="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium">
+                <div class="mt-6 md:mt-0 flex items-center space-x-4">
+                    <div class="relative w-full max-w-md">
+                        <input type="text" id="search" placeholder="Rechercher par titre ou enseignant..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                        <i class="ri-search-line absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                    <a href="{{ route('courses.show') }}" class="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium">
                         Browse All Courses
                     </a>
                 </div>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Course Card 1 -->
-                <div class="course-card bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
-                    <div class="relative">
-                        <img src="https://bilis.com/wp-content/uploads/2020/04/elearning.jpg" alt="JavaScript Course" class="w-full h-56 object-cover">
-                        <div class="absolute top-4 left-4">
-                            <span class="bg-indigo-600 text-white text-xs font-medium px-3 py-1 rounded-full">Bestseller</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="text-sm font-medium text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Development</span>
-                            <div class="flex items-center">
-                                <i class="ri-star-fill text-yellow-400"></i>
-                                <span class="text-sm font-medium text-gray-800 ml-1">4.9</span>
-                                <span class="text-sm text-gray-500 ml-1">(2.5k)</span>
-                            </div>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Modern JavaScript from Scratch</h3>
-                        <p class="text-gray-600 mb-4">Master JavaScript with projects, challenges and theory. ES6+, OOP, AJAX, Webpack</p>
-                        <div class="flex items-center text-sm text-gray-500 mb-4">
-                            <div class="flex items-center mr-4">
-                                <i class="ri-time-line mr-2"></i>
-                                <span>42 hours</span>
-                            </div>
-                            <div class="flex items-center">
-                                <i class="ri-file-list-3-line mr-2"></i>
-                                <span>28 lessons</span>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
-                            <div class="flex items-center">
-                                <img src="https://cdn-icons-png.flaticon.com/512/219/219969.png" alt="Instructor" class="w-9 h-9 rounded-full">
-                                <span class="text-sm font-medium text-gray-700 ml-2">Sarah Johnson</span>
-                            </div>
-                            <span class="text-xl font-bold text-gray-800">$89.99</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Course Card 2 -->
-                <div class="course-card bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
-                    <div class="relative">
-                        <img src="https://bilis.com/wp-content/uploads/2020/04/elearning.jpg" alt="React Course" class="w-full h-56 object-cover">
-                        <div class="absolute top-4 left-4">
-                            <span class="bg-green-600 text-white text-xs font-medium px-3 py-1 rounded-full">New</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="text-sm font-medium text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Development</span>
-                            <div class="flex items-center">
-                                <i class="ri-star-fill text-yellow-400"></i>
-                                <span class="text-sm font-medium text-gray-800 ml-1">4.8</span>
-                                <span class="text-sm text-gray-500 ml-1">(1.8k)</span>
-                            </div>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">React - The Complete Guide 2025</h3>
-                        <p class="text-gray-600 mb-4">Learn React from the ground up - build powerful, responsive UIs with React Hooks & Redux</p>
-                        <div class="flex items-center text-sm text-gray-500 mb-4">
-                            <div class="flex items-center mr-4">
-                                <i class="ri-time-line mr-2"></i>
-                                <span>48 hours</span>
-                            </div>
-                            <div class="flex items-center">
-                                <i class="ri-file-list-3-line mr-2"></i>
-                                <span>32 lessons</span>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
-                            <div class="flex items-center">
-                                <img src="https://cdn-icons-png.flaticon.com/512/219/219969.png" alt="Instructor" class="w-9 h-9 rounded-full">
-                                <span class="text-sm font-medium text-gray-700 ml-2">Michael Chen</span>
-                            </div>
-                            <span class="text-xl font-bold text-gray-800">$94.99</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Course Card 3 -->
-                <div class="course-card bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
-                    <div class="relative">
-                        <img src="https://bilis.com/wp-content/uploads/2020/04/elearning.jpg" alt="Digital Marketing Course" class="w-full h-56 object-cover">
-                        <div class="absolute top-4 left-4">
-                            <span class="bg-purple-600 text-white text-xs font-medium px-3 py-1 rounded-full">Popular</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="text-sm font-medium text-green-600 bg-green-50 px-3 py-1 rounded-full">Marketing</span>
-                            <div class="flex items-center">
-                                <i class="ri-star-fill text-yellow-400"></i>
-                                <span class="text-sm font-medium text-gray-800 ml-1">4.7</span>
-                                <span class="text-sm text-gray-500 ml-1">(3.2k)</span>
-                            </div>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Complete Digital Marketing Masterclass</h3>
-                        <p class="text-gray-600 mb-4">Master digital marketing strategy, social media, SEO, YouTube, email, Facebook marketing & more!</p>
-                        <div class="flex items-center text-sm text-gray-500 mb-4">
-                            <div class="flex items-center mr-4">
-                                <i class="ri-time-line mr-2"></i>
-                                <span>38 hours</span>
-                            </div>
-                            <div class="flex items-center">
-                                <i class="ri-file-list-3-line mr-2"></i>
-                                <span>24 lessons</span>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
-                            <div class="flex items-center">
-                                <img src="https://cdn-icons-png.flaticon.com/512/219/219969.png" alt="Instructor" class="w-9 h-9 rounded-full">
-                                <span class="text-sm font-medium text-gray-700 ml-2">Olivia Martinez</span>
-                            </div>
-                            <span class="text-xl font-bold text-gray-800">$79.99</span>
-                        </div>
-                    </div>
-                </div>
+            <div id="courses-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Les cours seront insérés ici par JavaScript -->
+            </div>
+
+            <!-- Pagination -->
+            <div id="pagination" class="flex justify-center space-x-2 mt-10">
+                <!-- Les boutons de pagination seront insérés ici par JavaScript -->
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
     <section class="py-16 bg-gray-50 relative overflow-hidden">
-        <!-- Background Patterns -->
         <div class="absolute top-1/3 -right-24 w-64 h-64 bg-indigo-400 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
         <div class="absolute bottom-1/3 -left-24 w-64 h-64 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
         
@@ -508,7 +372,6 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Testimonial 1 -->
                 <div class="testimonial-card p-6 bg-white rounded-xl shadow-sm border border-gray-100">
                     <div class="flex items-center mb-4">
                         <img src="https://cdn-icons-png.flaticon.com/512/219/219969.png" alt="Student" class="w-12 h-12 rounded-full">
@@ -529,7 +392,6 @@
                     </p>
                 </div>
                 
-                <!-- Testimonial 2 -->
                 <div class="testimonial-card p-6 bg-white rounded-xl shadow-sm border border-gray-100">
                     <div class="flex items-center mb-4">
                         <img src="https://cdn-icons-png.flaticon.com/512/219/219969.png" alt="Student" class="w-12 h-12 rounded-full">
@@ -550,7 +412,6 @@
                     </p>
                 </div>
                 
-                <!-- Testimonial 3 -->
                 <div class="testimonial-card p-6 bg-white rounded-xl shadow-sm border border-gray-100">
                     <div class="flex items-center mb-4">
                         <img src="https://cdn-icons-png.flaticon.com/512/219/219969.png" alt="Student" class="w-12 h-12 rounded-full">
@@ -583,10 +444,10 @@
                     Join over 25,000 students already learning with us. Get access to all our courses with a premium membership.
                 </p>
                 <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <a href="./signup.php" class="px-8 py-4 bg-white text-indigo-600 rounded-lg font-medium hover:bg-gray-100 transition-colors">
+                    <a href="{{ route('register.form') }}" class="px-8 py-4 bg-white text-indigo-600 rounded-lg font-medium hover:bg-gray-100 transition-colors">
                         Sign Up Now
                     </a>
-                    <a href="./courses.php" class="px-8 py-4 bg-transparent border border-white text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors">
+                    <a href="{{ route('courses.show') }}" class="px-8 py-4 bg-transparent border border-white text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors">
                         Browse Courses
                     </a>
                 </div>
@@ -627,29 +488,29 @@
                 <div>
                     <h3 class="text-lg font-semibold text-gray-800 mb-4">Quick Links</h3>
                     <ul class="space-y-2">
-                        <li><a href="./index.php" class="text-gray-600 hover:text-indigo-600">Home</a></li>
-                        <li><a href="./courses.php" class="text-gray-600 hover:text-indigo-600">Courses</a></li>
-                        <li><a href="./pricing.php" class="text-gray-600 hover:text-indigo-600">Pricing</a></li>
-                        <li><a href="./features.php" class="text-gray-600 hover:text-indigo-600">Features</a></li>
-                        <li><a href="./blog.php" class="text-gray-600 hover:text-indigo-600">Blog</a></li>
+                        <li><a href="{{ route('courses.show') }}" class="text-gray-600 hover:text-indigo-600">Home</a></li>
+                        <li><a href="{{ route('courses.show') }}" class="text-gray-600 hover:text-indigo-600">Courses</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-indigo-600">Pricing</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-indigo-600">Features</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-indigo-600">Blog</a></li>
                     </ul>
                 </div>
                 
                 <div>
                     <h3 class="text-lg font-semibold text-gray-800 mb-4">Support</h3>
                     <ul class="space-y-2">
-                        <li><a href="./help.php" class="text-gray-600 hover:text-indigo-600">Help Center</a></li>
-                        <li><a href="./faq.php" class="text-gray-600 hover:text-indigo-600">FAQs</a></li>
-                        <li><a href="./contact.php" class="text-gray-600 hover:text-indigo-600">Contact Us</a></li>
-                        <li><a href="./privacy.php" class="text-gray-600 hover:text-indigo-600">Privacy Policy</a></li>
-                        <li><a href="./terms.php" class="text-gray-600 hover:text-indigo-600">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-indigo-600">Help Center</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-indigo-600">FAQs</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-indigo-600">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-indigo-600">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-indigo-600">Terms of Service</a></li>
                     </ul>
                 </div>
                 
                 <div>
                     <h3 class="text-lg font-semibold text-gray-800 mb-4">Subscribe</h3>
                     <p class="text-gray-600 mb-4">Subscribe to our newsletter to get the latest updates.</p>
-                    <form action="../Back-end/Actions/Newsletter/subscribe.php" method="POST" class="flex flex-col space-y-3">
+                    <form action="#" method="POST" class="flex flex-col space-y-3">
                         <input type="email" name="email" placeholder="Your email" required
                             class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
                         <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
@@ -661,12 +522,173 @@
             
             <div class="border-t border-gray-200 mt-10 pt-6">
                 <p class="text-center text-gray-600 text-sm">
-                    &copy; 2025 E-Learning Platform. All rights reserved.
+                    © 2025 E-Learning Platform. All rights reserved.
                 </p>
             </div>
         </div>
     </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    const coursesContainer = document.getElementById('courses-container');
+    const paginationContainer = document.getElementById('pagination');
+    const searchInput = document.getElementById('search');
+    let currentPage = 1;
+    let searchQuery = '';
 
+    // Fonction pour récupérer les cours
+    async function fetchCourses(page = 1, search = '') {
+        const url = new URL('{{ route('api.courses.show') }}');
+        url.searchParams.append('page', page);
+        if (search) {
+            url.searchParams.append('search', search);
+        }
 
+        try {
+            coursesContainer.innerHTML = '<div class="col-span-full text-center"><i class="ri-loader-4-line text-2xl text-indigo-600 animate-spin"></i></div>';
+            const response = await fetch(url);
+            const data = await response.json();
+
+            // Afficher les cours
+            displayCourses(data.courses);
+
+            // Afficher la pagination
+            displayPagination(data.pagination);
+        } catch (error) {
+            console.error('Erreur lors de la récupération des cours:', error);
+            coursesContainer.innerHTML = '<p class="text-red-600 col-span-full text-center">Erreur lors du chargement des cours.</p>';
+        }
+    }
+
+    // Afficher les cours dans le DOM
+    function displayCourses(courses) {
+        coursesContainer.innerHTML = '';
+        if (courses.length === 0) {
+            coursesContainer.innerHTML = '<p class="text-gray-500 col-span-full text-center">Aucun cours trouvé.</p>';
+            return;
+        }
+        console.log('qqqqqqq',courses);
+        
+        courses.forEach(course => {
+            const courseCard = document.createElement('div');
+            courseCard.className = 'course-card bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100';
+            courseCard.innerHTML = `
+                <div class="relative">
+                    <img src="${course.image_url}" alt="${course.title}" class="w-full h-56 object-cover">
+                    <div class="absolute top-4 left-4">
+                        <span class="bg-indigo-600 text-white text-xs font-medium px-3 py-1 rounded-full">Popular</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-sm font-medium text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">${course.category.name}</span>
+                        <div class="flex items-center">
+                            <i class="ri-star-fill text-yellow-400"></i>
+                            <span class="text-sm font-medium text-gray-800 ml-1">4.8</span>
+                            <span class="text-sm text-gray-500 ml-1">(${course.id}k)</span>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">${course.title}</h3>
+                    <p class="text-gray-600 mb-4">${course.description.substring(0, 100)}${course.description.length > 100 ? '...' : ''}</p>
+                    <div class="flex items-center text-sm text-gray-500 mb-4">
+                        <div class="flex items-center mr-4">
+                            <i class="ri-time-line mr-2"></i>
+                            <span>${course.chapters.reduce((total, chapter) => total + chapter.lessons.length, 0)} hours</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="ri-file-list-3-line mr-2"></i>
+                            <span>${course.chapters.length} lessons</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                        <div class="flex items-center">
+                            <img src="${course.teacher_photo}" alt="${course.teacher_name}" class="teacher-photo mr-2">
+                            <span class="text-sm font-medium text-gray-700">${course.teacher_name}</span>
+                        </div>
+                        <span class="text-xl font-bold text-gray-800">€${course.price}</span>
+                    </div>
+                    ${@json(Auth::check() && Auth::user()->role->name === 'etudiant') ? `<a href="/courses/${course.id}" class="block mt-4 px-6 py-2 bg-indigo-600 text-white rounded-lg text-center hover:bg-indigo-700 transition-colors font-medium">Voir les détails</a>` : `<p class="text-sm text-gray-500 mt-4 text-center">Connectez-vous en tant qu'étudiant pour voir les détails.</p>`}
+                </div>
+            `;
+            coursesContainer.appendChild(courseCard);
+        });
+    }
+
+    // Afficher la pagination dans le DOM
+    function displayPagination(pagination) {
+        paginationContainer.innerHTML = '';
+
+        // Bouton "Précédent"
+        const prevButton = document.createElement('button');
+        prevButton.className = `px-4 py-2 rounded-lg ${pagination.current_page === 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-indigo-100 text-indigo-600 hover:bg-indigo-200'}`;
+        prevButton.innerHTML = '<i class="ri-arrow-left-line"></i>';
+        prevButton.disabled = pagination.current_page === 1;
+        prevButton.addEventListener('click', () => {
+            if (pagination.current_page > 1) {
+                currentPage = pagination.current_page - 1;
+                fetchCourses(currentPage, searchQuery);
+            }
+        });
+        paginationContainer.appendChild(prevButton);
+
+        // Boutons de page
+        for (let i = 1; i <= pagination.last_page; i++) {
+            const pageButton = document.createElement('button');
+            pageButton.className = `px-4 py-2 rounded-lg ${i === pagination.current_page ? 'bg-indigo-600 text-white' : 'bg-indigo-100 text-indigo-600 hover:bg-indigo-200'}`;
+            pageButton.textContent = i;
+            pageButton.addEventListener('click', () => {
+                currentPage = i;
+                fetchCourses(currentPage, searchQuery);
+            });
+            paginationContainer.appendChild(pageButton);
+        }
+
+        // Bouton "Suivant"
+        const nextButton = document.createElement('button');
+        nextButton.className = `px-4 py-2 rounded-lg ${pagination.current_page === pagination.last_page ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-indigo-100 text-indigo-600 hover:bg-indigo-200'}`;
+        nextButton.innerHTML = '<i class="ri-arrow-right-line"></i>';
+        nextButton.disabled = pagination.current_page === pagination.last_page;
+        nextButton.addEventListener('click', () => {
+            if (pagination.current_page < pagination.last_page) {
+                currentPage = pagination.current_page + 1;
+                fetchCourses(currentPage, searchQuery);
+            }
+        });
+        paginationContainer.appendChild(nextButton);
+    }
+
+    // Événement de recherche avec debounce
+    let timeout;
+    searchInput.addEventListener('input', function () {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            searchQuery = this.value.trim();
+            currentPage = 1;
+            fetchCourses(currentPage, searchQuery);
+        }, 300);
+    });
+
+    // Gestion du menu mobile
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const sidebarMenu = document.getElementById('sidebar-menu');
+    const closeSidebarBtn = document.getElementById('close-sidebar');
+
+    mobileMenuBtn.addEventListener('click', () => {
+        sidebarMenu.classList.remove('hidden');
+        sidebarMenu.querySelector('.fixed').classList.remove('translate-x-full');
+    });
+
+    closeSidebarBtn.addEventListener('click', () => {
+        sidebarMenu.querySelector('.fixed').classList.add('translate-x-full');
+        setTimeout(() => {
+            sidebarMenu.classList.add('hidden');
+        }, 300);
+    });
+
+    
+
+    // Charger les cours initiaux
+    fetchCourses(currentPage, searchQuery);
+});
+    </script>
 </body>
 </html>

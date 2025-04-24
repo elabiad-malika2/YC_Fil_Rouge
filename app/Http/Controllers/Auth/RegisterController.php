@@ -44,7 +44,7 @@ class RegisterController extends Controller
         if ($user->role->name === 'enseignant') {
             return redirect()->route('enseignant.dashboard');
         } elseif ($user->role->name === 'etudiant') {
-            return redirect()->route('etudiant.dashboard');
+            return redirect()->route('courses.show');
         }
 
         return redirect()->route('dashboard');
