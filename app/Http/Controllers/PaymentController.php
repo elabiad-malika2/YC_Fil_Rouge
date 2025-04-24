@@ -44,4 +44,18 @@ class PaymentController extends Controller
             return redirect($session->url);
         
     }
+    public function success(Request $request)
+    {
+        $sessionId = $request->query('session_id');
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+
+            $session = Session::retrieve($sessionId);
+            $enrollment = Enrollment::where('payment_id', $sessionId)->firstOrFail();
+            $enrollment->update([
+                'payment_status' => 'completed',
+            ]);
+
+            return redirect()->route('courses.details', $enrollment->course_id)->with('success', 'Payment successful! You are now enrolled in the course.');
+        
+    }
 }
