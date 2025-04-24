@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -606,7 +605,29 @@
                         </div>
                         <span class="text-xl font-bold text-gray-800">€${course.price}</span>
                     </div>
-                    ${@json(Auth::check() && Auth::user()->role->name === 'etudiant') ? `<a href="/courses/${course.id}" class="block mt-4 px-6 py-2 bg-indigo-600 text-white rounded-lg text-center hover:bg-indigo-700 transition-colors font-medium">Voir les détails</a>` : `<p class="text-sm text-gray-500 mt-4 text-center">Connectez-vous en tant qu'étudiant pour voir les détails.</p>`}
+                    <div class="mt-4 space-y-2">
+                        ${@json(Auth::check() && Auth::user()->role->name === 'etudiant') ? `
+                            <a href="/courses/${course.id}" class="block w-full px-6 py-2 bg-indigo-600 text-white rounded-lg text-center hover:bg-indigo-700 transition-colors font-medium">Voir les détails</a>
+                            ${course.is_favorited ? `
+                                <form action="/courses/${course.id}/favorite" method="POST" class="favorite-form">
+                                    @csrf
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button type="submit" class="w-full px-6 py-2 bg-red-50 text-red-600 rounded-lg text-center hover:bg-red-100 transition-colors font-medium flex items-center justify-center">
+                                        <i class="ri-heart-fill mr-2"></i>
+                                        Retirer des favoris
+                                    </button>
+                                </form>
+                            ` : `
+                                <form action="/courses/${course.id}/favorite" method="POST" class="favorite-form">
+                                    @csrf
+                                    <button type="submit" class="w-full px-6 py-2 bg-gray-50 text-gray-600 rounded-lg text-center hover:bg-gray-100 transition-colors font-medium flex items-center justify-center">
+                                        <i class="ri-heart-line mr-2"></i>
+                                        Ajouter aux favoris
+                                    </button>
+                                </form>
+                            `}
+                        ` : `<p class="text-sm text-gray-500 text-center">Connectez-vous en tant qu'étudiant pour voir les détails.</p>`}
+                    </div>
                 </div>
             `;
             coursesContainer.appendChild(courseCard);
@@ -689,6 +710,62 @@
     // Charger les cours initiaux
     fetchCourses(currentPage, searchQuery);
 });
+
+        // Gestion des favoris
+        document.addEventListener('submit', function(e) {
+            if (e.target.classList.contains('favorite-form')) {
+                e.preventDefault();
+                
+                const form = e.target;
+                const button = form.querySelector('button');
+                const originalText = button.innerHTML;
+                button.disabled = true;
+                button.innerHTML = '<i class="ri-loader-4-line animate-spin mr-2"></i>Chargement...';
+                
+                // Récupérer le token CSRF
+                const csrfToken = form.querySelector('input[name="_token"]').value;
+                
+                // Déterminer si c'est une action d'ajout ou de suppression
+                const isRemoving = form.querySelector('input[name="_method"]') !== null;
+                
+                // Préparer les données de la requête
+                const formData = new FormData();
+                formData.append('_token', csrfToken);
+                if (isRemoving) {
+                    formData.append('_method', 'DELETE');
+                }
+                
+                // Envoyer la requête
+                fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erreur réseau');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        // Recharger la page pour refléter les changements
+                        window.location.reload();
+                    } else {
+                        throw new Error(data.message || 'Une erreur est survenue');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    button.disabled = false;
+                    button.innerHTML = originalText;
+                    alert('Une erreur est survenue lors de l\'action sur les favoris');
+                });
+            }
+        });
     </script>
 </body>
 </html>

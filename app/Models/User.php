@@ -34,6 +34,30 @@ class User extends Authenticatable
         return $this->hasMany(Enrollment::class);
     }
 
+    /**
+     * Obtenir les cours favoris de l'utilisateur
+     */
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    /**
+     * Obtenir les cours favoris de l'utilisateur avec les détails des cours
+     */
+    public function favoriteCourses()
+    {
+        return $this->belongsToMany(Course::class, 'favorites')
+            ->withTimestamps();
+    }
+
+    /**
+     * Vérifier si un cours est en favori pour l'utilisateur
+     */
+    public function hasFavorited(Course $course)
+    {
+        return $this->favorites()->where('course_id', $course->id)->exists();
+    }
 
     /**
      * The attributes that should be hidden for serialization.

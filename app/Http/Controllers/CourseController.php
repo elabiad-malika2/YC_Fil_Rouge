@@ -32,12 +32,13 @@ class CourseController extends Controller
             });
         }
 
-        $courses = $query->paginate(4);
+        $courses = $query->paginate(3);
 
         $courses->getCollection()->transform(function ($course) {
             $course->image_url = $course->image ? Storage::url($course->image) : null;
             $course->teacher_name = $course->user->name;
-            $course->teacher_photo = $course->user->photo ? Storage::url($course->user->photo) : null; 
+            $course->teacher_photo = $course->user->photo ? Storage::url($course->user->photo) : null;
+            $course->is_favorited = Auth::check() && Auth::user()->hasFavorited($course);
             return $course;
         });
 
