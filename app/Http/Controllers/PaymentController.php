@@ -58,4 +58,8 @@ class PaymentController extends Controller
             return redirect()->route('courses.details', $enrollment->course_id)->with('success', 'Payment successful! You are now enrolled in the course.');
         
     }
+    public function cancel()
+    {
+        return redirect()->route('courses.show')->with('error', 'Payment was cancelled.');
+    }
 }
