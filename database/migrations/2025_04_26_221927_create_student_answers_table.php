@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('student_answers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('student_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('answer_id')->nullable()->constrained('answers')->onDelete('set null');
+            $table->boolean('is_correct')->nullable();
+            $table->timestamp('submitted_at')->useCurrent();
             $table->timestamps();
         });
     }

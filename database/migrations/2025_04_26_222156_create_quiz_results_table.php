@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('quiz_results', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('student_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('quiz_id')->constrained('quizzes')->onDelete('cascade');
+            $table->integer('score');
+            $table->integer('total_points');
+            $table->enum('status', ['passed', 'failed']);
+            $table->timestamp('completed_at')->useCurrent();
             $table->timestamps();
         });
     }
