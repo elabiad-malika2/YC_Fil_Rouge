@@ -27,9 +27,19 @@ class Course extends Model
     {
         return $this->belongsToMany(Tag::class, 'course_tags');
     }
-    
 
-    
+    public function quiz()
+    {
+        return $this->hasOne(Quiz::class, 'course_id');
+    }
 
-    
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
+
+    public function quizzes()
+    {
+        return $this->hasMany(Quiz::class);
+    }
 }

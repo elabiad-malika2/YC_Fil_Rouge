@@ -7,6 +7,7 @@ use App\Models\Chapitre;
 use App\Models\Lesson;
 use App\Http\Requests\CourseRequest;
 use App\Models\Categorie;
+use App\Models\Quiz_result;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -53,12 +54,22 @@ class CourseController extends Controller
         ]);
     }
     public function showDetails($id)
-{
-    $course = Course::with(['category', 'user', 'chapters'])->findOrFail($id);
-    $isEnrolled = Auth::check() && Auth::user()->enrollments()->where('course_id', $id)->where('payment_status', 'completed')->exists();
-    
-    return view('Etudiant.details', compact('course', 'isEnrolled'));
-}
+    {
+        $course = Course::with(['category', 'user', 'chapters', 'quiz'])->findOrFail($id);
+        $isEnrolled = Auth::check() && Auth::user()->enrollments()->where('course_id', $id)->where('payment_status', 'completed')->exists();
+        $quizResult = null;
+
+        if (Auth::check() && $isEnrolled) {
+            $quizResult = Quiz_result::where('student_id', Auth::id())
+                ->whereHas('quiz', function ($query) use ($id) {
+                    $query->where('course_id', $id);
+                })
+                ->first();
+        }
+
+        return view('Etudiant.details', compact('course', 'isEnrolled', 'quizResult'));
+    }
+
     public function store(CourseRequest $request)
     {
         // dd($request);

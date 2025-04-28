@@ -106,6 +106,33 @@
                 </div>
             @endif
 
+            <!-- Quiz Results -->
+            @if ($isEnrolled && $quizResult)
+                <div class="glass-card p-6 rounded-2xl mb-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Résultat du Quiz</h2>
+                    <p class="text-gray-600 mb-4">
+                        Score : {{ $quizResult->score }} / {{ $quizResult->total_points }}
+                        ({{ number_format(($quizResult->score / $quizResult->total_points) * 100, 2) }}%)
+                    </p>
+                    <p class="text-gray-600 mb-4">
+                        Statut : 
+                        <span class="{{ $quizResult->status === 'passed' ? 'text-green-600' : 'text-red-600' }}">
+                            {{ $quizResult->status === 'passed' ? 'Réussi' : 'Échoué' }}
+                        </span>
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="{{ route('quizzes.results', ['id' => $course->quiz->id]) }}" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                            Voir les détails
+                        </a>
+                        @if($quizResult->status === 'failed')
+                            <a href="{{ route('quizzes.show', ['id' => $course->quiz->id]) }}" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
+                                Repasser le quiz
+                            </a>
+                        @endif
+                    </div>
+                </div>
+            @endif
+
             <!-- Course Overview -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <!-- Course Details -->
@@ -144,9 +171,14 @@
                         @if ($isEnrolled)
                             <h3 class="text-xl font-bold text-gray-800 mb-4">You're Enrolled!</h3>
                             <p class="text-gray-600 mb-6">You have full access to all course content. Start learning now!</p>
-                            <a href="#course-content" class="block w-full py-3 bg-indigo-600 text-white rounded-lg text-center hover:bg-indigo-700 transition-colors font-medium">
+                            <a href="#course-content" class="block w-full py-3 bg-indigo-600 text-white rounded-lg text-center hover:bg-indigo-700 transition-colors font-medium mb-3">
                                 View Content
                             </a>
+                            @if ($course->quiz && !$quizResult)
+                                <a href="{{ route('quizzes.show', $course->quiz->id) }}" class="block w-full py-3 bg-green-600 text-white rounded-lg text-center hover:bg-green-700 transition-colors font-medium">
+                                    Passer le quiz
+                                </a>
+                            @endif
                         @else
                             <h3 class="text-xl font-bold text-gray-800 mb-4">Enroll in This Course</h3>
                             <p class="text-gray-600 mb-6">Unlock all chapters and lessons for only €{{ number_format($course->price, 2) }}.</p>
@@ -249,7 +281,7 @@
                         <svg class="h-8 w-8 text-indigo-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor" />
                             <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="ව
                         </svg>
                         <span class="text-xl font-bold text-gray-800">E-Learning</span>
                     </div>
