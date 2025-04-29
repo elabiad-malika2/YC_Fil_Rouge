@@ -101,7 +101,13 @@
                                 <p class="font-medium text-gray-800">{{ Auth::user()->name }}</p>
                             </div>
                             <div class="py-1">
-                                <a href="/logout" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Déconnexion</a>
+                                <form action="{{ route('logout') }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit" class="flex items-center space-x-2 text-red-600 hover:text-red-800">
+                                        <i class="ri-logout-box-line"></i>
+                                        <span>Déconnexion</span>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -142,7 +148,13 @@
                     <a href="/admin/dashboard" class="py-3 px-4 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition-colors @if(Route::is('courses.*')) text-indigo-600 bg-indigo-50 font-medium @endif">Mes cours</a>
                     <a href="/teacher/courses/create" class="py-3 px-4 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-indigo-600 transition-colors @if(Route::is('quizzes.*')) text-indigo-600 bg-indigo-50 font-medium @endif">Quiz</a>
                     <div class="border-t border-gray-200 my-4"></div>
-                    <a href="/logout" class="mt-4 py-3 px-4 rounded-lg text-red-600 hover:bg-red-50 transition-colors">Déconnexion</a>
+                    <form action="{{ route('logout') }}" method="POST" class="inline">
+                            @csrf
+                            <button type="submit" class="flex items-center space-x-2 text-red-600 hover:text-red-800">
+                                <i class="ri-logout-box-line"></i>
+                                <span>Déconnexion</span>
+                            </button>
+                        </form>
                 </nav>
             </div>
         </div>
