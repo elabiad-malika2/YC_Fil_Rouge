@@ -148,6 +148,43 @@ class CourseController extends Controller
         return redirect()->route('enseignant.dashboard')->with('success', 'Cours mis à jour avec succès.');
     }
 
-    
-    
+    /**
+     * Supprime un cours et toutes ses ressources associées
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $course = Course::findOrFail($id);
+        
+        // Vérifier si l'utilisateur est autorisé à supprimer ce cours
+        if ($course->user_id !== Auth::id()) {
+            return redirect()->back()->with('error', 'Vous n\'êtes pas autorisé à supprimer ce cours.');
+        }
+        
+        // Supprimer les leçons et leurs fichiers associés
+        foreach ($course->chapters as $chapter) {
+            foreach ($chapter->lessons as $lesson) {
+                if ($lesson->video_path) {
+                    Storage::disk('public')->delete($lesson->video_path);
+                }
+                $lesson->delete();
+            }
+            $chapter->delete();
+        }
+        
+        // Supprimer l'image du cours
+        if ($course->image) {
+            Storage::disk('public')->delete($course->image);
+        }
+        
+        // Supprimer les relations avec les tags
+        $course->tags()->detach();
+        
+        // Supprimer le cours
+        $course->delete();
+        
+        return redirect()->route('enseignant.dashboard')->with('success', 'Cours supprimé avec succès.');
+    }
 }

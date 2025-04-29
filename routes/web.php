@@ -46,9 +46,9 @@ Route::get('/', [CourseController::class, 'show'])->name('courses.show');
 Route::get('/courses/{id}', [CourseController::class, 'showDetails'])->name('courses.details');
 
 // Route par défaut
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->name('dashboard');
 
 // route payment 
 
@@ -90,6 +90,7 @@ Route::prefix('enseignant')->group(function () {
 });
 Route::get('/enseignant/courses/{course}/edit', [CourseController::class, 'edit'])->name('enseignant.courses.edit');
 Route::put('/enseignant/courses/{course}', [CourseController::class, 'update'])->name('enseignant.courses.update');
+Route::delete('/enseignant/courses/{course}', [CourseController::class, 'destroy'])->name('enseignant.courses.destroy');
 
 Route::middleware(['auth', Role::class . ':enseignant' ])->group(function () {
     Route::get('/teacher/quizzes/create', [TeacherQuizController::class, 'showCreateForm'])->name('quizzes.create.view');

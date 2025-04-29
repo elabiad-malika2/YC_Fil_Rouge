@@ -81,9 +81,9 @@
         <div class="p-6 border-b border-gray-200">
             <div class="flex justify-between items-center">
                 <h2 class="text-xl font-bold text-gray-800">Liste des utilisateurs</h2>
-                <button class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-colors">
+                <!-- <button class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-colors">
                     <i class="ri-user-add-line mr-2"></i>Ajouter un utilisateur
-                </button>
+                </button> -->
             </div>
         </div>
         <div class="overflow-x-auto">
@@ -130,9 +130,6 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <div class="flex space-x-3">
-                                    <button class="text-indigo-600 hover:text-indigo-900">
-                                        <i class="ri-edit-line"></i>
-                                    </button>
                                     <form action="{{ route('admin.users.toggle-status', $user->id) }}" method="POST" class="inline">
                                         @csrf
                                         @method('PUT')
