@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Storage;
 class CourseController extends Controller
 {
     public function show(){
-        return view('welcome');
+        $categories = Categorie::all();
+        return view('welcome', compact('categories'));
     }
     public function apiShow(Request $request)
     {

@@ -26,14 +26,6 @@
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
 
-        .testimonial-card {
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .testimonial-card:hover {
-            transform: translateY(-10px);
-        }
-
         .course-card {
             transition: transform 0.3s ease;
         }
@@ -216,68 +208,24 @@
         </div>
     </section>
 
-
-
     <!-- Featured Categories -->
-    <section class="py-16 bg-gray-50">
-        <div class="container mx-auto px-6">
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4">Explore Top Categories</h2>
-                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-                    Discover the perfect course from our diverse range of subjects taught by industry experts
-                </p>
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Nos Catégories</h2>
+                <p class="text-gray-600">Choisissez votre domaine d'apprentissage</p>
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-                <a href="{{ route('courses.show') }}?category=development" class="category-card bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
-                    <div class="bg-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="ri-code-s-slash-line text-2xl text-indigo-600"></i>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 max-w-6xl mx-auto">
+                @foreach($categories as $category)
+                <a href="{{ route('courses.show') }}?category={{ $category->id }}" 
+                   class="flex flex-col items-center p-4 bg-gray-50 rounded-lg hover:bg-indigo-50 transition-colors duration-200">
+                    <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mb-3">
+                        <i class="ri-book-line text-xl text-indigo-600"></i>
                     </div>
-                    <h3 class="font-medium text-gray-800">Development</h3>
-                    <p class="text-sm text-gray-500 mt-1">850+ Courses</p>
+                    <span class="text-sm font-medium text-gray-700 text-center">{{ $category->name }}</span>
                 </a>
-                <a href="{{ route('courses.show') }}?category=business" class="category-card bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
-                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="ri-line-chart-line text-2xl text-blue-600"></i>
-                    </div>
-                    <h3 class="font-medium text-gray-800">Business</h3>
-                    <p class="text-sm text-gray-500 mt-1">720+ Courses</p>
-                </a>
-                <a href="{{ route('courses.show') }}?category=design" class="category-card bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
-                    <div class="bg-pink-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="ri-pen-nib-line text-2xl text-pink-600"></i>
-                    </div>
-                    <h3 class="font-medium text-gray-800">Design</h3>
-                    <p class="text-sm text-gray-500 mt-1">540+ Courses</p>
-                </a>
-                <a href="{{ route('courses.show') }}?category=marketing" class="category-card bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
-                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="ri-megaphone-line text-2xl text-green-600"></i>
-                    </div>
-                    <h3 class="font-medium text-gray-800">Marketing</h3>
-                    <p class="text-sm text-gray-500 mt-1">430+ Courses</p>
-                </a>
-                <a href="{{ route('courses.show') }}?category=music" class="category-card bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
-                    <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="ri-music-2-line text-2xl text-purple-600"></i>
-                    </div>
-                    <h3 class="font-medium text-gray-800">Music</h3>
-                    <p class="text-sm text-gray-500 mt-1">320+ Courses</p>
-                </a>
-                <a href="{{ route('courses.show') }}?category=photography" class="category-card bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
-                    <div class="bg-yellow-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="ri-camera-line text-2xl text-yellow-600"></i>
-                    </div>
-                    <h3 class="font-medium text-gray-800">Photography</h3>
-                    <p class="text-sm text-gray-500 mt-1">290+ Courses</p>
-                </a>
-            </div>
-
-            <div class="text-center mt-10">
-                <a href="{{ route('courses.show') }}" class="inline-flex items-center text-indigo-600 font-medium hover:text-indigo-800 transition-colors">
-                    View All Categories
-                    <i class="ri-arrow-right-line ml-2"></i>
-                </a>
+                @endforeach
             </div>
         </div>
     </section>
@@ -361,104 +309,10 @@
         </div>
     </section>
 
-    <!-- Testimonials Section -->
-    <section class="py-16 bg-white">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4">What Our Students Say</h2>
-                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-                    Discover how our courses have transformed careers and lives
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="testimonial-card p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-                    <div class="flex items-center mb-4">
-                        <img src="https://cdn-icons-png.flaticon.com/512/219/219969.png" alt="Student" class="w-12 h-12 rounded-full">
-                        <div class="ml-4">
-                            <h4 class="font-medium text-gray-800">James Wilson</h4>
-                            <p class="text-sm text-gray-500">Web Developer</p>
-                        </div>
-                    </div>
-                    <div class="flex text-yellow-400 mb-2">
-                        <i class="ri-star-fill"></i>
-                        <i class="ri-star-fill"></i>
-                        <i class="ri-star-fill"></i>
-                        <i class="ri-star-fill"></i>
-                        <i class="ri-star-fill"></i>
-                    </div>
-                    <p class="text-gray-600">
-                        "The JavaScript course was exactly what I needed to level up my skills. The projects were challenging but achievable, and the instructor's explanations were clear and concise."
-                    </p>
-                </div>
-
-                <div class="testimonial-card p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-                    <div class="flex items-center mb-4">
-                        <img src="https://cdn-icons-png.flaticon.com/512/219/219969.png" alt="Student" class="w-12 h-12 rounded-full">
-                        <div class="ml-4">
-                            <h4 class="font-medium text-gray-800">Emily Rodriguez</h4>
-                            <p class="text-sm text-gray-500">Marketing Specialist</p>
-                        </div>
-                    </div>
-                    <div class="flex text-yellow-400 mb-2">
-                        <i class="ri-star-fill"></i>
-                        <i class="ri-star-fill"></i>
-                        <i class="ri-star-fill"></i>
-                        <i class="ri-star-fill"></i>
-                        <i class="ri-star-fill"></i>
-                    </div>
-                    <p class="text-gray-600">
-                        "The Digital Marketing Masterclass completely transformed my approach to online marketing. I've implemented several strategies and seen incredible results for my business."
-                    </p>
-                </div>
-
-                <div class="testimonial-card p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-                    <div class="flex items-center mb-4">
-                        <img src="https://cdn-icons-png.flaticon.com/512/219/219969.png" alt="Student" class="w-12 h-12 rounded-full">
-                        <div class="ml-4">
-                            <h4 class="font-medium text-gray-800">David Park</h4>
-                            <p class="text-sm text-gray-500">UX Designer</p>
-                        </div>
-                    </div>
-                    <div class="flex text-yellow-400 mb-2">
-                        <i class="ri-star-fill"></i>
-                        <i class="ri-star-fill"></i>
-                        <i class="ri-star-fill"></i>
-                        <i class="ri-star-fill"></i>
-                        <i class="ri-star-half-fill"></i>
-                    </div>
-                    <p class="text-gray-600">
-                        "The design courses here are top-notch. I've taken several and each one has added valuable skills to my portfolio. The instructors are responsive and the community is supportive."
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="py-16 bg-indigo-600 text-white">
-        <div class="container mx-auto px-6">
-            <div class="max-w-3xl mx-auto text-center">
-                <h2 class="text-3xl font-bold mb-6">Start Your Learning Journey Today</h2>
-                <p class="text-lg mb-8 opacity-90">
-                    Join over 25,000 students already learning with us. Get access to all our courses with a premium membership.
-                </p>
-                <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <a href="{{ route('register.form') }}" class="px-8 py-4 bg-white text-indigo-600 rounded-lg font-medium hover:bg-gray-100 transition-colors">
-                        Sign Up Now
-                    </a>
-                    <a href="{{ route('courses.show') }}" class="px-8 py-4 bg-transparent border border-white text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors">
-                        Browse Courses
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Footer -->
     <footer class="bg-gray-100 py-12">
         <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div>
                     <div class="flex items-center space-x-2 mb-4">
                         <svg class="h-8 w-8 text-indigo-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -505,19 +359,7 @@
                         <li><a href="#" class="text-gray-600 hover:text-indigo-600">Privacy Policy</a></li>
                         <li><a href="#" class="text-gray-600 hover:text-indigo-600">Terms of Service</a></li>
                     </ul>
-                </div>
-
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Subscribe</h3>
-                    <p class="text-gray-600 mb-4">Subscribe to our newsletter to get the latest updates.</p>
-                    <form action="#" method="POST" class="flex flex-col space-y-3">
-                        <input type="email" name="email" placeholder="Your email" required
-                            class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-                        <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
-                            Subscribe
-                        </button>
-                    </form>
-                </div>
+                </div>                
             </div>
 
             <div class="border-t border-gray-200 mt-10 pt-6">
@@ -705,8 +547,6 @@
                     sidebarMenu.classList.add('hidden');
                 }, 300);
             });
-
-
 
             // Charger les cours initiaux
             fetchCourses(currentPage, searchQuery);
