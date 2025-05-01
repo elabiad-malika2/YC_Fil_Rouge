@@ -63,24 +63,22 @@
             <div class="flex justify-between items-center text-sm">
                 <div class="flex items-center space-x-6">
                     <span class="flex items-center">
-                        <i class="ri-phone-line mr-2"></i> +212 772508881
+                        <i class="ri-phone-line mr-2"></i> +212 234-234-234
                     </span>
                     <span class="flex items-center">
                         <i class="ri-mail-line mr-2"></i> contact@e-learning.com
                     </span>
                 </div>
-                <span class="flex items-center">
-                    <i class="ri-map-pin-line mr-2"></i> Massira N641 Safi, Morocco
-                </span>
+                
             </div>
         </div>
     </div>
 
     <!-- Header -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
+    <header class="bg-white shadow-sm ">
         <div class="container mx-auto px-6">
             <div class="flex items-center justify-between py-4">
-                <a href="../index.php" class="flex items-center space-x-2">
+                <a href="/" class="flex items-center space-x-2">
                     <svg class="h-8 w-8 text-indigo-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor" />
                         <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -89,20 +87,12 @@
                     <span class="text-xl font-bold text-gray-800">E-Learning</span>
                 </a>
                 
-                <nav class="hidden md:flex items-center space-x-8">
-                    <a href="./index.php" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Home</a>
-                    <a href="./courses.php" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Courses</a>
-                    <a href="./pricing.php" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Pricing</a>
-                    <a href="./features.php" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Features</a>
-                    <a href="./blog.php" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Blog</a>
-                    <a href="./contact.php" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Help Center</a>
-                </nav>
                 
                 <div class="flex items-center space-x-4">
-                    <a href="./login.php" class="hidden md:block px-5 py-2 text-gray-700 hover:text-indigo-600 transition-colors font-medium">
+                    <a href="./login" class="hidden md:block px-5 py-2 text-gray-700 hover:text-indigo-600 transition-colors font-medium">
                         Login
                     </a>
-                    <a href="./register.php" class="hidden md:block px-5 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors font-medium">
+                    <a href="./register" class="hidden md:block px-5 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors font-medium">
                         Register
                     </a>
                     <button id="mobile-menu-btn" class="p-2 rounded-full text-gray-500 hover:bg-gray-100 md:hidden">
@@ -129,18 +119,12 @@
                     </button>
                 </div>
                 <nav class="flex flex-col px-5 py-6">
-                    <a href="./index.php" class="py-3 px-4 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition-colors">Home</a>
-                    <a href="./courses.php" class="py-3 px-4 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition-colors">Courses</a>
-                    <a href="./pricing.php" class="py-3 px-4 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition-colors">Pricing</a>
-                    <a href="./features.php" class="py-3 px-4 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition-colors">Features</a>
-                    <a href="./blog.php" class="py-3 px-4 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition-colors">Blog</a>
-                    <a href="./contact.php" class="py-3 px-4 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition-colors">Help Center</a>
                     
                     <div class="mt-6 space-y-4 px-4">
-                        <a href="./login.php" class="block w-full py-3 text-center bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 transition-colors">
+                        <a href="./login" class="block w-full py-3 text-center bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 transition-colors">
                             Login
                         </a>
-                        <a href="./register.php" class="block w-full py-3 text-center bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                        <a href="./register" class="block w-full py-3 text-center bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
                             Register
                         </a>
                     </div>
@@ -169,26 +153,8 @@
                                 <i class="ri-video-line text-xl text-indigo-600"></i>
                             </div>
                             <div>
-                                <h3 class="font-medium text-gray-800">5,000+ Courses</h3>
+                                <h3 class="font-medium text-gray-800">Lot of Courses</h3>
                                 <p class="text-sm text-gray-500">On any subject</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-3 p-4 bg-white rounded-lg shadow-sm border border-gray-100">
-                            <div class="bg-indigo-100 p-3 rounded-full">
-                                <i class="ri-customer-service-line text-xl text-indigo-600"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-medium text-gray-800">Expert Support</h3>
-                                <p class="text-sm text-gray-500">24/7 availability</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-3 p-4 bg-white rounded-lg shadow-sm border border-gray-100">
-                            <div class="bg-indigo-100 p-3 rounded-full">
-                                <i class="ri-medal-line text-xl text-indigo-600"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-medium text-gray-800">Certificates</h3>
-                                <p class="text-sm text-gray-500">Recognized globally</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3 p-4 bg-white rounded-lg shadow-sm border border-gray-100">
@@ -199,13 +165,6 @@
                                 <h3 class="font-medium text-gray-800">Any Device</h3>
                                 <p class="text-sm text-gray-500">Learn anywhere</p>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <div class="flex items-center gap-4">
-                        <img src="/api/placeholder/40/40" alt="User" class="w-10 h-10 rounded-full object-cover">
-                        <div>
-                            <p class="text-sm text-gray-600">Join over <span class="font-semibold text-indigo-600">25,000+</span> students who have already registered</p>
                         </div>
                     </div>
                 </div>
@@ -285,19 +244,13 @@
 
                                 
                                 
-                                <div class="flex items-center mb-2">
-                                    <input type="checkbox" id="termsCheckbox" class="mr-2 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" required>
-                                    <label for="termsCheckbox" class="text-sm text-gray-600">
-                                        I agree to the <a href="#" class="text-indigo-600 hover:underline">Terms of Service</a> and <a href="#" class="text-indigo-600 hover:underline">Privacy Policy</a>
-                                    </label>
-                                </div>
                                 
                                 <button type="submit" class="w-full py-3 px-6 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors font-medium">
                                     Create Account
                                 </button>
                                 
                                 <div class="text-center text-sm text-gray-600">
-                                    Already have an account? <a href="./login.php" class="text-indigo-600 hover:underline font-medium">Log in</a>
+                                    Already have an account? <a href="./login" class="text-indigo-600 hover:underline font-medium">Log in</a>
                                 </div>
                             </div>
                         </form>
@@ -319,68 +272,6 @@
     <!-- Footer -->
     <footer class="bg-gray-100 py-12">
         <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div>
-                    <div class="flex items-center space-x-2 mb-4">
-                        <svg class="h-8 w-8 text-indigo-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor" />
-                            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                        <span class="text-xl font-bold text-gray-800">E-Learning</span>
-                    </div>
-                    <p class="text-gray-600 mb-4">Transform your life through education with our online learning platform.</p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-500 hover:text-indigo-600">
-                            <i class="ri-facebook-fill text-xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-500 hover:text-indigo-600">
-                            <i class="ri-twitter-fill text-xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-500 hover:text-indigo-600">
-                            <i class="ri-instagram-fill text-xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-500 hover:text-indigo-600">
-                            <i class="ri-linkedin-fill text-xl"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Quick Links</h3>
-                    <ul class="space-y-2">
-                        <li><a href="./index.php" class="text-gray-600 hover:text-indigo-600">Home</a></li>
-                        <li><a href="./courses.php" class="text-gray-600 hover:text-indigo-600">Courses</a></li>
-                        <li><a href="./pricing.php" class="text-gray-600 hover:text-indigo-600">Pricing</a></li>
-                        <li><a href="./features.php" class="text-gray-600 hover:text-indigo-600">Features</a></li>
-                        <li><a href="./blog.php" class="text-gray-600 hover:text-indigo-600">Blog</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Support</h3>
-                    <ul class="space-y-2">
-                        <li><a href="./help.php" class="text-gray-600 hover:text-indigo-600">Help Center</a></li>
-                        <li><a href="./faq.php" class="text-gray-600 hover:text-indigo-600">FAQs</a></li>
-                        <li><a href="./contact.php" class="text-gray-600 hover:text-indigo-600">Contact Us</a></li>
-                        <li><a href="./privacy.php" class="text-gray-600 hover:text-indigo-600">Privacy Policy</a></li>
-                        <li><a href="./terms.php" class="text-gray-600 hover:text-indigo-600">Terms of Service</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Subscribe</h3>
-                    <p class="text-gray-600 mb-4">Subscribe to our newsletter to get the latest updates.</p>
-                    <form action="../Back-end/Actions/Newsletter/subscribe.php" method="POST" class="flex flex-col space-y-3">
-                        <input type="email" name="email" placeholder="Your email" required
-                            class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-                        <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
-                            Subscribe
-                        </button>
-                    </form>
-                </div>
-            </div>
-            
             <div class="border-t border-gray-200 mt-10 pt-6">
                 <p class="text-center text-gray-600 text-sm">
                     &copy; 2025 E-Learning Platform. All rights reserved.

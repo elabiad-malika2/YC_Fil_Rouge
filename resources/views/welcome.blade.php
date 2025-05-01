@@ -20,23 +20,32 @@
                     <div class="flex flex-col sm:flex-row gap-4 mb-8">
                         <a href="#courses-container" class="px-8 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium text-center">
                             Explorer les Cours
-                    </a>
+                        </a>
                     </div>
                 </div>
                 <div class="w-full md:w-1/2 z-10">
                     <div class="relative">
                         <div class="absolute -top-5 -right-5 w-32 h-32 bg-indigo-100 rounded-full"></div>
                         <div class="absolute -bottom-5 -left-5 w-24 h-24 bg-purple-100 rounded-full"></div>
-                        <div class="glass-card p-4 rounded-2xl shadow-xl">
-                            <img src="https://media.istockphoto.com/id/1059510610/fr/vectoriel/r%C3%A9seau-internet-communication-e-learning-it-comme-la-base-de-connaissances.jpg?s=612x612&w=0&k=20&c=ekWQ--S1W9xWxgqH-oH0LKFDuvcz5is-AyxgjIAqmzg=" alt="Learning Platform" class="w-full h-auto rounded-lg">
-                            <div class="absolute bottom-6 left-10 right-10 bg-white p-4 rounded-lg shadow-lg">
-                                <div class="flex justify-between items-center">
-                                    <div>
-                                        <h3 class="font-bold text-gray-800">Développement Web</h3>
-                                        <p class="text-sm text-gray-500">Maîtrisez le développement web moderne</p>
+                        <div class="glass-card p-8 rounded-2xl shadow-xl">
+                            <div class="flex flex-col items-center text-center">
+                                <div class="w-24 h-24 bg-indigo-100 rounded-full flex items-center justify-center mb-6">
+                                    <i class="ri-book-open-line text-5xl text-indigo-600"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-gray-800 mb-4">Apprentissage en Ligne</h3>
+                                <p class="text-gray-600 mb-6">Accédez à des cours de qualité depuis le confort de votre maison</p>
+                                <div class="flex items-center justify-center space-x-6">
+                                    <div class="flex items-center space-x-2">
+                                        <i class="ri-video-line text-xl text-indigo-600"></i>
+                                        <span class="text-gray-600">Cours Vidéo</span>
                                     </div>
-                                    <div class="bg-indigo-100 p-2 rounded-full">
-                                        <i class="ri-play-circle-line text-2xl text-indigo-600"></i>
+                                    <div class="flex items-center space-x-2">
+                                        <i class="ri-heart-line text-xl text-indigo-600"></i>
+                                        <span class="text-gray-600">Favoris</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <i class="ri-user-voice-line text-xl text-indigo-600"></i>
+                                        <span class="text-gray-600">Enseignants</span>
                                     </div>
                                 </div>
                             </div>
@@ -113,7 +122,7 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
                 <div class="feature-card p-6 bg-white rounded-xl shadow-sm border border-gray-100">
                     <div class="bg-indigo-100 w-14 h-14 rounded-full flex items-center justify-center mb-6">
                         <i class="ri-device-line text-2xl text-indigo-600"></i>
@@ -131,16 +140,6 @@
                     <h3 class="text-xl font-bold text-gray-800 mb-3">Instructeurs Experts</h3>
                     <p class="text-gray-600">
                         Apprenez auprès de professionnels de l'industrie avec une expérience réelle et des méthodes d'enseignement éprouvées
-                    </p>
-                </div>
-
-                <div class="feature-card p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-                    <div class="bg-green-100 w-14 h-14 rounded-full flex items-center justify-center mb-6">
-                        <i class="ri-group-line text-2xl text-green-600"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3">Soutien Communautaire</h3>
-                    <p class="text-gray-600">
-                        Rejoignez notre communauté active d'apprenants pour partager des idées, poser des questions et grandir ensemble
                     </p>
                 </div>
             </div>
