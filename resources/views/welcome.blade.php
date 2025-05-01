@@ -18,23 +18,9 @@
                         Débloquez votre potentiel avec nos cours dirigés par des experts. Apprentissage à tout moment, partout.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 mb-8">
-                        <a href="{{ route('courses.show') }}" class="px-8 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium text-center">
+                        <a href="#courses-container" class="px-8 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium text-center">
                             Explorer les Cours
-                        </a>
-                        <a href="{{ route('register.form') }}" class="px-8 py-3 bg-white text-indigo-600 border border-indigo-200 rounded-lg hover:bg-indigo-50 transition-colors font-medium text-center">
-                            Rejoindre Gratuitement
-                        </a>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <div class="flex -space-x-2">
-                            <img src="https://cdn-icons-png.flaticon.com/512/219/219969.png" alt="User" class="w-9 h-9 rounded-full border-2 border-white">
-                            <img src="https://cdn-icons-png.flaticon.com/512/219/219969.png" alt="User" class="w-9 h-9 rounded-full border-2 border-white">
-                            <img src="https://cdn-icons-png.flaticon.com/512/219/219969.png" alt="User" class="w-9 h-9 rounded-full border-2 border-white">
-                            <img src="https://cdn-icons-png.flaticon.com/512/219/219969.png" alt="User" class="w-9 h-9 rounded-full border-2 border-white">
-                        </div>
-                        <div class="text-sm text-gray-600">
-                            <span class="font-semibold text-indigo-600">25,000+</span> étudiants déjà en apprentissage
-                        </div>
+                    </a>
                     </div>
                 </div>
                 <div class="w-full md:w-1/2 z-10">
@@ -71,7 +57,7 @@
 
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 max-w-6xl mx-auto">
                 @foreach($categories as $category)
-                <a href="{{ route('courses.show') }}?category={{ $category->id }}" class="flex flex-col items-center p-4 bg-gray-50 rounded-lg hover:bg-indigo-50 transition-colors duration-200">
+                <a  class="flex flex-col items-center p-4 bg-gray-50 rounded-lg hover:bg-indigo-50 transition-colors duration-200">
                     <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mb-3">
                         <i class="ri-book-line text-xl text-indigo-600"></i>
                     </div>
@@ -87,9 +73,9 @@
         <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between items-center mb-12">
                 <div>
-                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Cours Populaires</h2>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Cours</h2>
                     <p class="text-lg text-gray-600">
-                        Développez vos compétences avec nos cours les plus demandés
+                        Développez vos compétences avec nos cours 
                     </p>
                 </div>
                 <div class="mt-6 md:mt-0 flex items-center space-x-4">

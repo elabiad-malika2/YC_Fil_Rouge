@@ -33,8 +33,7 @@ Route::post('/logout', function () {
     return redirect('/');
 })->name('logout');
 
-
-// 'Routes des dashboards
+// Routes des dashboards
 Route::get('/enseignant/dashboard', [DashboardController::class, 'index'])->name('enseignant.dashboard');
 Route::get('/api/courses', [CourseController::class, 'apiShow'])->name('api.courses.show');
 
@@ -45,14 +44,8 @@ Route::get('/etudiant/dashboard', function () {
 Route::get('/', [CourseController::class, 'show'])->name('courses.show');
 Route::get('/courses/{id}', [CourseController::class, 'showDetails'])->name('courses.details');
 
-// Route par défaut
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->name('dashboard');
-
-// route payment 
-
-Route::middleware(['auth', Role::class . ':etudiant', 'throttle:6,1'])->group(function () {
+// Route payment 
+Route::middleware(['auth', Role::class . ':etudiant'])->group(function () {
     Route::get('/courses/{id}/payment', [PaymentController::class, 'show'])->name('payment.show');
     Route::post('/courses/{id}/payment', [PaymentController::class, 'process'])->name('payment.process');
     
@@ -77,22 +70,18 @@ Route::prefix('enseignant')->group(function () {
     Route::post('chapters', [ChapitreController::class, 'store'])->name('chapters.store');
     Route::put('chapters/{id}', [ChapitreController::class, 'update'])->name('chapters.update');
     Route::delete('chapters/{id}', [ChapitreController::class, 'destroy'])->name('chapters.destroy');
-    // Route::post('courses',function(){
-    //     dd("test");
-    // })->name('courses.store');
-
+    
     // Routes pour les leçons
     Route::post('lessons', [LessonController::class, 'store'])->name('lessons.store');
     Route::put('lessons/{id}', [LessonController::class, 'update'])->name('lessons.update');
     Route::delete('lessons/{id}', [LessonController::class, 'destroy'])->name('lessons.destroy');
-
-    
 });
+
 Route::get('/enseignant/courses/{course}/edit', [CourseController::class, 'edit'])->name('enseignant.courses.edit');
 Route::put('/enseignant/courses/{course}', [CourseController::class, 'update'])->name('enseignant.courses.update');
 Route::delete('/enseignant/courses/{course}', [CourseController::class, 'destroy'])->name('enseignant.courses.destroy');
 
-Route::middleware(['auth', Role::class . ':enseignant' ])->group(function () {
+Route::middleware(['auth', Role::class . ':enseignant'])->group(function () {
     Route::get('/teacher/quizzes/create', [TeacherQuizController::class, 'showCreateForm'])->name('quizzes.create.view');
     Route::post('/quizzes', [TeacherQuizController::class, 'create'])->name('quizzes.create');
     Route::get('/teacher/quizzes/{quiz}/edit', [TeacherQuizController::class, 'edit'])->name('quizzes.edit');
@@ -104,8 +93,7 @@ Route::get('/quizzes/{id}', [StudentQuizController::class, 'show'])->name('quizz
 Route::get('/quizzes/{id}/results', [StudentQuizController::class, 'results'])->name('quizzes.results');
 
 // Routes pour les réponses des étudiants
-Route::post('/answers/submit', [StudentAnswerController::class, 'submitAnswer'])->name('answers.submit');
-Route::post('/answers/complete', [StudentAnswerController::class, 'completeQuiz'])->name('answers.complete');
+Route::post('/answers/submit', [StudentAnswerController::class, 'submitAnswers'])->name('answers.submit');
 
 Route::prefix('admin')->middleware(['auth', Role::class . ':admin'])->group(function () {
     // Dashboard admin

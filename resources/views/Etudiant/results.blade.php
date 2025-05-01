@@ -1,19 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Résultats du Quiz - {{ $quiz->title }}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/favicon.svg') }}">
+@extends('Etudiant.layout')
+
+@section('title', 'Résultats du Quiz - {{ $quiz->title }}')
+
+@section('styles')
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
-        
         .glass-card {
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
@@ -21,25 +11,9 @@
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
     </style>
-</head>
-<body class="bg-gray-50">
-    <!-- Header -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="container mx-auto px-6">
-            <div class="flex items-center justify-between py-4">
-                <a href="{{ route('courses.show') }}" class="flex items-center space-x-2">
-                    <svg class="h-8 w-8 text-indigo-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor" />
-                        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <span class="text-xl font-bold text-gray-800">E-Learning</span>
-                </a>
-            </div>
-        </div>
-    </header>
+@endsection
 
-    <!-- Main Content -->
+@section('content')
     <main class="min-h-screen py-12">
         <div class="container mx-auto px-6">
             <div class="max-w-4xl mx-auto">
@@ -134,14 +108,4 @@
             </div>
         </div>
     </main>
-
-    <!-- Footer -->
-    <footer class="bg-gray-100 py-8 mt-12">
-        <div class="container mx-auto px-6">
-            <p class="text-center text-gray-600 text-sm">
-                © 2024 E-Learning. Tous droits réservés.
-            </p>
-        </div>
-    </footer>
-</body>
-</html> 
+@endsection
