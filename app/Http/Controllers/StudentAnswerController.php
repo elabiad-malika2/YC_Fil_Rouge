@@ -86,7 +86,7 @@ class StudentAnswerController extends Controller
 
             return response()->json([
                 'success' => true,
-                'redirect_url' => route('quizzes.results', ['id' => $quiz->id, 'result' => $quizResult->id])
+                'redirect_url' => route('etudiant.quizzes.results', ['id' => $quiz->id, 'result' => $quizResult->id])
             ]);
 
         } catch (\Exception $e) {

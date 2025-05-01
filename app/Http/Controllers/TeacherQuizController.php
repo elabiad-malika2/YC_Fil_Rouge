@@ -70,7 +70,7 @@ class TeacherQuizController extends Controller
             }
         }
 
-        return redirect()->route('quizzes.create.view')->with('success', 'Quiz créé avec succès !');
+        return redirect()->route('enseignant.quizzes.create.view')->with('success', 'Quiz créé avec succès !');
     }
     public function edit(Quiz $quiz)
     {
@@ -143,7 +143,7 @@ class TeacherQuizController extends Controller
             }
         }
 
-        return redirect()->route('quizzes.create.view')->with('success', 'Quiz mis à jour avec succès !');
+        return redirect()->route('enseignant.quizzes.create.view')->with('success', 'Quiz mis à jour avec succès !');
     }
 
     public function destroy(Quiz $quiz)
@@ -158,6 +158,6 @@ class TeacherQuizController extends Controller
         });
         $quiz->delete();
 
-        return redirect()->route('quizzes.create.view')->with('success', 'Quiz supprimé avec succès !');
+        return redirect()->route('enseignant.quizzes.create.view')->with('success', 'Quiz supprimé avec succès !');
     }
 }

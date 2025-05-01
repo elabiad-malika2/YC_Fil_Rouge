@@ -226,7 +226,7 @@
                             ${@json(Auth::check() && Auth::user()->role->name === 'etudiant') ? `
                                 <a href="/courses/${course.id}" class="block w-full px-6 py-2 bg-indigo-600 text-white rounded-lg text-center hover:bg-indigo-700 transition-colors font-medium">Voir les détails</a>
                                 ${course.is_favorited ? `
-                                    <form action="/courses/${course.id}/favorite" method="POST" class="favorite-form">
+                                    <form action="/etudiant/courses/${course.id}/favorite" method="POST" class="favorite-form">
                                         @csrf
                                         <input type="hidden" name="_method" value="DELETE">
                                         <button type="submit" class="w-full px-6 py-2 bg-red-50 text-red-600 rounded-lg text-center hover:bg-red-100 transition-colors font-medium flex items-center justify-center">
@@ -235,7 +235,7 @@
                                         </button>
                                     </form>
                                 ` : `
-                                    <form action="/courses/${course.id}/favorite" method="POST" class="favorite-form">
+                                    <form action="/etudiant/courses/${course.id}/favorite" method="POST" class="favorite-form">
                                         @csrf
                                         <button type="submit" class="w-full px-6 py-2 bg-gray-50 text-gray-600 rounded-lg text-center hover:bg-gray-100 transition-colors font-medium flex items-center justify-center">
                                             <i class="ri-heart-line mr-2"></i>

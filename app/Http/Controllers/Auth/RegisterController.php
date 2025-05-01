@@ -20,23 +20,15 @@ class RegisterController extends Controller
 
     public function store(RegisterRequest $request)
     {
-        // dd($request);
         $role = Role::where('name', $request->role)->firstOrFail();
 
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '_' . $image->getClientOriginalName();
-            $imagePath = $image->storeAs('public/images/users', $imageName);
-            $imagePath = str_replace('public/', '', $imagePath);
-        }
-
+        
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role_id' => $role->id,
-            'image' => $imagePath,
+            'image' => $request->file('image')->store('users/images', 'public'),
         ]);
 
         Auth::login($user);

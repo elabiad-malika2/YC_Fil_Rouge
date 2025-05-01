@@ -46,7 +46,7 @@
             <h2 class="text-xl font-bold text-gray-800 mb-6">Catégories</h2>
             <!-- Add Category Form -->
             <div class="form-gradient p-4 rounded-lg mb-6 shadow-sm">
-                <form method="POST" action="{{ route('categories.store') }}">
+                <form method="POST" action="{{ route('admin.categories.store') }}">
                     @csrf
                     <div class="mb-4">
                         <label for="new-category-name" class="block text-sm font-medium text-gray-700 mb-2">Nouvelle catégorie <span class="text-red-600">*</span></label>
@@ -63,7 +63,7 @@
                         <button type="button" onclick="showEditCategoryForm({{ $category->id }}, '{{ $category->name }}')" class="px-3 py-1 bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200 transition-colors">
                             <i class="ri-edit-line"></i>
                         </button>
-                        <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="inline">
+                        <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" class="inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="px-3 py-1 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors">
@@ -97,7 +97,7 @@
             <h2 class="text-xl font-bold text-gray-800 mb-6">Tags</h2>
             <!-- Add Tag Form -->
             <div class="form-gradient p-4 rounded-lg mb-6 shadow-sm">
-                <form method="POST" action="{{ route('tags.store') }}">
+                <form method="POST" action="{{ route('admin.tags.store') }}">
                     @csrf
                     <div class="mb-4">
                         <label for="new-tag-name" class="block text-sm font-medium text-gray-700 mb-2">Nouveau tag <span class="text-red-600">*</span></label>
@@ -118,7 +118,7 @@
                         <button type="button" onclick="showEditForm({{ $tag->id }} ,'{{ $tag->name }}', '{{ $tag->color }}')" class="px-3 py-1 bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200 transition-colors">
                             <i class="ri-edit-line"></i>
                         </button>
-                        <form action="{{ route('tags.destroy', $tag->id) }}" method="POST" class="inline">
+                        <form action="{{ route('admin.tags.destroy', $tag->id) }}" method="POST" class="inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="px-3 py-1 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors">

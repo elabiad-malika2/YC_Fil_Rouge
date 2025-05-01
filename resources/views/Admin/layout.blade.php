@@ -56,7 +56,7 @@
                 <a href="{{ route('admin.courses.index') }}" class="flex items-center py-3 px-4 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors {{ request()->routeIs('admin.courses.index') || request()->routeIs('admin.courses.show') ? 'text-indigo-600 bg-indigo-50 font-medium' : '' }}">
                     <i class="ri-book-open-line mr-3"></i> Cours
                 </a>
-                <a href="{{ route('categories_tags.index') }}" class="flex items-center py-3 px-4 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors {{ request()->routeIs('categories_tags.index') ? 'text-indigo-600 bg-indigo-50 font-medium' : '' }}">
+                <a href="{{ route('admin.categories_tags.index') }}" class="flex items-center py-3 px-4 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors {{ request()->routeIs('admin.categories_tags.index') ? 'text-indigo-600 bg-indigo-50 font-medium' : '' }}">
                     <i class="ri-price-tag-3-line mr-3"></i> Catégories & Tags
                 </a>
                 <a href="{{ route('admin.dashboard') }}" class="flex items-center py-3 px-4 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors {{ request()->routeIs('admin.users') ? 'text-indigo-600 bg-indigo-50 font-medium' : '' }}">
@@ -72,23 +72,15 @@
         <header class="bg-white shadow-sm sticky top-0 z-40">
             <div class="container mx-auto px-6">
                 <div class="flex items-center justify-end py-4">
-                    <div class="flex items-center space-x-4">
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                                <i class="ri-search-line text-gray-400"></i>
-                            </span>
-                            <input type="text" placeholder="Rechercher..." class="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm">
-                        </div>
-                        <div class="relative">
-                            <button class="p-2 rounded-full text-gray-500 hover:bg-gray-100 relative">
-                                <i class="ri-notification-3-line text-xl"></i>
-                                <span class="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
-                            </button>
-                        </div>
+                    <div class="flex items-center space-x-6">
                         <div class="relative">
                             <button class="flex items-center space-x-2 focus:outline-none">
-                                <img src="https://cdn-icons-png.flaticon.com/512/219/219969.png" alt="User" class="w-9 h-9 rounded-full border-2 border-indigo-200">
-                                <span class="text-sm font-medium text-gray-700">Admin</span>
+                                @if(auth()->user()->image)
+                                    <img src="{{ asset('storage/' . auth()->user()->image) }}" alt="{{ auth()->user()->name }}" class="w-9 h-9 rounded-full border-2 border-indigo-200 object-cover">
+                                @else
+                                    <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=6366F1&color=fff" alt="{{ auth()->user()->name }}" class="w-9 h-9 rounded-full border-2 border-indigo-200 object-cover">
+                                @endif
+                                <span class="text-sm font-medium text-gray-700">{{ auth()->user()->name }}</span>
                             </button>
                         </div>
                         <form action="{{ route('logout') }}" method="POST" class="inline">

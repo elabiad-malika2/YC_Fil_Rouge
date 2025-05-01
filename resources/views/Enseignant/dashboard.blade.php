@@ -185,7 +185,7 @@
     <div id="create-course-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden overflow-y-auto">
         <div class="min-h-screen flex items-center justify-center p-4">
             <div class="bg-white rounded-2xl shadow-xl w-full max-w-4xl relative">
-                <form method="POST" action="{{ route('courses.store') }}" enctype="multipart/form-data" class="p-6">
+                <form method="POST" action="{{ route('enseignant.courses.store') }}" enctype="multipart/form-data" class="p-6">
                     @csrf
                     
                     <!-- En-tête du formulaire -->

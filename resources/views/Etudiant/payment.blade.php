@@ -64,7 +64,7 @@
                 <div class="w-full lg:w-2/3 order-2 lg:order-1">
                     <div class="glass-card p-8">
                         <h2 class="text-2xl font-bold text-gray-800 mb-6">Informations de Paiement</h2>
-                        <form id="payment-form" action="{{ route('payment.process', $course->id) }}" method="POST" class="space-y-6">
+                        <form id="payment-form" action="{{ route('etudiant.payment.process', $course->id) }}" method="POST" class="space-y-6">
                             @csrf
                             <input type="hidden" name="payment_intent_id" id="payment-intent-id" value="{{ $intent->id }}">
                             <!-- Stripe Card Element -->
@@ -184,7 +184,7 @@
                     throw error;
                 }
 
-                const response = await fetch('{{ route('payment.process', $course->id) }}', {
+                const response = await fetch('{{ route('etudiant.payment.process', $course->id) }}', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -213,7 +213,7 @@
                     }
                     
                     // Réessayer le paiement après authentification
-                    const retryResponse = await fetch('{{ route('payment.process', $course->id) }}', {
+                    const retryResponse = await fetch('{{ route('etudiant.payment.process', $course->id) }}', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

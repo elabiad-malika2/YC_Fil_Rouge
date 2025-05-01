@@ -26,7 +26,7 @@
         <h1 class="text-2xl font-bold text-gray-800 mb-6">Éditer le cours : {{ $course->title }}</h1>
         
         <!-- Formulaire pour les informations générales du cours -->
-        <form method="POST" action="{{ route('courses.update', $course->id) }}" enctype="multipart/form-data" class="mb-8">
+        <form method="POST" action="{{ route('enseignant.courses.update', $course->id) }}" enctype="multipart/form-data" class="mb-8">
             @csrf
             @method('PUT')
             
@@ -134,7 +134,7 @@
                                 <button type="button" class="toggle-chapter-btn text-indigo-600 hover:text-indigo-800" data-chapter-id="{{ $chapter->id }}">
                                     <i class="ri-edit-line"></i> Éditer
                                 </button>
-                                <form action="{{ route('chapters.destroy', $chapter->id) }}" method="POST" class="inline" onsubmit="return confirm('Voulez-vous vraiment supprimer ce chapitre ?');">
+                                <form action="{{ route('enseignant.chapters.destroy', $chapter->id) }}" method="POST" class="inline" onsubmit="return confirm('Voulez-vous vraiment supprimer ce chapitre ?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="text-red-500 hover:text-red-700">
@@ -144,7 +144,7 @@
                             </div>
                         </div>
                         <div class="chapter-form hidden">
-                            <form action="{{ route('chapters.update', $chapter->id) }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('enseignant.chapters.update', $chapter->id) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                                 <div class="mb-3">
@@ -172,7 +172,7 @@
                                                 <button type="button" class="toggle-lesson-btn text-indigo-600 hover:text-indigo-800" data-lesson-id="{{ $lesson->id }}">
                                                     <i class="ri-edit-line"></i> Éditer
                                                 </button>
-                                                <form action="{{ route('lessons.destroy', $lesson->id) }}" method="POST" class="inline" onsubmit="return confirm('Voulez-vous vraiment supprimer cette leçon ?');">
+                                                <form action="{{ route('enseignant.lessons.destroy', $lesson->id) }}" method="POST" class="inline" onsubmit="return confirm('Voulez-vous vraiment supprimer cette leçon ?');">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="text-red-500 hover:text-red-700">
@@ -182,7 +182,7 @@
                                             </div>
                                         </div>
                                         <div class="lesson-form hidden">
-                                            <form action="{{ route('lessons.update', $lesson->id) }}" method="POST" enctype="multipart/form-data">
+                                            <form action="{{ route('enseignant.lessons.update', $lesson->id) }}" method="POST" enctype="multipart/form-data">
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="mb-2">
@@ -218,7 +218,7 @@
                                     <i class="ri-add-line mr-1"></i> Ajouter une leçon
                                 </button>
                                 <div class="add-lesson-form hidden">
-                                    <form method="POST" action="{{ route('lessons.store') }}" enctype="multipart/form-data">
+                                    <form method="POST" action="{{ route('enseignant.lessons.store') }}" enctype="multipart/form-data">
                                         @csrf
                                         <input type="hidden" name="chapitres_id" value="{{ $chapter->id }}">
                                         <div class="mb-2">
@@ -281,7 +281,7 @@
                     <i class="ri-add-line"></i> Ajouter un chapitre
                 </button>
                 <div id="add-chapter-form" class="hidden mt-2">
-                    <form method="POST" action="{{ route('chapters.store') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('enseignant.chapters.store') }}" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="course_id" value="{{ $course->id }}">
                         <div class="mb-3">

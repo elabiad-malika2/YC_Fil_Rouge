@@ -83,7 +83,7 @@
                 
                 <nav class="hidden md:flex items-center space-x-8">
                     <a href="/enseignant/dashboard" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium @if(Route::is('courses.*')) text-indigo-600 border-b-2 border-indigo-600 pb-1 @endif">Mes cours</a>
-                    <a href="/enseignant/teacher/quizzes/create" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium @if(Route::is('quizzes.*')) text-indigo-600 border-b-2 border-indigo-600 pb-1 @endif">Quiz</a>
+                    <a href="/enseignant/quizzes/create" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium @if(Route::is('quizzes.*')) text-indigo-600 border-b-2 border-indigo-600 pb-1 @endif">Quiz</a>
                 </nav>
                 
                 <div class="flex items-center space-x-4">
@@ -145,8 +145,8 @@
                     </div>
                 </div>
                 <nav class="flex flex-col px-5 py-6">
-                    <a href="/admin/dashboard" class="py-3 px-4 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition-colors @if(Route::is('courses.*')) text-indigo-600 bg-indigo-50 font-medium @endif">Mes cours</a>
-                    <a href="/teacher/courses/create" class="py-3 px-4 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-indigo-600 transition-colors @if(Route::is('quizzes.*')) text-indigo-600 bg-indigo-50 font-medium @endif">Quiz</a>
+                    <a href="/enseignant/dashboard" class="py-3 px-4 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition-colors @if(Route::is('courses.*')) text-indigo-600 bg-indigo-50 font-medium @endif">Mes cours</a>
+                    <a href="/enseignant/courses/create" class="py-3 px-4 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-indigo-600 transition-colors @if(Route::is('quizzes.*')) text-indigo-600 bg-indigo-50 font-medium @endif">Quiz</a>
                     <div class="border-t border-gray-200 my-4"></div>
                     <form action="{{ route('logout') }}" method="POST" class="inline">
                             @csrf

@@ -64,14 +64,9 @@
                         </span>
                     </p>
                     <div class="flex space-x-4">
-                        <a href="{{ route('quizzes.results', ['id' => $course->quiz->id]) }}" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                        <a href="{{ route('etudiant.quizzes.results', ['id' => $course->quiz->id]) }}" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
                             Voir les détails
                         </a>
-                        @if($quizResult->status === 'failed')
-                            <a href="{{ route('quizzes.show', ['id' => $course->quiz->id]) }}" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
-                                Repasser le quiz
-                            </a>
-                        @endif
                     </div>
                 </div>
             @endif
@@ -118,7 +113,7 @@
                                 Voir le Contenu
                             </a>
                             @if ($course->quiz && !$quizResult)
-                                <a href="{{ route('quizzes.show', $course->quiz->id) }}" class="block w-full py-3 bg-green-600 text-white rounded-lg text-center hover:bg-green-700 transition-colors font-medium">
+                                <a href="{{ route('etudiant.quizzes.show', $course->quiz->id) }}" class="block w-full py-3 bg-green-600 text-white rounded-lg text-center hover:bg-green-700 transition-colors font-medium">
                                     Passer le quiz
                                 </a>
                             @endif
@@ -127,11 +122,11 @@
                             <p class="text-gray-600 mb-6">Débloquez tous les chapitres et leçons pour seulement €{{ number_format($course->price, 2) }}.</p>
                             @if (Auth::check() && Auth::user()->role->name === 'etudiant')
                                 <div class="space-y-3">
-                                    <a href="{{ route('payment.show', $course->id) }}" class="block w-full py-3 bg-indigo-600 text-white rounded-lg text-center hover:bg-indigo-700 transition-colors font-medium">
+                                    <a href="{{ route('etudiant.payment.show', $course->id) }}" class="block w-full py-3 bg-indigo-600 text-white rounded-lg text-center hover:bg-indigo-700 transition-colors font-medium">
                                         S'inscrire Maintenant (€{{ number_format($course->price, 2) }})
                                     </a>
                                     @if(Auth::user()->hasFavorited($course))
-                                        <form action="{{ route('favorites.destroy', $course->id) }}" method="POST">
+                                        <form action="{{ route('etudiant.favorites.destroy', $course->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="w-full py-3 bg-red-50 text-red-600 rounded-lg text-center hover:bg-red-100 transition-colors font-medium flex items-center justify-center">
@@ -140,7 +135,7 @@
                                             </button>
                                         </form>
                                     @else
-                                        <form action="{{ route('favorites.store', $course->id) }}" method="POST">
+                                        <form action="{{ route('etudiant.favorites.store', $course->id) }}" method="POST">
                                             @csrf
                                             <button type="submit" class="w-full py-3 bg-gray-50 text-gray-600 rounded-lg text-center hover:bg-gray-100 transition-colors font-medium flex items-center justify-center">
                                                 <i class="ri-heart-line mr-2"></i>

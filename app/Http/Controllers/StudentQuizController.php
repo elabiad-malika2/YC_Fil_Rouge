@@ -25,7 +25,7 @@ class StudentQuizController extends Controller
         ->first();
 
     if ($existingResult) {
-        return redirect()->route('quizzes.results', $id)
+        return redirect()->route('etudiant.quizzes.results', $id)
             ->with('error', 'Vous avez déjà passé ce quiz.');
     }
 

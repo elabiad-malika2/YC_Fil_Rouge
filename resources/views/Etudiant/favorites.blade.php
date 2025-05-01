@@ -63,13 +63,14 @@
                             <div class="relative">
                                 <img src="{{ Storage::url($course->image) }}" alt="{{ $course->title }}" class="w-full h-48 object-cover course-image">
                                 <div class="absolute top-4 right-4">
-                                    <form action="{{ route('favorites.destroy', $course->id) }}" method="POST" class="inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="bg-white p-2 rounded-full shadow-md hover:bg-red-50 transition-colors">
-                                            <i class="ri-heart-fill text-red-500 text-xl"></i>
-                                        </button>
-                                    </form>
+                                <form action="{{ route('etudiant.favorites.destroy', $course->id) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <input type="hidden" name="from_favorites" value="true">
+                                    <button type="submit" class="bg-white p-2 rounded-full shadow-md hover:bg-red-50 transition-colors">
+                                        <i class="ri-heart-fill text-red-500 text-xl"></i>
+                                    </button>
+                                </form>
                                 </div>
                             </div>
                             <div class="p-6">

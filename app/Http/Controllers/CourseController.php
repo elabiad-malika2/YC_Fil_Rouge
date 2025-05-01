@@ -149,12 +149,7 @@ class CourseController extends Controller
         return redirect()->route('enseignant.dashboard')->with('success', 'Cours mis à jour avec succès.');
     }
 
-    /**
-     * Supprime un cours et toutes ses ressources associées
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function destroy($id)
     {
         $course = Course::findOrFail($id);

@@ -30,7 +30,7 @@ class CategorieController extends Controller
 
         $categorie->update($request->all());
 
-        return redirect()->route('categories_tags.index')->with('success', 'Catégorie mise à jour avec succès');
+        return redirect()->route('admin.categories_tags.index')->with('success', 'Catégorie mise à jour avec succès');
     }
 
     public function destroy($id)

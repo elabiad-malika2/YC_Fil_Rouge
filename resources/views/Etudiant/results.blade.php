@@ -99,11 +99,7 @@
                     <a href="{{ route('courses.show') }}" class="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
                         Retour aux cours
                     </a>
-                    @if($result->status === 'failed')
-                        <a href="{{ route('quizzes.show', $quiz->id) }}" class="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
-                            Réessayer le quiz
-                        </a>
-                    @endif
+
                 </div>
             </div>
         </div>

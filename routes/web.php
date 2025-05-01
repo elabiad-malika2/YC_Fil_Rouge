@@ -19,13 +19,17 @@ use App\Http\Controllers\StudentAnswerController;
 use App\Http\Controllers\StudentQuizController;
 use App\Http\Controllers\TeacherQuizController;
 
-// Routes d'authentification
-Route::get('/register', [RegisterController::class, 'create'])->name('register.form');
-Route::post('/register', [RegisterController::class, 'store'])->name('register');
+// Routes publiques (accessibles à tous)
+Route::get('/', [CourseController::class, 'show'])->name('courses.show');
+Route::get('/courses/{id}', [CourseController::class, 'showDetails'])->name('courses.details');
 
-// Route de connexion 
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
+// Routes d'authentification
+Route::middleware('guest')->group(function () {
+    Route::get('/register', [RegisterController::class, 'create'])->name('register.form');
+    Route::post('/register', [RegisterController::class, 'store'])->name('register');
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [LoginController::class, 'login']);
+});
 
 // Route de déconnexion
 Route::post('/logout', function () {
@@ -33,78 +37,85 @@ Route::post('/logout', function () {
     return redirect('/');
 })->name('logout');
 
-// Routes des dashboards
-Route::get('/enseignant/dashboard', [DashboardController::class, 'index'])->name('enseignant.dashboard');
+// Routes API
 Route::get('/api/courses', [CourseController::class, 'apiShow'])->name('api.courses.show');
 
-Route::get('/etudiant/dashboard', function () {
-    return view('Etudiant.dashboard');
-})->name('etudiant.dashboard');
+// Routes Étudiant
+Route::middleware(['auth', Role::class . ':etudiant'])->prefix('etudiant')->name('etudiant.')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('Etudiant.dashboard');
+    })->name('dashboard');
 
-Route::get('/', [CourseController::class, 'show'])->name('courses.show');
-Route::get('/courses/{id}', [CourseController::class, 'showDetails'])->name('courses.details');
-
-// Route payment 
-Route::middleware(['auth', Role::class . ':etudiant'])->group(function () {
+    // Routes de paiement
     Route::get('/courses/{id}/payment', [PaymentController::class, 'show'])->name('payment.show');
     Route::post('/courses/{id}/payment', [PaymentController::class, 'process'])->name('payment.process');
     
-    // Routes pour les favoris
+    // Routes des favoris
     Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
     Route::post('/courses/{id}/favorite', [FavoriteController::class, 'store'])->name('favorites.store');
     Route::delete('/courses/{id}/favorite', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
+
+    // Routes des quiz
+    Route::get('/quizzes/{id}', [StudentQuizController::class, 'show'])->name('quizzes.show');
+    Route::get('/quizzes/{id}/results', [StudentQuizController::class, 'results'])->name('quizzes.results');
+    Route::post('/answers/submit', [StudentAnswerController::class, 'submitAnswers'])->name('answers.submit');
 });
 
-// Routes pour les catégories et tags
-Route::prefix('admin')->group(function () {
-    Route::get('categories_tags', [AdminController::class, 'index'])->name('categories_tags.index');
-    Route::post('categories', [CategorieController::class, 'store'])->name('categories.store');
-    Route::put('categories/{id}', [CategorieController::class, 'update'])->name('categories.update');
-    Route::delete('categories/{id}', [CategorieController::class, 'destroy'])->name('categories.destroy');
-    Route::resource('tags', TagController::class);
-});
-
-Route::prefix('enseignant')->group(function () {
-    Route::post('courses', [CourseController::class, 'store'])->name('courses.store');
-    Route::put('courses/{id}', [CourseController::class, 'update'])->name('courses.update');
-    Route::post('chapters', [ChapitreController::class, 'store'])->name('chapters.store');
-    Route::put('chapters/{id}', [ChapitreController::class, 'update'])->name('chapters.update');
-    Route::delete('chapters/{id}', [ChapitreController::class, 'destroy'])->name('chapters.destroy');
+// Routes Enseignant
+Route::middleware(['auth', Role::class . ':enseignant'])->prefix('enseignant')->name('enseignant.')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
-    // Routes pour les leçons
-    Route::post('lessons', [LessonController::class, 'store'])->name('lessons.store');
-    Route::put('lessons/{id}', [LessonController::class, 'update'])->name('lessons.update');
-    Route::delete('lessons/{id}', [LessonController::class, 'destroy'])->name('lessons.destroy');
-});
+    // Routes des cours
+    Route::post('/courses', [CourseController::class, 'store'])->name('courses.store');
+    Route::put('/courses/{id}', [CourseController::class, 'update'])->name('courses.update');
+    Route::get('/courses/{course}/edit', [CourseController::class, 'edit'])->name('courses.edit');
+    Route::put('/courses/{course}', [CourseController::class, 'update'])->name('courses.update');
+    Route::delete('/courses/{course}', [CourseController::class, 'destroy'])->name('courses.destroy');
+    
+    // Routes des chapitres
+    Route::post('/chapters', [ChapitreController::class, 'store'])->name('chapters.store');
+    Route::put('/chapters/{id}', [ChapitreController::class, 'update'])->name('chapters.update');
+    Route::delete('/chapters/{id}', [ChapitreController::class, 'destroy'])->name('chapters.destroy');
+    
+    // Routes des leçons
+    Route::post('/lessons', [LessonController::class, 'store'])->name('lessons.store');
+    Route::put('/lessons/{id}', [LessonController::class, 'update'])->name('lessons.update');
+    Route::delete('/lessons/{id}', [LessonController::class, 'destroy'])->name('lessons.destroy');
 
-Route::get('/enseignant/courses/{course}/edit', [CourseController::class, 'edit'])->name('enseignant.courses.edit');
-Route::put('/enseignant/courses/{course}', [CourseController::class, 'update'])->name('enseignant.courses.update');
-Route::delete('/enseignant/courses/{course}', [CourseController::class, 'destroy'])->name('enseignant.courses.destroy');
-
-Route::middleware(['auth', Role::class . ':enseignant'])->group(function () {
-    Route::get('/teacher/quizzes/create', [TeacherQuizController::class, 'showCreateForm'])->name('quizzes.create.view');
+    // Routes des quiz
+    Route::get('/quizzes/create', [TeacherQuizController::class, 'showCreateForm'])->name('quizzes.create.view');
     Route::post('/quizzes', [TeacherQuizController::class, 'create'])->name('quizzes.create');
-    Route::get('/teacher/quizzes/{quiz}/edit', [TeacherQuizController::class, 'edit'])->name('quizzes.edit');
-    Route::put('/teacher/quizzes/{quiz}', [TeacherQuizController::class, 'update'])->name('quizzes.update');
-    Route::delete('/teacher/quizzes/{quiz}', [TeacherQuizController::class, 'destroy'])->name('quizzes.destroy');
+    Route::get('/quizzes/{quiz}/edit', [TeacherQuizController::class, 'edit'])->name('quizzes.edit');
+    Route::put('/quizzes/{quiz}', [TeacherQuizController::class, 'update'])->name('quizzes.update');
+    Route::delete('/quizzes/{quiz}', [TeacherQuizController::class, 'destroy'])->name('quizzes.destroy');
 });
 
-Route::get('/quizzes/{id}', [StudentQuizController::class, 'show'])->name('quizzes.show');
-Route::get('/quizzes/{id}/results', [StudentQuizController::class, 'results'])->name('quizzes.results');
-
-// Routes pour les réponses des étudiants
-Route::post('/answers/submit', [StudentAnswerController::class, 'submitAnswers'])->name('answers.submit');
-
-Route::prefix('admin')->middleware(['auth', Role::class . ':admin'])->group(function () {
-    // Dashboard admin
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+// Routes Admin
+Route::middleware(['auth', Role::class . ':admin'])->prefix('admin')->name('admin.')->group(function () {
+    // Dashboard
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     
-    // Gestion des utilisateurs (activation/désactivation uniquement)
-    Route::put('users/{id}/toggle-status', [AdminController::class, 'toggleUserStatus'])->name('admin.users.toggle-status');
+    // Gestion des catégories et tags
+    Route::get('/categories_tags', [AdminController::class, 'index'])->name('categories_tags.index');
+    Route::post('/categories', [CategorieController::class, 'store'])->name('categories.store');
+    Route::put('/categories/{id}', [CategorieController::class, 'update'])->name('categories.update');
+    Route::delete('/categories/{id}', [CategorieController::class, 'destroy'])->name('categories.destroy');
     
-    // Gestion des cours (vue et activation/désactivation uniquement)
-    Route::get('/courses', [AdminController::class, 'courses'])->name('admin.courses.index');
-    Route::get('/courses/{id}', [AdminController::class, 'showCourse'])->name('admin.courses.show');
-    Route::get('/courses/{id}/stats', [AdminController::class, 'courseStats'])->name('admin.courses.stats');
-    Route::put('/courses/{id}/toggle-status', [AdminController::class, 'toggleCourseStatus'])->name('admin.courses.toggle-status');
+    // Routes pour les tags
+    Route::get('/tags', [TagController::class, 'index'])->name('tags.index');
+    Route::post('/tags', [TagController::class, 'store'])->name('tags.store');
+    Route::get('/tags/create', [TagController::class, 'create'])->name('tags.create');
+    Route::get('/tags/{tag}', [TagController::class, 'show'])->name('tags.show');
+    Route::put('/tags/{tag}', [TagController::class, 'update'])->name('tags.update');
+    Route::delete('/tags/{tag}', [TagController::class, 'destroy'])->name('tags.destroy');
+    Route::get('/tags/{tag}/edit', [TagController::class, 'edit'])->name('tags.edit');
+    
+    // Gestion des utilisateurs
+    Route::match(['put', 'post'], '/users/{id}/toggle-status', [AdminController::class, 'toggleUserStatus'])->name('users.toggle-status');
+    
+    // Gestion des cours
+    Route::get('/courses', [AdminController::class, 'courses'])->name('courses.index');
+    Route::get('/courses/{id}', [AdminController::class, 'showCourse'])->name('courses.show');
+    Route::get('/courses/{id}/stats', [AdminController::class, 'courseStats'])->name('courses.stats');
+    Route::put('/courses/{id}/toggle-status', [AdminController::class, 'toggleCourseStatus'])->name('courses.toggle-status');
 });

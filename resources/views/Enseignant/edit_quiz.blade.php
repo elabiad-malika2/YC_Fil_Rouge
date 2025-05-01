@@ -32,7 +32,7 @@
                     </div>
                 @endif
 
-                <form method="POST" action="{{ route('quizzes.update', $quiz->id) }}" id="quiz-form">
+                <form method="POST" action="{{ route('enseignant.quizzes.update', $quiz->id) }}" id="quiz-form">
                     @csrf
                     @method('PUT')
                     <!-- Quiz Details -->

@@ -9,15 +9,12 @@ use Illuminate\Support\Facades\Auth;
 
 class FavoriteController extends Controller
 {
-    /**
-     * Ajouter un cours aux favoris
-     */
-    public function store($courseId)
+    
+    public function store(Request $request, $courseId)
     {
         $course = Course::findOrFail($courseId);
         $user = Auth::user();
 
-        // Vérifier si le cours est déjà en favori
         if ($user->hasFavorited($course)) {
             return response()->json([
                 'success' => false,
@@ -25,7 +22,6 @@ class FavoriteController extends Controller
             ]);
         }
 
-        // Ajouter le cours aux favoris
         Favorite::create([
             'user_id' => $user->id,
             'course_id' => $course->id,
@@ -37,16 +33,16 @@ class FavoriteController extends Controller
         ]);
     }
 
-    /**
-     * Supprimer un cours des favoris
-     */
-    public function destroy($courseId)
+    public function destroy(Request $request, $courseId)
     {
         $course = Course::findOrFail($courseId);
         $user = Auth::user();
 
-        // Supprimer le cours des favoris
         $user->favorites()->where('course_id', $course->id)->delete();
+
+        if ($request->input('from_favorites') === 'true') {
+            return redirect()->back()->with('success', 'Cours retiré de vos favoris avec succès.');
+        }
 
         return response()->json([
             'success' => true,
@@ -54,9 +50,7 @@ class FavoriteController extends Controller
         ]);
     }
 
-    /**
-     * Afficher la liste des cours favoris
-     */
+
     public function index()
     {
         $user = Auth::user();

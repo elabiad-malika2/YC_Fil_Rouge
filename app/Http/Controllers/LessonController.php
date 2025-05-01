@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 class LessonController extends Controller
 {
+    //
     public function store(Request $request)
     {
         // dd($request->chapitres_id);
@@ -20,13 +21,14 @@ class LessonController extends Controller
         ]);
         
         if ($request->hasFile('video')) {
-            $validated['video'] = $request->file('video')->store('lessons', 'public');
+            $validated['video'] = $request->file('video')->store('courses/videos', 'public');
         }
 
         Lesson::create($validated);
 
         return redirect()->back()->with('success', 'Leçon ajoutée avec succès.');
     }
+    //
     public function update(Request $request, $id)
     {
         $lesson = Lesson::findOrFail($id);
@@ -40,20 +42,21 @@ class LessonController extends Controller
 
         if ($request->hasFile('video')) {
             if ($lesson->video) {
-                Storage::delete($lesson->video);
+                Storage::delete($lesson->video_path);
             }
-            $validated['video'] = $request->file('video')->store('lessons', 'public');
+            $validated['video'] = $request->file('video')->store('courses/videos', 'public');
         }
 
         $lesson->update($validated);
 
         return redirect()->back()->with('success', 'Leçon mise à jour avec succès.');
     }
+    // 
     public function destroy($id)
     {
         $lesson = Lesson::findOrFail($id);
         if ($lesson->video) {
-            Storage::delete($lesson->video);
+            Storage::delete($lesson->video_path);
         }
         $lesson->delete();
 

@@ -327,7 +327,7 @@
             };
             console.log('aaaa',formData);
             
-            fetch('/answers/submit', {
+            fetch('/etudiant/answers/submit', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

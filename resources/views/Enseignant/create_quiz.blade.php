@@ -32,7 +32,7 @@
                     </div>
                 @endif
 
-                <form method="POST" action="{{ route('quizzes.create') }}" id="quiz-form">
+                <form method="POST" action="{{ route('enseignant.quizzes.create') }}" id="quiz-form">
                     @csrf
                     <!-- Quiz Details -->
                     <div class="mb-6">
@@ -183,10 +183,10 @@
                                 <p class="text-gray-600 mb-1"><span class="font-medium">Questions :</span> {{ $quiz->questions->count() }}</p>
                                 <p class="text-gray-600 mb-4"><span class="font-medium">Créé le :</span> {{ $quiz->created_at->format('d/m/Y H:i') }}</p>
                                 <div class="flex space-x-4">
-                                    <a href="{{ route('quizzes.edit', $quiz->id) }}" class="px-4 py-2 bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200 flex items-center">
+                                    <a href="{{ route('enseignant.quizzes.edit', $quiz->id) }}" class="px-4 py-2 bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200 flex items-center">
                                         <i class="ri-edit-line mr-2"></i> Modifier
                                     </a>
-                                    <form action="{{ route('quizzes.destroy', $quiz->id) }}" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer ce quiz ?');">
+                                    <form action="{{ route('enseignant.quizzes.destroy', $quiz->id) }}" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer ce quiz ?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="px-4 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 flex items-center">

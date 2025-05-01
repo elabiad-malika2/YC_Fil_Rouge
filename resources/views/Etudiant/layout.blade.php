@@ -8,6 +8,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/favicon.svg') }}">
+    @if (Auth::check() && Auth::user()->role->name !== 'etudiant')
+        <script>
+            window.location.href = "{{ Auth::user()->role->name === 'admin' ? route('admin.dashboard') : route('enseignant.dashboard') }}";
+        </script>
+    @endif
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
         body {
@@ -80,7 +85,7 @@
                     @if (Auth::check() && Auth::user()->role->name === 'etudiant')
                         <a href="/" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Accueil</a>
                         <a href="" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Cours</a>
-                        <a href="/favorites" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Mes Favoris</a>
+                        <a href="/etudiant/favorites" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Mes Favoris</a>
                         <a href="" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Paiements</a>
                         <a href="" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Résultats</a>
                     @else
