@@ -85,8 +85,8 @@
                         <i class="ri-book-open-line text-2xl text-indigo-600"></i>
                     </div>
                     <div>
-                        <p class="text-gray-600 text-sm">Cours actifs</p>
-                        <h3 class="text-2xl font-bold text-gray-800">{{ $activeCoursesCount }}</h3>
+                        <p class="text-gray-600 text-sm">Cours </p>
+                        <h3 class="text-2xl font-bold text-gray-800">{{ $CoursesCount }}</h3>
                     </div>
                 </div>
             </div>

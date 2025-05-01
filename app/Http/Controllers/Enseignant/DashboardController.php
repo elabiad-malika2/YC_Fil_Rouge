@@ -22,22 +22,24 @@ class DashboardController extends Controller
         // Récupérer l'ID de l'enseignant connecté
         $teacherId = Auth::id();
         
-        // Statistique 1: Nombre de cours actifs
-        $activeCoursesCount = Course::where('user_id', $teacherId)->count();
+        //  Nombre de cours 
+        $CoursesCount = Course::where('user_id', $teacherId)->count();
         
-        // Statistique 2: Nombre d'étudiants inscrits
+        //  Nombre d'étudiants inscrits 
         $enrolledStudentsCount = DB::table('enrollments')
             ->join('courses', 'enrollments.course_id', '=', 'courses.id')
             ->where('courses.user_id', $teacherId)
-            ->count();
+            ->select(DB::raw('COUNT(DISTINCT enrollments.user_id) as count'))
+            ->first()
+            ->count;
         
-        // Statistique 3: Revenus totaux (estimation basée sur le prix des cours et le nombre d'inscriptions)
+        // Revenus totaux 
         $totalRevenue = DB::table('enrollments')
             ->join('courses', 'enrollments.course_id', '=', 'courses.id')
             ->where('courses.user_id', $teacherId)
             ->sum('courses.price');
         
-        // Récupérer les cours récents avec leurs statistiques
+        // cours récents avec leurs statistiques
         $courses = DB::table('courses')
         ->select(
             'courses.id','courses.title','courses.image','courses.description','courses.level',
@@ -55,15 +57,13 @@ class DashboardController extends Controller
             'courses.description',
             'courses.level'
         )
-        ->orderBy('courses.created_at', 'desc')
-        ->limit(5)
         ->get();        
 
         return view('Enseignant.dashboard', compact(
             'categories',
             'tags',
             'courses',
-            'activeCoursesCount',
+            'CoursesCount',
             'enrolledStudentsCount',
             'totalRevenue'
         ));
