@@ -18,6 +18,7 @@ use App\Http\Controllers\QuizController;
 use App\Http\Controllers\StudentAnswerController;
 use App\Http\Controllers\StudentQuizController;
 use App\Http\Controllers\TeacherQuizController;
+use App\Http\Controllers\QuizResultController;
 
 // Routes publiques (accessibles à tous)
 Route::get('/', [CourseController::class, 'show'])->name('courses.show');
@@ -59,6 +60,8 @@ Route::middleware(['auth', Role::class . ':etudiant'])->prefix('etudiant')->name
     Route::get('/quizzes/{id}', [StudentQuizController::class, 'show'])->name('quizzes.show');
     Route::get('/quizzes/{id}/results', [StudentQuizController::class, 'results'])->name('quizzes.results');
     Route::post('/answers/submit', [StudentAnswerController::class, 'submitAnswers'])->name('answers.submit');
+    Route::get('/quiz-results', [StudentQuizController::class, 'quizResults'])->name('quiz-results');
+    Route::get('/quiz-results/{id}', [StudentQuizController::class, 'quizResultDetails'])->name('quiz-result-details');
 });
 
 // Routes Enseignant
