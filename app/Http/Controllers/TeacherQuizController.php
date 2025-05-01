@@ -96,7 +96,7 @@ class TeacherQuizController extends Controller
             'questions.*.duration' => 'required|integer|min:1',
             'questions.*.answers' => 'required|array|size:4',
             'questions.*.answers.*.text' => 'required|string',
-            'questions.*.correct_answer' => 'required|integer|between:0,3',
+            'questions.*.correct_answer' => 'nullable|integer|between:0,3',
         ]);
 
         // Vérifier si le nouveau cours a déjà un quiz (et ce n'est pas le quiz actuel)
@@ -105,41 +105,39 @@ class TeacherQuizController extends Controller
             return back()->withErrors(['course_id' => 'Ce cours a déjà un quiz associé. Chaque cours ne peut avoir qu\'un seul quiz.']);
         }
 
-        // Vérifier qu'il y a exactement une réponse correcte par question
-        foreach ($request->questions as $index => $qData) {
-            $correctAnswers = array_filter($qData['answers'], fn($answer) => isset($answer['is_correct']) && $answer['is_correct'] == '1');
-            if (count($correctAnswers) !== 1) {
-                return back()->withErrors(["questions.$index.correct_answer" => 'Chaque question doit avoir exactement une réponse correcte.']);
-            }
-        }
-
         // Mettre à jour le quiz
         $quiz->update([
             'title' => $request->title,
             'course_id' => $request->course_id,
         ]);
 
-        // Supprimer les anciennes questions et réponses
-        $quiz->questions()->each(function ($question) {
-            $question->answers()->delete();
-            $question->delete();
-        });
-
-        // Créer les nouvelles questions et réponses
+        // Mettre à jour les questions existantes
         foreach ($request->questions as $index => $qData) {
-            $question = Question::create([
-                'quiz_id' => $quiz->id,
-                'text' => $qData['text'],
-                'points' => $qData['points'],
-                'duration' => $qData['duration'],
-            ]);
-
-            foreach ($qData['answers'] as $aIndex => $aData) {
-                Answer::create([
-                    'question_id' => $question->id,
-                    'text' => $aData['text'],
-                    'is_correct' => $aIndex == $qData['correct_answer'],
+            $question = $quiz->questions[$index] ?? null;
+            
+            if ($question) {
+                // Mettre à jour la question existante
+                $question->update([
+                    'text' => $qData['text'],
+                    'points' => $qData['points'],
+                    'duration' => $qData['duration'],
                 ]);
+
+                // Mettre à jour les réponses existantes
+                foreach ($qData['answers'] as $aIndex => $aData) {
+                    $answer = $question->answers[$aIndex] ?? null;
+                    if ($answer) {
+                        // Si correct_answer n'est pas défini, on garde la valeur existante
+                        $isCorrect = isset($qData['correct_answer']) 
+                            ? ($aIndex == $qData['correct_answer']) 
+                            : $answer->is_correct;
+
+                        $answer->update([
+                            'text' => $aData['text'],
+                            'is_correct' => $isCorrect,
+                        ]);
+                    }
+                }
             }
         }
 

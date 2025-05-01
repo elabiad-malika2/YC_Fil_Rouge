@@ -33,7 +33,6 @@
 
 @section('content')
     <section class="relative py-12 bg-gray-50">
-        <div class="absolute -top-24 -right-24 w-96 h-96 bg-indigo-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
         <div class="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-indigo-50 to-transparent"></div>
 
         <div class="container mx-auto px-6">
@@ -160,32 +159,53 @@
                 <h2 class="text-2xl font-bold text-gray-800 mb-6">Contenu du Cours</h2>
                 @if ($isEnrolled)
                     <!-- Full Content for Enrolled Users -->
-                    <div class="space-y-4">
+                    <div class="space-y-6">
                         @forelse ($course->chapters as $chapter)
-                            <div class="chapter-card glass-card rounded-xl overflow-hidden">
-                                <label class="block cursor-pointer">
-                                    <input type="checkbox" class="accordion-toggle hidden">
-                                    <div class="flex items-center justify-between p-4 bg-indigo-50">
-                                        <div>
-                                            <h3 class="text-lg font-medium text-gray-800">{{ $chapter->title }}</h3>
-                                            <p class="text-sm text-gray-500">{{ $chapter->lessons->count() }} leçons</p>
-                                        </div>
-                                        <i class="ri-arrow-down-s-line text-2xl text-indigo-600 transition-transform accordion-toggle:checked:rotate-180"></i>
-                                    </div>
-                                    <div class="accordion-content">
-                                        <ul class="space-y-2">
-                                            @foreach ($chapter->lessons as $lesson)
-                                                <li class="lesson-item p-3 rounded-lg flex items-center justify-between">
-                                                    <div class="flex items-center">
-                                                        <i class="ri-play-circle-line text-indigo-600 mr-2"></i>
-                                                        <span class="text-gray-700">{{ $lesson->title }}</span>
+                            <div class="glass-card rounded-xl overflow-hidden">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-semibold text-gray-800 mb-4">{{ $chapter->title }}</h3>
+                                    <div class="space-y-3">
+                                        @foreach ($chapter->lessons as $lesson)
+                                            <div class="bg-white rounded-lg border border-gray-100">
+                                                <div class="flex items-center justify-between p-4 hover:border-indigo-200 transition-colors cursor-pointer" onclick="toggleLessonContent(this)">
+                                                    <div class="flex items-center space-x-4">
+                                                        @if($lesson->type === 'video')
+                                                            <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center">
+                                                                <i class="ri-play-circle-line text-indigo-600 text-xl"></i>
+                                                            </div>
+                                                        @elseif($lesson->type === 'test')
+                                                            <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+                                                                <i class="ri-question-line text-green-600 text-xl"></i>
+                                                            </div>
+                                                        @endif
+                                                        <div>
+                                                            <h4 class="text-gray-800 font-medium">{{ $lesson->title }}</h4>
+                                                            <p class="text-sm text-gray-500">{{ $lesson->description }}</p>
+                                                        </div>
                                                     </div>
-                                                    <span class="text-sm text-gray-500">Leçon {{ $loop->iteration }}</span>
-                                                </li>
-                                            @endforeach
-                                        </ul>
+                                                    <div class="flex items-center space-x-2">
+                                                        <span class="text-sm text-gray-500">{{ $lesson->duration ?? 'N/A' }}</span>
+                                                        <i class="ri-arrow-down-s-line text-indigo-600"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="lesson-content hidden p-4 border-t border-gray-100">
+                                                    @if($lesson->type === 'video')
+                                                        <div class="max-w-3xl mx-auto">
+                                                            <video class="w-full rounded-lg" controls>
+                                                                <source src="{{ Storage::url($lesson->video_path) }}" type="video/mp4">
+                                                                Votre navigateur ne supporte pas la lecture de vidéos.
+                                                            </video>
+                                                        </div>
+                                                    @elseif($lesson->type === 'text')
+                                                        <div class="prose max-w-none">
+                                                            {!! nl2br(e($lesson->text_content)) !!}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
-                                </label>
+                                </div>
                             </div>
                         @empty
                             <p class="text-gray-500">Aucun chapitre disponible pour ce cours.</p>
@@ -207,6 +227,21 @@
                     </div>
                 @endif
             </div>
+
+            <script>
+                function toggleLessonContent(element) {
+                    const content = element.nextElementSibling;
+                    const arrow = element.querySelector('.ri-arrow-down-s-line');
+                    
+                    if (content.classList.contains('hidden')) {
+                        content.classList.remove('hidden');
+                        arrow.classList.add('rotate-180');
+                    } else {
+                        content.classList.add('hidden');
+                        arrow.classList.remove('rotate-180');
+                    }
+                }
+            </script>
         </div>
     </section>
 @endsection

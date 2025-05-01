@@ -56,7 +56,7 @@ class CourseController extends Controller
     }
     public function showDetails($id)
     {
-        $course = Course::with(['category', 'user', 'chapters', 'quiz'])->findOrFail($id);
+        $course = Course::with(['category', 'user', 'chapters.lessons', 'quiz'])->findOrFail($id);
         $isEnrolled = Auth::check() && Auth::user()->enrollments()->where('course_id', $id)->where('payment_status', 'completed')->exists();
         $quizResult = null;
 
@@ -135,6 +135,8 @@ class CourseController extends Controller
             'price' => 'required|numeric|min:0',
             'level' => 'required|in:debutant,intermediaire,avance,expert',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'tags' => 'nullable|array',
+            'tags.*' => 'exists:tags,id',
         ]);
 
         if ($request->hasFile('image')) {
@@ -145,6 +147,11 @@ class CourseController extends Controller
         }
 
         $course->update($validated);
+
+        // Mise à jour des tags
+        if ($request->has('tags')) {
+            $course->tags()->sync($request->tags);
+        }
 
         return redirect()->route('enseignant.dashboard')->with('success', 'Cours mis à jour avec succès.');
     }
