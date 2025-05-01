@@ -159,9 +159,12 @@
                         <div class="flex items-center justify-center mb-8">
                             <h2 class="text-2xl font-bold text-gray-800">Log In to Your Account</h2>
                         </div>
+                        <!-- Afficher les erreurs -->
                         @if ($errors->any())
-                            <div class="mb-4 text-red-500">
-                                {{ $errors->first() }}
+                            <div class="bg-red-100 text-red-800 p-4 rounded-lg mb-6">
+                                @foreach ($errors->all() as $error)
+                                    <p>{{ $error }}</p>
+                                @endforeach
                             </div>
                         @endif
                         <form action="{{ route('login') }}" method="POST" id="loginForm">

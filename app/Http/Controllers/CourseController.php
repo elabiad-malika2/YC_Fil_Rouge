@@ -22,7 +22,8 @@ class CourseController extends Controller
     public function apiShow(Request $request)
     {
         $query = Course::with(['category', 'tags', 'user', 'chapters', 'chapters.lessons'])
-        ->select('courses.*');
+        ->select('courses.*')
+        ->where('is_active', true);
 
         if ($request->has('search') && !empty($request->search)) {
             $search = $request->search;
