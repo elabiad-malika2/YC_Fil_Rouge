@@ -57,7 +57,7 @@ class CourseController extends Controller
     }
     public function showDetails($id)
     {
-        $course = Course::with(['category', 'user', 'chapters.lessons', 'quiz'])->findOrFail($id);
+        $course = Course::with(['category', 'user', 'chapters.lessons', 'quiz', 'tags'])->findOrFail($id);
         $isEnrolled = Auth::check() && Auth::user()->enrollments()->where('course_id', $id)->where('payment_status', 'completed')->exists();
         $quizResult = null;
 

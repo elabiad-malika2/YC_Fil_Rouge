@@ -99,6 +99,16 @@
                                 <span>€{{ number_format($course->price, 2) }}</span>
                             </div>
                         </div>
+                        <!-- Tags Section -->
+                        @if($course->tags->isNotEmpty())
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                @foreach($course->tags as $tag)
+                                    <span class="px-3 py-1 text-sm rounded-full" style="background-color: {{ $tag->color }}; color: white;">
+                                        {{ $tag->name }}
+                                    </span>
+                                @endforeach
+                            </div>
+                        @endif
                     </div>
                 </div>
 
