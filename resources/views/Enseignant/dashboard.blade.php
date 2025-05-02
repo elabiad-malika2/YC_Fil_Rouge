@@ -122,6 +122,14 @@
                 {{ session('success') }}
             </div>
         @endif
+        @if (session('error'))
+            <div class="mb-6 p-4 bg-red-100 text-red-800 rounded-lg max-w-3xl mx-auto">
+                <div class="flex items-center">
+                    <i class="ri-error-warning-line text-xl mr-2"></i>
+                    <span>{{ session('error') }}</span>
+                </div>
+            </div>
+        @endif
         @if ($errors->any())
             <div class="mb-6 p-4 bg-red-100 text-red-800 rounded-lg max-w-3xl mx-auto">
                 <ul>
@@ -450,12 +458,6 @@
                     <div class="mb-2 content-type-video hidden">
                         <label class="block text-xs font-medium text-gray-700 mb-1">Vidéo <span class="text-red-600">*</span></label>
                         <input type="file" name="chapitres[${chapterIndex}][lessons][${chapterIndex}][video]" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" accept="video/*">
-                    </div>
-                    <div class="flex items-center text-xs text-gray-500">
-                        <label class="flex items-center">
-                            <input type="checkbox" name="chapitres[${chapterIndex}][lessons][${lessonIndex}][is_free]" class="mr-1 rounded text-indigo-600">
-                            Leçon gratuite (prévisualisation)
-                        </label>
                     </div>
                 `;
                 container.appendChild(lessonDiv);

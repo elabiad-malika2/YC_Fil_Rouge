@@ -162,9 +162,13 @@ class CourseController extends Controller
     {
         $course = Course::findOrFail($id);
         
-        // Vérifier si l'utilisateur est autorisé à supprimer ce cours
         if ($course->user_id !== Auth::id()) {
             return redirect()->back()->with('error', 'Vous n\'êtes pas autorisé à supprimer ce cours.');
+        }
+
+        // Vérifier s'il y a des enrollments
+        if ($course->enrollments()->exists()) {
+            return redirect()->back()->with('error', 'Impossible de supprimer ce cours car il a des étudiants inscrits.');
         }
         
         // Supprimer les leçons et leurs fichiers associés

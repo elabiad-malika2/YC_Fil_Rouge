@@ -257,12 +257,6 @@
                                                 <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
                                             @enderror
                                         </div>
-                                        <div class="flex items-center text-xs text-gray-500 mb-2">
-                                            <label class="flex items-center">
-                                                <input type="checkbox" name="is_free" class="mr-1 rounded text-indigo-600">
-                                                Leçon gratuite (prévisualisation)
-                                            </label>
-                                        </div>
                                         <div class="flex justify-end space-x-2">
                                             <button type="button" class="cancel-lesson-btn px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-sm">Annuler</button>
                                             <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm">Créer</button>

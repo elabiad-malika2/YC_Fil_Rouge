@@ -57,20 +57,23 @@
     </section>
 
     <!-- Featured Categories -->
-    <section class="py-16 bg-white">
+    <section class="py-12 bg-gradient-to-b from-white to-indigo-50">
         <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4">Nos Catégories</h2>
-                <p class="text-gray-600">Choisissez votre domaine d'apprentissage</p>
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-3">Nos Catégories</h2>
+                <p class="text-base text-gray-600">Explorez nos domaines d'apprentissage</p>
             </div>
 
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 max-w-6xl mx-auto">
                 @foreach($categories as $category)
-                <a  class="flex flex-col items-center p-4 bg-gray-50 rounded-lg hover:bg-indigo-50 transition-colors duration-200">
-                    <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mb-3">
-                        <i class="ri-book-line text-xl text-indigo-600"></i>
+                <a href="#" class="group relative overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
+                    <div class="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600 opacity-0 group-hover:opacity-10 transition-opacity"></div>
+                    <div class="p-4 flex flex-col items-center">
+                        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mb-3 transform group-hover:scale-105 transition-transform">
+                            <i class="ri-book-line text-2xl text-white"></i>
+                        </div>
+                        <span class="text-base font-medium text-gray-800 group-hover:text-indigo-600 transition-colors">{{ $category->name }}</span>
                     </div>
-                    <span class="text-sm font-medium text-gray-700 text-center">{{ $category->name }}</span>
                 </a>
                 @endforeach
             </div>
@@ -78,69 +81,77 @@
     </section>
 
     <!-- Featured Courses -->
-    <section class="py-16 bg-white">
+    <section class="py-12 bg-white">
         <div class="container mx-auto px-6">
-            <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8">
                 <div>
-                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Cours</h2>
-                    <p class="text-lg text-gray-600">
-                        Développez vos compétences avec nos cours 
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Nos Cours</h2>
+                    <p class="text-base text-gray-600">
+                        Découvrez notre sélection de cours 
                     </p>
                 </div>
-                <div class="mt-6 md:mt-0 flex items-center space-x-4">
-                    <div class="relative w-full max-w-md">
-                        <input type="text" id="search" placeholder="Rechercher par titre ou enseignant..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                        <i class="ri-search-line absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                <div class="mt-4 md:mt-0 flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                    <div class="relative w-full md:w-80">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="ri-search-line text-xl text-indigo-500"></i>
+                        </div>
+                        <input type="text" id="search" placeholder="Rechercher un cours ou un enseignant..." 
+                            class="w-full pl-10 pr-4 py-2.5 text-base border-2 border-indigo-100 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all">
                     </div>
-                    <a href="{{ route('courses.show') }}" class="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium">
-                        Parcourir Tous les Cours
+                    <a href="{{ route('courses.show') }}" 
+                        class="px-6 py-2.5 text-base bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all font-medium flex items-center justify-center shadow-md hover:shadow-lg hover:-translate-y-0.5">
+                        <i class="ri-compass-3-line mr-2 text-xl"></i>
+                        Parcourir les Cours
                     </a>
                 </div>
             </div>
 
-            <div id="courses-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div id="courses-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Les cours seront insérés ici par JavaScript -->
             </div>
 
             <!-- Pagination -->
-            <div id="pagination" class="flex justify-center space-x-2 mt-10">
+            <div id="pagination" class="flex justify-center space-x-2 mt-8">
                 <!-- Les boutons de pagination seront insérés ici par JavaScript -->
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section class="py-16 bg-gray-50 relative overflow-hidden">
-        <div class="absolute top-1/3 -right-24 w-64 h-64 bg-indigo-400 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
-        <div class="absolute bottom-1/3 -left-24 w-64 h-64 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
-
+    <section class="py-12 bg-gradient-to-b from-indigo-50 to-white">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4">Pourquoi Choisir Notre Plateforme</h2>
-                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-                    Nous offrons une expérience d'apprentissage complète conçue pour vous aider à atteindre vos objectifs
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-3">Pourquoi Nous Choisir</h2>
+                <p class="text-base text-gray-600 max-w-2xl mx-auto">
+                    Une expérience d'apprentissage unique conçue pour votre succès
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-                <div class="feature-card p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-                    <div class="bg-indigo-100 w-14 h-14 rounded-full flex items-center justify-center mb-6">
-                        <i class="ri-device-line text-2xl text-indigo-600"></i>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+                <div class="feature-card group relative overflow-hidden rounded-xl bg-white p-6 shadow-md transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
+                    <div class="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600 opacity-0 group-hover:opacity-10 transition-opacity"></div>
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mb-4 transform group-hover:scale-105 transition-transform">
+                            <i class="ri-device-line text-2xl text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Apprentissage Flexible</h3>
+                        <p class="text-base text-gray-600">
+                            Accédez à notre plateforme depuis n'importe quel appareil, à tout moment et où que vous soyez
+                        </p>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3">Apprenez Partout</h3>
-                    <p class="text-gray-600">
-                        Accédez à notre plateforme depuis n'importe quel appareil avec notre design réactif et notre application mobile dédiée
-                    </p>
                 </div>
 
-                <div class="feature-card p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-                    <div class="bg-blue-100 w-14 h-14 rounded-full flex items-center justify-center mb-6">
-                        <i class="ri-user-voice-line text-2xl text-blue-600"></i>
+                <div class="feature-card group relative overflow-hidden rounded-xl bg-white p-6 shadow-md transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
+                    <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-cyan-600 opacity-0 group-hover:opacity-10 transition-opacity"></div>
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center mb-4 transform group-hover:scale-105 transition-transform">
+                            <i class="ri-user-voice-line text-2xl text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Experts Passionnés</h3>
+                        <p class="text-base text-gray-600">
+                            Apprenez auprès de professionnels expérimentés qui partagent leur passion et leur expertise
+                        </p>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3">Instructeurs Experts</h3>
-                    <p class="text-gray-600">
-                        Apprenez auprès de professionnels de l'industrie avec une expérience réelle et des méthodes d'enseignement éprouvées
-                    </p>
                 </div>
             </div>
         </div>

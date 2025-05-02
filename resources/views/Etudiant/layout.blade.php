@@ -82,7 +82,7 @@
                     @if (Auth::check() && Auth::user()->role->name === 'etudiant')
                         <a href="/" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Accueil</a>
                         <a href="/etudiant/favorites" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Mes Favoris</a>
-                        <a href="#" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Résultats</a>
+                        <a href="/etudiant/quiz-results" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Résultats</a>
                     @endif
                 </nav>
                 <div class="flex items-center space-x-4">
@@ -125,7 +125,7 @@
                     @if (Auth::check() && Auth::user()->role->name === 'etudiant')
                         <a href="/" class="py-3 px-4 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition-colors">Accueil</a>
                         <a href="/etudiant/favorites" class="py-3 px-4 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition-colors">Mes Favoris</a>
-                        <a href="#" class="py-3 px-4 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition-colors">Résultats</a>
+                        <a href="/etudiant/quiz-results" class="py-3 px-4 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition-colors">Résultats</a>
                     @else
                         <a href="{{ route('login') }}" class="py-3 px-4 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition-colors">Connexion</a>
                         <a href="{{ route('register') }}" class="py-3 px-4 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-indigo-600 transition-colors">Inscription</a>
@@ -183,7 +183,7 @@
                     @if (Auth::check() && Auth::user()->role->name === 'etudiant')
                         <a href="/" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Accueil</a>
                         <a href="/etudiant/favorites" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Mes Favoris</a>
-                        <a href="#" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Résultats</a>
+                        <a href="/etudiant/quiz-results" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Résultats</a>
                     @endif
                 </nav>
 
