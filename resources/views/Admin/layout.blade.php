@@ -59,9 +59,6 @@
                 <a href="{{ route('admin.categories_tags.index') }}" class="flex items-center py-3 px-4 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors {{ request()->routeIs('admin.categories_tags.index') ? 'text-indigo-600 bg-indigo-50 font-medium' : '' }}">
                     <i class="ri-price-tag-3-line mr-3"></i> Catégories & Tags
                 </a>
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center py-3 px-4 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors {{ request()->routeIs('admin.users') ? 'text-indigo-600 bg-indigo-50 font-medium' : '' }}">
-                    <i class="ri-user-line mr-3"></i> Utilisateurs
-                </a>
             </nav>
         </div>
     </div>
@@ -75,8 +72,10 @@
                     <div class="flex items-center space-x-6">
                         <div class="relative">
                             <button class="flex items-center space-x-2 focus:outline-none">
-                                <img src="https://cdn-icons-png.flaticon.com/512/219/219969.png" alt="User" class="w-9 h-9 rounded-full border-2 border-indigo-200">
-                                <span class="text-sm font-medium text-gray-700">Admin</span>
+                            <img src="{{ Auth::user()->image ? Storage::url(Auth::user()->image) : 'https://ui-avatars.com/api/?name='.urlencode(Auth::user()->name).'&background=6366F1&color=fff' }}" 
+                                alt="{{ Auth::user()->name }}" 
+                                class="w-8 h-8 rounded-full object-cover border-2 border-indigo-100">
+                                <span class="text-sm font-medium text-gray-700">{{ Auth::user()->name }}</span>
                             </button>
                         </div>
                         <form action="{{ route('logout') }}" method="POST" class="inline">

@@ -66,7 +66,7 @@
     </div>
 
     <!-- Header -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
+    <header class="bg-white shadow-sm ">
         <div class="container mx-auto px-6">
             <div class="flex items-center justify-between py-4">
                 <a href="/" class="flex items-center space-x-2">
