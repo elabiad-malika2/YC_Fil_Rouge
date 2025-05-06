@@ -462,7 +462,6 @@
                 `;
                 container.appendChild(lessonDiv);
 
-                // Gestionnaire pour supprimer une leçon
                 const removeLessonBtn = lessonDiv.querySelector('.remove-lesson-btn');
                 removeLessonBtn.addEventListener('click', () => {
                     if (container.children.length > 1) {
@@ -472,7 +471,6 @@
                 });
             }
 
-            // Mettre à jour les titres des chapitres
             function updateChapterTitles() {
                 const chapters = chaptersContainer.querySelectorAll('.bg-gray-50');
                 chapters.forEach((chapter, index) => {
@@ -481,7 +479,6 @@
                 });
             }
 
-            // Mettre à jour les titres des leçons
             function updateLessonTitles(container) {
                 const lessons = container.querySelectorAll('.bg-white');
                 lessons.forEach((lesson, index) => {

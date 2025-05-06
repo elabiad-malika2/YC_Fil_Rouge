@@ -78,13 +78,6 @@
                         <img src="{{ Storage::url($course->image) }}" alt="{{ $course->title }}" class="w-full h-64 object-cover rounded-lg mb-6">
                         <h1 class="text-3xl font-bold text-gray-800 mb-4">{{ $course->title }}</h1>
                         <p class="text-gray-600 mb-6">{{ $course->description }}</p>
-                        <div class="flex items-center mb-6">
-                            <img src="{{ $course->teacher_photo }}" alt="{{ $course->teacher_name }}" class="w-12 h-12 rounded-full mr-3">
-                            <div>
-                                <span class="text-gray-700 font-medium">{{ $course->teacher_name }}</span>
-                                <p class="text-sm text-gray-500">Instructeur</p>
-                            </div>
-                        </div>
                         <div class="flex items-center space-x-6 text-sm text-gray-600 mb-6">
                             <div class="flex items-center">
                                 <i class="ri-bookmark-line mr-2"></i>

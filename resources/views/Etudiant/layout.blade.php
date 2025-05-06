@@ -8,6 +8,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/favicon.svg') }}">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.4/dist/sweetalert2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.4/dist/sweetalert2.min.js"></script>
+
     @if (Auth::check() && Auth::user()->role->name !== 'etudiant')
         <script>
             window.location.href = "{{ Auth::user()->role->name === 'admin' ? route('admin.dashboard') : route('enseignant.dashboard') }}";
@@ -67,7 +70,7 @@
     </div>
 
     <!-- Header -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
+    <header class="bg-white shadow-sm ">
         <div class="container mx-auto px-6">
             <div class="flex items-center justify-between py-4">
                 <a href="/" class="flex items-center space-x-2">

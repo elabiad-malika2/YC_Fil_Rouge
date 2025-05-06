@@ -191,18 +191,14 @@
         let timeLeft = 0;
         let timerInterval = null;
 
-        // Fonction pour formater le temps
         function formatTime(seconds) {
-            const minutes = Math.floor(seconds / 60);
-            const secs = seconds % 60;
-            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+            return seconds;
         }
 
-        // Fonction pour mettre à jour le timer
         function updateTimer() {
             const timerDisplay = document.getElementById('timer');
             if (!timerDisplay) {
-                console.error('Élément #timer introuvable');
+                console.error('Élément timer introuvable');
                 return;
             }
 
@@ -210,7 +206,6 @@
 
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
-                // Passer à la question suivante ou soumettre le quiz
                 if (currentQuestionIndex < questions.length - 1) {
                     currentQuestionIndex++;
                     showQuestion(currentQuestionIndex);
@@ -222,13 +217,12 @@
             }
         }
 
-        // Fonction pour démarrer le timer
-        function startTimer(durationInMinutes) {
+        function startTimer(durationInSeconds) {
             if (timerInterval) {
                 clearInterval(timerInterval);
             }
-            timeLeft = Math.max(1, durationInMinutes) * 60; // Convertir en secondes, minimum 1 seconde
-            updateTimer(); // Afficher immédiatement
+            timeLeft = durationInSeconds;
+            updateTimer();
             timerInterval = setInterval(updateTimer, 1000);
         }
 
@@ -241,36 +235,32 @@
                 return;
             }
 
-            // Mise à jour du texte de la question
             document.getElementById('question-text').textContent = question.text;
 
-            // Mise à jour de la progression
             document.getElementById('current-question').textContent = index + 1;
             const progressValue = document.querySelector('.progress-value');
             if (progressValue) {
                 progressValue.style.width = `${((index + 1) / questions.length) * 100}%`;
             }
 
-            // Démarrer le timer pour cette question
             startTimer(question.duration || 1);
 
-            // Affichage des réponses
             const optionsContainer = document.getElementById('options-container');
-            optionsContainer.innerHTML = ''; // Nettoyer les anciennes réponses
+            optionsContainer.innerHTML = ''; 
 
             if (question.answers && question.answers.length > 0) {
                 question.answers.forEach((answer, i) => {
                     const answerHtml = `
                         <div class="answer-option">
                             <input type="radio" 
-                                   name="answer" 
-                                   id="answer-${i}" 
-                                   value="${answer.id}" 
-                                   class="hidden peer">
+                                    name="answer" 
+                                    id="answer-${i}" 
+                                    value="${answer.id}" 
+                                    class="hidden peer">
                             <label for="answer-${i}" 
-                                   class="block w-full p-4 bg-white border border-gray-200 rounded-lg cursor-pointer 
-                                          hover:border-indigo-500 peer-checked:border-indigo-500 
-                                          peer-checked:bg-indigo-50 transition-all">
+                                    class="block w-full p-4 bg-white border border-gray-200 rounded-lg cursor-pointer 
+                                            hover:border-indigo-500 peer-checked:border-indigo-500 
+                                            peer-checked:bg-indigo-50 transition-all">
                                 ${answer.text}
                             </label>
                         </div>
@@ -278,7 +268,6 @@
                     optionsContainer.insertAdjacentHTML('beforeend', answerHtml);
                 });
 
-                // Ajouter les écouteurs d'événements pour les réponses
                 document.querySelectorAll('input[name="answer"]').forEach(input => {
                     input.addEventListener('change', () => {
                         document.getElementById('next-button').disabled = false;
@@ -288,16 +277,13 @@
                 optionsContainer.innerHTML = '<p class="text-red-500">Aucune réponse disponible pour cette question.</p>';
             }
 
-            // Réinitialiser le bouton Suivant
             document.getElementById('next-button').disabled = true;
         }
 
-        // Gérer le clic sur le bouton Suivant
         document.getElementById('next-button').addEventListener('click', () => {
             const selectedAnswer = document.querySelector('input[name="answer"]:checked');
             if (!selectedAnswer) return;
 
-            // Arrêter le timer de la question actuelle
             if (timerInterval) {
                 clearInterval(timerInterval);
             }
@@ -315,7 +301,6 @@
         });
 
         function submitQuiz() {
-            // Arrêter le timer si actif
             if (timerInterval) {
                 clearInterval(timerInterval);
             }
@@ -338,20 +323,30 @@
             })
             .then(response => response.json())
             .then(data => {  
-                console.log("bbb",data);
+                console.log("nnnnnn",data);
                 if (data.success) {
                     window.location.href = data.redirect_url;
                 } else {
-                    alert('Une erreur est survenue lors  du quiz');
+                    console.error('Erreur:', error);
+                    Swal.fire({
+                    title: 'Erreur',
+                    text: 'Une erreur est survenue lors  du quiz',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                    });
                 }
             })
             .catch(error => {
                 console.error('Erreur:', error);
-                alert('Une erreur est survenue lors de la soumission du quiz');
+                Swal.fire({
+                title: 'Erreur',
+                text: 'Une erreur est survenue lors de la soumission du quiz',
+                icon: 'error',
+                confirmButtonText: 'OK'
+                });
             });
         }
 
-        // Démarrer le quiz
         showQuestion(currentQuestionIndex);
     </script>
 @endsection

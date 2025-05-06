@@ -78,11 +78,6 @@
                                 <i class="ri-secure-payment-line mr-2"></i>
                                 Payer €{{ number_format($course->price, 2) }}
                             </button>
-                            <!-- Security Note -->
-                            <div class="flex items-center justify-center text-sm text-gray-500 mt-6">
-                                <i class="ri-lock-line mr-2"></i>
-                                <span>Vos informations de paiement sont sécurisées. Nous utilisons le chiffrement SSL pour toutes les transactions.</span>
-                            </div>
                         </form>
                     </div>
                 </div>
@@ -93,16 +88,11 @@
                         <!-- Course Info -->
                         <div class="flex mb-4 pb-4 border-b border-gray-100">
                             <div class="w-20 h-20 overflow-hidden rounded-lg flex-shrink-0">
-                                <img src="{{ $course->image_url }}" alt="{{ $course->title }}" class="w-full h-full object-cover course-image">
+                                <img src="{{ Storage::url($course->image) }}" alt="{{ $course->title }}" class="w-full h-full object-cover course-image">
                             </div>
                             <div class="ml-4">
                                 <h3 class="font-medium text-gray-800">{{ $course->title }}</h3>
                                 <p class="text-sm text-gray-500">{{ $course->chapters->sum(function ($chapter) { return $chapter->lessons->count(); }) }} leçons • Tous niveaux</p>
-                                <div class="flex items-center mt-1">
-                                    <i class="ri-star-fill text-yellow-400 text-sm"></i>
-                                    <span class="text-sm font-medium text-gray-800 ml-1">4.9</span>
-                                    <span class="text-xs text-gray-500 ml-1">(2.5k avis)</span>
-                                </div>
                             </div>
                         </div>
                         <!-- Price Details -->
@@ -129,16 +119,7 @@
                                     <i class="ri-check-line text-green-600 mr-2"></i>
                                     Accès sur mobile et ordinateur
                                 </li>
-                                <li class="flex items-center">
-                                    <i class="ri-check-line text-green-600 mr-2"></i>
-                                    Certificat de complétion
-                                </li>
                             </ul>
-                        </div>
-                        <!-- Money Back Guarantee -->
-                        <div class="flex items-center text-sm text-gray-600">
-                            <i class="ri-refund-2-line mr-2 text-green-600"></i>
-                            Garantie de remboursement de 30 jours
                         </div>
                     </div>
                 </div>
@@ -203,34 +184,7 @@
                 }
 
                 if (result.success) {
-                    // Rediriger vers la page des détails du cours
                     window.location.href = '{{ route('courses.details', $course->id) }}';
-                } else if (result.requires_action) {
-                    // Gérer l'authentification 3D Secure ou autre basée sur la redirection
-                    const { error: confirmError } = await stripe.handleCardAction(result.client_secret);
-                    if (confirmError) {
-                        throw confirmError;
-                    }
-                    
-                    // Réessayer le paiement après authentification
-                    const retryResponse = await fetch('{{ route('etudiant.payment.process', $course->id) }}', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        },
-                        body: JSON.stringify({
-                            payment_intent_id: '{{ $intent->id }}',
-                            payment_method: paymentMethod.id,
-                        }),
-                    });
-                    
-                    const retryResult = await retryResponse.json();
-                    if (retryResult.success) {
-                        window.location.href = '{{ route('courses.details', $course->id) }}';
-                    } else {
-                        throw new Error(retryResult.error || 'Échec du paiement après authentification');
-                    }
                 }
 
             } catch (error) {

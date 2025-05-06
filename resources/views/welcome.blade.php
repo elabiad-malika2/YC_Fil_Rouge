@@ -107,12 +107,10 @@
             </div>
 
             <div id="courses-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Les cours seront insérés ici par JavaScript -->
             </div>
 
             <!-- Pagination -->
             <div id="pagination" class="flex justify-center space-x-2 mt-8">
-                <!-- Les boutons de pagination seront insérés ici par JavaScript -->
             </div>
         </div>
     </section>
